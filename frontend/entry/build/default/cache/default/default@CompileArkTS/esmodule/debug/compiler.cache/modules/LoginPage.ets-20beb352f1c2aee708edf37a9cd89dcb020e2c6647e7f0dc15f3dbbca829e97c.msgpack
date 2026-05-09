@@ -1,4 +1,4 @@
-Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚE“if (!("finalizeConstruction" in ViewPU.prototype)) {
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚE‘if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
 import router from '@ohos.router';
@@ -107,7 +107,7 @@ class LoginPage extends ViewPU {
         AuthSessionService.initialize();
         const user = AuthSessionService.currentUser();
         if (AuthSessionService.isLoggedIn() && user) {
-            router.replaceUrl({ url: AppRoutes.dashboard });
+            router.replaceUrl({ url: AppRoutes.overview });
         }
     }
     submit() {
@@ -129,7 +129,7 @@ class LoginPage extends ViewPU {
             AuthSessionService.saveLogin(result.user);
             this.loginMessage = 'ç™»å½•æˆåŠŸ';
             promptAction.showToast({ message: 'ç™»å½•æˆåŠŸ' });
-            router.replaceUrl({ url: AppRoutes.dashboard });
+            router.replaceUrl({ url: AppRoutes.overview });
         }, 300);
     }
     switchRole(item) {
@@ -417,7 +417,7 @@ class LoginPage extends ViewPU {
     }
 }
 registerNamedRoute(() => new LoginPage(undefined, {}), "", { bundleName: "com.example.campusauth", moduleName: "entry", pagePath: "pages/LoginPage", pageFullPath: "entry/src/main/ets/pages/LoginPage", integratedHsp: "false", moduleType: "followWithHap" });
-//# sourceMappingURL=LoginPage.js.mapÂ—Ùf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthService.etsÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\LoginPage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚDimport router from '@ohos.router';
+//# sourceMappingURL=LoginPage.js.mapÂ—Ùf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthService.etsÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\LoginPage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚBimport router from '@ohos.router';
 import promptAction from '@ohos.promptAction';
 import { FeatureCard } from '../components/FeatureCard';
 import { LoginResult } from '../models/User';
@@ -442,7 +442,7 @@ struct LoginPage {
     AuthSessionService.initialize();
     const user = AuthSessionService.currentUser();
     if (AuthSessionService.isLoggedIn() && user) {
-      router.replaceUrl({ url: AppRoutes.dashboard });
+      router.replaceUrl({ url: AppRoutes.overview });
     }
   }
 
@@ -466,7 +466,7 @@ struct LoginPage {
       AuthSessionService.saveLogin(result.user);
       this.loginMessage = 'ç™»å½•æˆåŠŸ';
       promptAction.showToast({ message: 'ç™»å½•æˆåŠŸ' });
-      router.replaceUrl({ url: AppRoutes.dashboard });
+      router.replaceUrl({ url: AppRoutes.overview });
     }, 300);
   }
 
@@ -632,14 +632,14 @@ struct LoginPage {
     .backgroundColor(AppColors.background)
   }
 }
-ÀÔrC—¬@ohos.router²@ohos.promptAction¹../components/FeatureCard·../services/AuthService¾../services/AuthSessionService²../utils/Constants³../utils/FormatUtilÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÔrE‘¯hostModulesInfo‘ÔrF’²hostDependencyName®hostModuleName¬@ohos.router¥entryÃªoh-resolveÂDAÃÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsE‘F²@ohos.promptAction¥entryÃªoh-resolveÂDAÂÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsAÃªoh-resolveÂDAÂÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthService.etsAÃªoh-resolveÂDAÂÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂDAÂÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsAÃªoh-resolveÂ“ÔrG–§version¤fileªsourceRoot§sources¥names¨mappings¬LoginPage.js ‘­LoginPage.etsÜ›–”    ”  ”  ”  ”!  !”"  "–”   ” ” ” ”- -”. .˜”   ” ”	 	” ” ” ”7 7”8 8˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ”# #”ÌC ÌC”ÌD ÌDœ”   ” ”	 	” ” ” ” ”( (”* *”0 0”ÌD ÌD”ÌE ÌE˜”   ” ”	 	” ” ” ”0 0”1 1’” ” ‘” 
+ÀÔrC—¬@ohos.router²@ohos.promptAction¹../components/FeatureCard¾../services/AuthSessionService·../services/AuthService²../utils/Constants³../utils/FormatUtilÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÔrE‘¯hostModulesInfo‘ÔrF’²hostDependencyName®hostModuleName¬@ohos.router¥entryÃªoh-resolveÂDAÃÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsE‘F²@ohos.promptAction¥entryÃªoh-resolveÂDAÂÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsAÃªoh-resolveÂDAÂÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsAÃªoh-resolveÂDAÂÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthService.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂDAÂÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsAÃªoh-resolveÂ“ÔrG–§version¤fileªsourceRoot§sources¥names¨mappings¬LoginPage.js ‘­LoginPage.etsÜ›–”    ”  ”  ”  ”!  !”"  "–”   ” ” ” ”- -”. .˜”   ” ”	 	” ” ” ”7 7”8 8˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ”# #”ÌC ÌC”ÌD ÌDœ”   ” ”	 	” ” ” ” ”( (”* *”0 0”ÌD ÌD”ÌE ÌE˜”   ” ”	 	” ” ” ”0 0”1 1’” ” ‘” 
  ’”6 ”ÌB '’”7 ”? $’”3 ”< #’”;  ”= "’”;  ”ÌA &’”8 ”= #˜” ” ” (”! *”* 3”, 5”3 <”4 =‘” 7’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” ” –” ” ” ”% !”' #”( $™” ” 
-” ” ”' #”( $”3 /”5 1”6 2™” ” ” ” ”) %”+ '”/ +”3 /”5 1” ” ” ” ” ”  ”# ”% ”. (”/ )”8 2”: 4”; 5”< 6‘”	 ’” ” ’” 
+” ” ”' #”( $”3 /”5 1”6 2™” ” ” ” ”) %”+ '”/ +”3 /”5 1” ” ” ” ” ”  ”# ”% ”. (”/ )”7 1”9 3”: 4”; 5‘”	 ’” ” ’” 
 ”
  –” ” ” ” ” ” ’” ” ‘”	  —” !” !” !	” !” !” !” !—” "” "” "	” "” "” "” "—” #” #” #	” #” #”% #!”& #"•” %” %” %” %” %Ü ” &” &” &” &"”& &-”' &.”, &3”- &4”1 &8”2 &9”9 &Ì@”; &ÌB”? &ÌF”Ì@ &ÌG”ÌH &ÌO”ÌJ &ÌQ”ÌN &ÌU”ÌO &ÌV”ÌS &ÌZ”ÌT &Ì[”ÌU &Ì\—” '” '
 ” '” '” '”" '”# 'œ” (” (
 ” (” (” (” (”# (”$ (”* ($”+ (%”/ ()”1 (+™” )” )” )”! )”$ )”* )"”+ )#”2 )*”3 )+—” *” *” *”! *”$ *”* *"”+ *#” +” +” +”& +”' +”) +!”0 +(”2 +*”8 +0”9 +1”Ì@ +8”ÌB +:”ÌC +;”ÌD +<’” ,” ,‘” -š” .” .” .”( ."”) .#”/ .)”0 .*”4 ..”5 ./”6 .0—” /” /
-” /” /”  /”& / ”' /!œ” 0” 0” 0”" 0”# 0”% 0”, 0&”. 0(”4 0.”6 00”7 01”8 02” 1” 1” 1” 1” 1”  1”# 1”% 1”. 1(”/ 1)”8 12”: 14”; 15”< 16–” 2”	 2” 2” 2
+” /” /”  /”& / ”' /!œ” 0” 0” 0”" 0”# 0”% 0”, 0&”. 0(”4 0.”6 00”7 01”8 02” 1” 1” 1” 1” 1”  1”# 1”% 1”. 1(”/ 1)”7 11”9 13”: 14”; 15–” 2”	 2” 2” 2
 ” 2” 2’” 3” 3”” 5
 ” 5” 5” 5#—” 6” 6” 6	” 6” 6” 6” 6–” 7” 7” 7” 7” 7”  7—” 8” 8
 ” 8” 8” 8”' 8!”( 8"‘”	 9–” 9” 9” 9” 9”# 9!”% 9#—” :” :

@@ -205,3 +205,160 @@ pub struct RiskScoreQuery {
     pub failed_count: Option<u8>,
     pub method: Option<AuthMethod>,
 }
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct StudentCertification {
+    pub student_id: String,
+    pub user_id: String,
+    pub name: String,
+    pub college: String,
+    pub major: String,
+    pub grade: String,
+    pub certification_status: String,
+    pub identity_source: String,
+    pub updated_at: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct StudentQuery {
+    pub student_id: Option<String>,
+    pub user_id: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct StudentVerifyRequest {
+    pub student_id: String,
+    pub name: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct AuthPermission {
+    pub id: String,
+    pub user_id: String,
+    pub scene: CampusScene,
+    pub scene_name: String,
+    pub enabled: bool,
+    pub risk_level: RiskLevel,
+    pub updated_at: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct AuthPermissionQuery {
+    pub user_id: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct AuthPermissionUpdateRequest {
+    pub id: String,
+    pub enabled: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct PassageRecord {
+    pub id: String,
+    pub student_id: String,
+    pub user_name: String,
+    pub device_id: String,
+    pub terminal_id: String,
+    pub terminal_name: String,
+    pub location: String,
+    pub result: AuthResult,
+    pub risk_level: RiskLevel,
+    pub time: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct PassageRecordQuery {
+    pub student_id: Option<String>,
+    pub result: Option<AuthResult>,
+    pub risk: Option<RiskLevel>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct CampusTerminal {
+    pub id: String,
+    pub name: String,
+    pub location: String,
+    pub terminal_type: String,
+    pub status: String,
+    pub last_heartbeat: String,
+    pub registered_at: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct TerminalRegisterRequest {
+    pub name: String,
+    pub location: String,
+    pub terminal_type: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct RealtimeAuthEvent {
+    pub id: String,
+    pub terminal_id: String,
+    pub terminal_name: String,
+    pub student_id: String,
+    pub result: AuthResult,
+    pub latency_ms: u16,
+    pub risk_level: RiskLevel,
+    pub time: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct AttendanceSummary {
+    pub id: String,
+    pub college: String,
+    pub course: String,
+    pub class_name: String,
+    pub present_count: u16,
+    pub total_count: u16,
+    pub attendance_rate: f32,
+    pub abnormal_count: u16,
+    pub updated_at: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct AttendanceQuery {
+    pub college: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct BlacklistEntry {
+    pub id: String,
+    pub student_id: String,
+    pub name: String,
+    pub reason: String,
+    pub risk_level: RiskLevel,
+    pub active: bool,
+    pub created_at: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct BlacklistAddRequest {
+    pub student_id: String,
+    pub name: String,
+    pub reason: String,
+    pub risk_level: RiskLevel,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct BlacklistRemoveRequest {
+    pub id: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct AccessRule {
+    pub id: String,
+    pub name: String,
+    pub location: String,
+    pub time_range: String,
+    pub risk_policy: String,
+    pub enabled: bool,
+    pub updated_at: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct AccessRuleUpdateRequest {
+    pub id: String,
+    pub enabled: bool,
+}

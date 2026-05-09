@@ -1,0 +1,249 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚ$Lif (!("finalizeConstruction" in ViewPU.prototype)) {
+    Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
+}
+import { PageTitleBar } from '../components/PageTitleBar';
+import { StatePanel } from '../components/StatePanel';
+import { StatusBadge } from '../components/StatusBadge';
+import { PortalMockService } from '../services/PortalMockService';
+import { AppColors, AppLayout } from '../utils/Constants';
+class WatchPassageRecordsPage extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.__state = new ObservedPropertySimplePU('loading', this, "state");
+        this.__records = new ObservedPropertyObjectPU([], this, "records");
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params) {
+        if (params.state !== undefined) {
+            this.state = params.state;
+        }
+        if (params.records !== undefined) {
+            this.records = params.records;
+        }
+    }
+    updateStateVars(params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__state.purgeDependencyOnElmtId(rmElmtId);
+        this.__records.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__state.aboutToBeDeleted();
+        this.__records.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    get state() {
+        return this.__state.get();
+    }
+    set state(newValue) {
+        this.__state.set(newValue);
+    }
+    get records() {
+        return this.__records.get();
+    }
+    set records(newValue) {
+        this.__records.set(newValue);
+    }
+    aboutToAppear() {
+        this.records = PortalMockService.passageRecords().filter((item) => item.deviceId.includes('watch'));
+        this.state = this.records.length === 0 ? 'empty' : 'ready';
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Scroll.create();
+            Scroll.backgroundColor(AppColors.background);
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 14 });
+            Column.width('100%');
+            Column.constraintSize({ maxWidth: 520 });
+            Column.alignSelf(ItemAlign.Center);
+            Column.padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 });
+        }, Column);
+        {
+            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                if (isInitialRender) {
+                    let componentCall = new PageTitleBar(this, { title: 'æ‰‹è¡¨ç«¯é€šè¡Œè®°å½•', subtitle: 'æŸ¥çœ‹æ‰‹è¡¨è¿‘åœºè®¤è¯åé¦ˆ' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 22, col: 9 });
+                    ViewPU.create(componentCall);
+                    let paramsLambda = () => {
+                        return {
+                            title: 'æ‰‹è¡¨ç«¯é€šè¡Œè®°å½•',
+                            subtitle: 'æŸ¥çœ‹æ‰‹è¡¨è¿‘åœºè®¤è¯åé¦ˆ'
+                        };
+                    };
+                    componentCall.paramsGenerator_ = paramsLambda;
+                }
+                else {
+                    this.updateStateVarsOfChildByElmtId(elmtId, {});
+                }
+            }, { name: "PageTitleBar" });
+        }
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.state !== 'ready') {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: 'æš‚æ— æ‰‹è¡¨é€šè¡Œè®°å½•', errorText: 'é€šè¡Œè®°å½•åŠ è½½å¤±è´¥' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 24, col: 11 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        state: this.state,
+                                        emptyText: 'æš‚æ— æ‰‹è¡¨é€šè¡Œè®°å½•',
+                                        errorText: 'é€šè¡Œè®°å½•åŠ è½½å¤±è´¥'
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
+                            }
+                        }, { name: "StatePanel" });
+                    }
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        ForEach.create();
+                        const forEachItemGenFunction = _item => {
+                            const item = _item;
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Column.create({ space: 8 });
+                                Column.width('100%');
+                                Column.padding(14);
+                                Column.backgroundColor(AppColors.surface);
+                                Column.borderRadius(8);
+                                Column.border({ width: 1, color: AppColors.border });
+                            }, Column);
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Row.create();
+                            }, Row);
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Text.create(item.place);
+                                Text.fontSize(16);
+                                Text.fontWeight(FontWeight.Bold);
+                                Text.fontColor(AppColors.text);
+                                Text.layoutWeight(1);
+                            }, Text);
+                            Text.pop();
+                            {
+                                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                    if (isInitialRender) {
+                                        let componentCall = new StatusBadge(this, { text: item.result, status: item.riskLevel === 'high' ? 'failed' : 'success' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 34, col: 17 });
+                                        ViewPU.create(componentCall);
+                                        let paramsLambda = () => {
+                                            return {
+                                                text: item.result,
+                                                status: item.riskLevel === 'high' ? 'failed' : 'success'
+                                            };
+                                        };
+                                        componentCall.paramsGenerator_ = paramsLambda;
+                                    }
+                                    else {
+                                        this.updateStateVarsOfChildByElmtId(elmtId, {});
+                                    }
+                                }, { name: "StatusBadge" });
+                            }
+                            Row.pop();
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Text.create(`${item.time} Â· ${item.deviceId}`);
+                                Text.fontSize(12);
+                                Text.fontColor(AppColors.muted);
+                            }, Text);
+                            Text.pop();
+                            Column.pop();
+                        };
+                        this.forEachUpdateFunction(elmtId, this.records, forEachItemGenFunction, (item) => item.id, false, false);
+                    }, ForEach);
+                    ForEach.pop();
+                });
+            }
+        }, If);
+        If.pop();
+        Column.pop();
+        Scroll.pop();
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+    static getEntryName() {
+        return "WatchPassageRecordsPage";
+    }
+}
+registerNamedRoute(() => new WatchPassageRecordsPage(undefined, {}), "", { bundleName: "com.example.campusauth", moduleName: "entry", pagePath: "pages/WatchPassageRecordsPage", pageFullPath: "entry/src/main/ets/pages/WatchPassageRecordsPage", integratedHsp: "false", moduleType: "followWithHap" });
+//# sourceMappingURL=WatchPassageRecordsPage.js.mapÂ•ÙYE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\PageTitleBar.etsÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatusBadge.etsÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙ_E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\WatchPassageRecordsPage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚiimport { PageTitleBar } from '../components/PageTitleBar';
+import { StatePanel } from '../components/StatePanel';
+import { StatusBadge } from '../components/StatusBadge';
+import { PageLoadState, PassageRecordItem } from '../models/CampusPortal';
+import { PortalMockService } from '../services/PortalMockService';
+import { AppColors, AppLayout } from '../utils/Constants';
+
+@Entry
+@Component
+struct WatchPassageRecordsPage {
+  @State state: PageLoadState = 'loading';
+  @State records: PassageRecordItem[] = [];
+
+  aboutToAppear(): void {
+    this.records = PortalMockService.passageRecords().filter((item: PassageRecordItem) => item.deviceId.includes('watch'));
+    this.state = this.records.length === 0 ? 'empty' : 'ready';
+  }
+
+  build() {
+    Scroll() {
+      Column({ space: 14 }) {
+        PageTitleBar({ title: 'æ‰‹è¡¨ç«¯é€šè¡Œè®°å½•', subtitle: 'æŸ¥çœ‹æ‰‹è¡¨è¿‘åœºè®¤è¯åé¦ˆ' })
+        if (this.state !== 'ready') {
+          StatePanel({ state: this.state, emptyText: 'æš‚æ— æ‰‹è¡¨é€šè¡Œè®°å½•', errorText: 'é€šè¡Œè®°å½•åŠ è½½å¤±è´¥' })
+        } else {
+          ForEach(this.records, (item: PassageRecordItem) => {
+            Column({ space: 8 }) {
+              Row() {
+                Text(item.place)
+                  .fontSize(16)
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor(AppColors.text)
+                  .layoutWeight(1)
+                StatusBadge({ text: item.result, status: item.riskLevel === 'high' ? 'failed' : 'success' })
+              }
+              Text(`${item.time} Â· ${item.deviceId}`)
+                .fontSize(12)
+                .fontColor(AppColors.muted)
+            }
+            .width('100%')
+            .padding(14)
+            .backgroundColor(AppColors.surface)
+            .borderRadius(8)
+            .border({ width: 1, color: AppColors.border })
+          }, (item: PassageRecordItem): string => item.id)
+        }
+      }
+      .width('100%')
+      .constraintSize({ maxWidth: 520 })
+      .alignSelf(ItemAlign.Center)
+      .padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 })
+    }
+    .backgroundColor(AppColors.background)
+  }
+}
+ÀÔrC•º../components/PageTitleBar¹../components/StatusBadge¸../components/StatePanel½../services/PortalMockService²../utils/ConstantsÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÂÙYE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\PageTitleBar.etsAÃªoh-resolveÂDAÂÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatusBadge.etsAÃªoh-resolveÂDAÂÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsAÃªoh-resolveÂDAÂÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂ“ÔrE–§version¤fileªsourceRoot§sources¥names¨mappingsºWatchPassageRecordsPage.js ‘»WatchPassageRecordsPage.etsÜ ¬˜”    ”  ”	  	”  ”  ”  ”9  9”:  :˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ” ”7 7”8 8˜”   ” ”	 	” ” ”" "”ÌA ÌA”ÌB ÌBš”   ” ”	 	” ” ” ” ”% %”9 9”: :’” 	” 	‘”  ’”4 
+ ”= 
+)’”6 (”8 *‘” :’” 
+	” 
+’” 
+	” 
+’” 	” ’” 	” ’” ” Ü ” ” ” 	” ” ”( $”) %”7 3”9 5”: 6”Ì@ <”ÌA =”ÌB >”ÌF ÌU”ÌH ÌW”ÌJ ÌY”ÌK ÌZ”ÌO Ì^”ÌP Ì_”ÌX Ìg”ÌY Ìh”Ìa Ìp”Ìb Ìq”Ìi Ìx”Ìj Ìy”Ìk Ìz”Ìl Ì{Ü ” ” ” 	” ” ” ” ”! ”" ”( $”- )”. *”/ +”0 ,”1 -”8 4”9 5”: 6”; 7”ÌB >”ÌC ?’” ” ‘” ’” ” 
+˜” ” 
+” 4”" 4”# 4”, 4”- 4”7 4)˜” ” ” ” ”! ”# ”% ”' –” ” ” /” /” /” /š” ” ” 0”! 0”" 0”$ 0”, 0 ”. 0"”1 0%”3 0'˜” ” ” 1” 1” 1”& 1”' 1”- 1!Ü ” ” ” 2” 2” 2” 2”! 2”# 2”, 2 ”- 2!”8 2,”: 2.”? 23”ÌA 25”ÌJ 2>”ÌK 2?”ÌV 2ÌJ”ÌX 2ÌL”Ì^ 2ÌR”Ì` 2ÌT”Ìb 2ÌV”Ìd 2ÌXœ”, ”8 ”? ”ÌA ”ÌF ”ÌH ”ÌQ '”ÌS )”Ì[ 1”Ì] 3”Ìi ?”Ìk ÌA”” ”! ”# ”, '”” )”$ 1”& 3”2 ?˜” ” ” ” ” ” ”& "”( $Ü ”8 
+”ÌB ”ÌI ”ÌK ”ÌP ”ÌR ”ÌV "”ÌW #”Ì\ (”Ì^ *”Ìg 3”Ìi 5”Ìs ?”Ìu ÌA”Ì~ ÌJ”Ì€ ÌL”ÌŠ ÌV”ÌŒ ÌX–”( ”- ”/ ”3 "”4 #”9 (””( *”1 3”3 5”= ?””( ÌA”1 ÌJ”3 ÌL”= ÌV‘” 	‘” ’” 
+” ˜”  ”& ”. ”0 ”5 ”7 ”8 ”: –”  ”& ”' '”, '”- '”3 '–”  ”& ”' (”. (”/ (”1 (˜”  ”& ”' )”6 )”7 )”Ì@ )&”ÌA )'”ÌH ).–”  ”& ”' *”3 *”4 *”5 *Ü ”  ”& ”' +”- +”. +”0 +”5 +”7 +”8 +”: + ”? +%”ÌA +'”ÌJ +0”ÌK +1”ÌQ +7”ÌS +9’”  ”# –”  ”$ ”, ”0 ”1 ”6 –”  ”$ ”% ”- ”. ”0 ˜”  ”$ ”% ”/ ”0 ”: (”; )”? -˜”  ”$ ”% ”. ”/ ”8 &”9 '”= +–”  ”$ ”%  ”1  ”2   ”3  !’” ”  Ü ”Ì@ !”ÌK !”ÌR !”ÌT !”ÌX !"”ÌZ !$”Ì^ !(”Ì_ !)”Ìe !/”Ìg !1”Ìm !7”Ìo !9”Ìs !=”Ìt !>”Ì} !ÌG”Ì‚ !ÌL”Ìˆ !ÌR”Ì‰ !ÌS”ÌŠ !ÌT”Ì‹ !ÌU”Ì“ !Ì]”Ì” !Ì^”Ì• !Ì_”Ì– !Ì`”ÌŸ !Ìi”Ì¡ !Ìk–”0 !”4 !"”6 !$”: !(”; !)”ÌA !/Ü ”0 !1”6 !7”8 !9”< !=”= !>”ÌF !ÌG”ÌK !ÌL”ÌQ !ÌR”ÌR !ÌS”ÌS !ÌT”ÌT !ÌU”Ì\ !Ì]”Ì] !Ì^”Ì^ !Ì_”Ì_ !Ì`”Ìh !Ìi’” ” œ”  #”$ #”, #”/ #”3 #”4 #”8 #”> #%”ÌB #)”ÌC #*”ÌK #2”ÌM #4–”  #”$ #”% $”- $”. $”0 $˜”  #”$ #”% %”. %”/ %”8 %$”9 %%”> %*’” #”  #’” ”" ”; ”? ”Ì@ ”ÌG ”Ìa ,”Ìb ,”Ìf ,%”Ìh ,/”Ìj ,1”Ìk ,2”Ìo ,6”Ìp ,7”Ìr ,9’” 
+” ‘” -	’” ” ’” ” 
+‘” 5ÔrF–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ µ‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ì ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ÔrG’§missing¦pluginÃ¦genAbcÂÔ  ÔrH”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache•ÔrI•¤type¥start£endªspecifiers¦source±ImportDeclarationÌ€Ìº‘ÔrJ•¤type¥start£end¨imported¥local¯ImportSpecifierÌ‰Ì•ÔrK”¤type¥start£end¤nameªIdentifierÌ‰Ì•¬PageTitleBarKªIdentifierÌ‰Ì•¬PageTitleBarÔrL•¤type¥start£end¥value£raw§LiteralÌÌ¹º../components/PageTitleBar¼'../components/PageTitleBar'I±ImportDeclarationÌ¼Ìò‘J¯ImportSpecifierÌÅÌÏKªIdentifierÌÅÌÏªStatePanelKªIdentifierÌÅÌÏªStatePanelL§LiteralÌ×Ìñ¸../components/StatePanelº'../components/StatePanel'I±ImportDeclarationÌôÍ,‘J¯ImportSpecifierÌıÍKªIdentifierÌıÍ«StatusBadgeKªIdentifierÌıÍ«StatusBadgeL§LiteralÍÍ+¹../components/StatusBadge»'../components/StatusBadge'I±ImportDeclarationÍ.Íp‘J¯ImportSpecifierÍ7ÍHKªIdentifierÍ7ÍH±PortalMockServiceKªIdentifierÍ7ÍH±PortalMockServiceL§LiteralÍPÍo½../services/PortalMockService¿'../services/PortalMockService'I±ImportDeclarationÍrÍ¬’J¯ImportSpecifierÍ{Í„KªIdentifierÍ{Í„©AppColorsKªIdentifierÍ{Í„©AppColorsJ¯ImportSpecifierÍ†ÍKªIdentifierÍ†Í©AppLayoutKªIdentifierÍ†Í©AppLayoutL§LiteralÍ—Í«²../utils/Constants´'../utils/Constants'

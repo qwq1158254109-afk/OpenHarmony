@@ -23,7 +23,7 @@ struct LoginPage {
     AuthSessionService.initialize();
     const user = AuthSessionService.currentUser();
     if (AuthSessionService.isLoggedIn() && user) {
-      router.replaceUrl({ url: AppRoutes.dashboard });
+      router.replaceUrl({ url: AppRoutes.overview });
     }
   }
 
@@ -47,7 +47,7 @@ struct LoginPage {
       AuthSessionService.saveLogin(result.user);
       this.loginMessage = '登录成功';
       promptAction.showToast({ message: '登录成功' });
-      router.replaceUrl({ url: AppRoutes.dashboard });
+      router.replaceUrl({ url: AppRoutes.overview });
     }, 300);
   }
 

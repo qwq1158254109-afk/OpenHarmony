@@ -640,7 +640,15 @@
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\common.d.ts",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\custom_dialog_controller.d.ts",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\LoginPage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
       ],
       "error": false
     },
@@ -654,7 +662,8 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\LoginPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets"
       ],
       "error": false
     },
@@ -1534,7 +1543,8 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\LoginPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets"
       ],
       "error": false
     },
@@ -1558,7 +1568,7 @@
       "error": false
     },
     "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets": {
-      "mtimeMs": 1778300658092.1406,
+      "mtimeMs": 1778321548452.458,
       "children": [],
       "parent": [
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\LoginPage.ets",
@@ -1571,7 +1581,24 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\StudentRealNamePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchTodayAttendancePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminAttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
       ],
       "error": false
     },
@@ -1591,7 +1618,12 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets"
       ],
       "error": false
     },
@@ -1607,12 +1639,13 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\AuthSessionService.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\AuthSessionService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets"
       ],
       "error": false
     },
     "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\LoginPage.ets": {
-      "mtimeMs": 1778314951206.1086,
+      "mtimeMs": 1778321005374.8772,
       "children": [
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
         "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
@@ -1681,7 +1714,8 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\AuthSessionService.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\AuthSessionService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets"
       ],
       "error": false
     },
@@ -1702,7 +1736,9 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\Auth.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\FormatUtil.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\RiskService.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatusBadge.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatusBadge.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets"
       ],
       "error": false
     },
@@ -1734,7 +1770,21 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\StudentRealNamePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchTodayAttendancePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminAttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
       ],
       "error": true,
       "errorCodes": [
@@ -1751,7 +1801,9 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
       ],
       "error": false
     },
@@ -1763,7 +1815,8 @@
       "parent": [
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets"
       ],
       "error": false
     },
@@ -1779,7 +1832,12 @@
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\RecordsPage.ets",
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DevicePage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets"
       ],
       "error": false
     },
@@ -2432,9 +2490,316 @@
       ],
       "parent": [
         "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\LoginPage.ets",
-        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets"
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DashboardPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets"
       ],
       "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets": {
+      "mtimeMs": 1778320965639.6504,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\StudentRealNamePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchTodayAttendancePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminAttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
+      ],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets": {
+      "mtimeMs": 1778321526994.3542,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\Risk.ets"
+      ],
+      "parent": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\StudentRealNamePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchTodayAttendancePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminAttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
+      ],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets": {
+      "mtimeMs": 1778321543292.3076,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\StudentRealNamePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchTodayAttendancePage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminAttendanceStatsPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets"
+      ],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\OverviewPage.ets": {
+      "mtimeMs": 1778321553846.745,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\FeatureCard.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\SectionHeader.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatCard.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\User.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\AuthSessionService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\MockData.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\FormatUtil.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28040,
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\StudentRealNamePage.ets": {
+      "mtimeMs": 1778321041388.41,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DeviceBindPage.ets": {
+      "mtimeMs": 1778321041421.0823,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AuthPermissionPage.ets": {
+      "mtimeMs": 1778324929466.2517,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28040,
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\PassageRecordsPage.ets": {
+      "mtimeMs": 1778321061255.839,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatusBadge.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\FormatUtil.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AttendanceStatsPage.ets": {
+      "mtimeMs": 1778321061285.9243,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchTodayAttendancePage.ets": {
+      "mtimeMs": 1778321079240.7883,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\WatchPassageRecordsPage.ets": {
+      "mtimeMs": 1778321079271.2585,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatusBadge.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalFilingPage.ets": {
+      "mtimeMs": 1778321103974.444,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\TerminalRealtimeScreenPage.ets": {
+      "mtimeMs": 1778321104006.1492,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatusBadge.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\FormatUtil.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminAttendanceStatsPage.ets": {
+      "mtimeMs": 1778321126983.1338,
+      "children": [
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": false
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AdminPermissionPage.ets": {
+      "mtimeMs": 1778321127014.8044,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\AccessRuleConfigPage.ets": {
+      "mtimeMs": 1778321150917.0044,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\BlacklistPage.ets": {
+      "mtimeMs": 1778321150947.565,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatusBadge.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\FormatUtil.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28007
+      ]
+    },
+    "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\pages\\DefenseDemoPage.ets": {
+      "mtimeMs": 1778321673515.4392,
+      "children": [
+        "E:\\Program Files\\Huawei\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\PageTitleBar.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\SectionHeader.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\components\\StatePanel.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\models\\CampusPortal.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\services\\PortalMockService.ets",
+        "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\ets\\utils\\Constants.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        28040,
+        28007
+      ]
     }
   }
 }

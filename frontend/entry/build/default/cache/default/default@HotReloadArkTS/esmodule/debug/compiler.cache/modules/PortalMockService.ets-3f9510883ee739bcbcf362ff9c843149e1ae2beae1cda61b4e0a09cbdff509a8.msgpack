@@ -1,0 +1,602 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚ/»import { AppRoutes } from '../utils/Constants';
+export class PortalMockService {
+    static overviewStats() {
+        return [
+            { title: 'ä»Šæ—¥è®¤è¯', value: '286', hint: 'æ— æ„Ÿè®¤è¯æˆåŠŸç‡ 98.6%', status: 'success' },
+            { title: 'åœ¨çº¿è®¾å¤‡', value: '42', hint: 'æ‰‹è¡¨ã€é—¨ç¦ã€æ•™å­¦ç»ˆç«¯', status: 'info' },
+            { title: 'é£é™©äº‹ä»¶', value: '7', hint: 'é«˜é£é™© 1 æ¡ï¼Œä¸­é£é™© 6 æ¡', status: 'warning' },
+            { title: 'é»‘åå•', value: '3', hint: 'é—¨ç¦ç­–ç•¥å®æ—¶ç”Ÿæ•ˆ', status: 'danger' }
+        ];
+    }
+    static studentActions() {
+        return [
+            { title: 'å­¦ç”Ÿå®åè®¤è¯', subtitle: 'æ ¸éªŒå­¦å·ã€å§“åã€å­¦é™¢ä¿¡æ¯', marker: 'ID', route: AppRoutes.studentRealName, status: 'success' },
+            { title: 'è®¾å¤‡ç»‘å®š', subtitle: 'ç»‘å®šæ‰‹æœºã€æ‰‹è¡¨å’Œå¹³æ¿', marker: 'DV', route: AppRoutes.deviceBind, status: 'info' },
+            { title: 'æ— æ„Ÿè®¤è¯æƒé™è®¾ç½®', subtitle: 'æŒ‰åœºæ™¯å¯åœæ— æ„Ÿè®¤è¯', marker: 'AU', route: AppRoutes.authPermission, status: 'warning' },
+            { title: 'é€šè¡Œè®°å½•', subtitle: 'é—¨ç¦ã€å›¾ä¹¦é¦†ã€æ•™å­¦æ¥¼è®°å½•', marker: 'RE', route: AppRoutes.passageRecords, status: 'info' },
+            { title: 'è€ƒå‹¤ç»Ÿè®¡', subtitle: 'è¯¾ç¨‹ç­¾åˆ°ä¸ç¼ºå‹¤è¶‹åŠ¿', marker: 'AT', route: AppRoutes.attendanceStats, status: 'success' }
+        ];
+    }
+    static watchActions() {
+        return [
+            { title: 'æ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤', subtitle: 'è½»é‡åŒ–è€ƒå‹¤æé†’', marker: 'WA', route: AppRoutes.watchTodayAttendance, status: 'success' },
+            { title: 'æ‰‹è¡¨ç«¯é€šè¡Œè®°å½•', subtitle: 'æŸ¥çœ‹è¿‘åœºé€šè¡Œåé¦ˆ', marker: 'WR', route: AppRoutes.watchPassageRecords, status: 'info' }
+        ];
+    }
+    static terminalActions() {
+        return [
+            { title: 'æ ¡å›­ç»ˆç«¯è®¾å¤‡å¤‡æ¡ˆ', subtitle: 'ç™»è®°é—¨ç¦ä¸ç­¾åˆ°ç»ˆç«¯', marker: 'TF', route: AppRoutes.terminalFiling, status: 'info' },
+            { title: 'ç»ˆç«¯å®æ—¶è®¤è¯å¤§å±', subtitle: 'å®æ—¶æ˜¾ç¤ºè®¤è¯æ€åŠ¿', marker: 'RT', route: AppRoutes.terminalRealtimeScreen, status: 'success' }
+        ];
+    }
+    static adminActions() {
+        return [
+            { title: 'ç®¡ç†å‘˜å‡ºå‹¤ç»Ÿè®¡', subtitle: 'æŒ‰å­¦é™¢å’Œè¯¾ç¨‹æ±‡æ€»å‡ºå‹¤', marker: 'AS', route: AppRoutes.adminAttendanceStats, status: 'success' },
+            { title: 'ç®¡ç†å‘˜æƒé™ç®¡ç†', subtitle: 'é…ç½®è§’è‰²ä¸æ“ä½œèŒƒå›´', marker: 'PM', route: AppRoutes.adminPermission, status: 'warning' },
+            { title: 'é—¨ç¦è§„åˆ™é…ç½®', subtitle: 'ç®¡ç†é€šè¡Œæ—¶é—´å’Œé£æ§ç­–ç•¥', marker: 'AR', route: AppRoutes.accessRuleConfig, status: 'info' },
+            { title: 'é»‘åå•ç®¡ç†', subtitle: 'é«˜é£é™©è´¦å·é™åˆ¶é€šè¡Œ', marker: 'BL', route: AppRoutes.blacklist, status: 'danger' }
+        ];
+    }
+    static demoActions() {
+        return [
+            { title: 'ç­”è¾©æ¼”ç¤ºæ¨¡å¼', subtitle: 'ä¸€é”®æ¨¡æ‹Ÿæ ¡é—¨è®¤è¯ã€é»‘åå•æ‹¦æˆªã€æ™šå½’æé†’ã€è€ƒå‹¤å¯¼å‡ºå’Œæ‰‹è¡¨åŒæ­¥', marker: 'DE', route: AppRoutes.defenseDemo, status: 'success' }
+        ];
+    }
+    static defenseDemoScenarios() {
+        return [
+            {
+                id: 'student_gate_success',
+                title: 'å­¦ç”Ÿé è¿‘æ ¡é—¨',
+                subtitle: 'æ¨¡æ‹Ÿå­¦ç”Ÿæºå¸¦å¯ä¿¡æ‰‹æœºé è¿‘æ ¡é—¨ï¼Œç»ˆç«¯å®Œæˆæ— æ„Ÿè®¤è¯å¹¶æ”¾è¡Œã€‚',
+                buttonText: 'æ¨¡æ‹Ÿè®¤è¯æˆåŠŸ',
+                marker: '01',
+                status: 'success'
+            },
+            {
+                id: 'blacklist_block',
+                title: 'é»‘åå•è®¾å¤‡é è¿‘',
+                subtitle: 'æ¨¡æ‹Ÿé»‘åå•è®¾å¤‡è§¦å‘é—¨ç¦é£æ§ï¼Œç»ˆç«¯æ‹¦æˆªå¹¶å†™å…¥é£é™©æ—¥å¿—ã€‚',
+                buttonText: 'æ¨¡æ‹Ÿæ‹¦æˆª',
+                marker: '02',
+                status: 'danger'
+            },
+            {
+                id: 'late_return_alert',
+                title: 'å­¦ç”Ÿæ™šå½’æé†’',
+                subtitle: 'æ¨¡æ‹Ÿå­¦ç”Ÿå¤œé—´å›å®¿èˆï¼Œç³»ç»Ÿé€šçŸ¥è¾…å¯¼å‘˜å¹¶ç”Ÿæˆæ™šå½’æé†’ã€‚',
+                buttonText: 'æ¨¡æ‹Ÿæ™šå½’æé†’',
+                marker: '03',
+                status: 'warning'
+            },
+            {
+                id: 'teacher_export',
+                title: 'æ•™å¸ˆå¯¼å‡ºè€ƒå‹¤è¡¨',
+                subtitle: 'æ¨¡æ‹Ÿæ•™å¸ˆæŒ‰è¯¾ç¨‹å¯¼å‡ºè€ƒå‹¤æ±‡æ€»è¡¨ï¼Œä¸ä¾èµ–çœŸå®æ–‡ä»¶ç³»ç»Ÿã€‚',
+                buttonText: 'æ¨¡æ‹Ÿå¯¼å‡º',
+                marker: '04',
+                status: 'info'
+            },
+            {
+                id: 'watch_permission_sync',
+                title: 'æ‰‹æœºæƒé™åŒæ­¥åˆ°æ‰‹è¡¨',
+                subtitle: 'æ¨¡æ‹Ÿæ‰‹æœºç«¯è®¤è¯æƒé™é€šè¿‡åˆ†å¸ƒå¼é€šé“åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨ã€‚',
+                buttonText: 'æ¨¡æ‹ŸåŒæ­¥',
+                marker: '05',
+                status: 'success'
+            }
+        ];
+    }
+    static defenseDemoResult(type) {
+        const timestamp = PortalMockService.nowText();
+        if (type === 'student_gate_success') {
+            return {
+                title: 'æ ¡é—¨è®¤è¯æˆåŠŸ',
+                summary: 'student001 å·²é€šè¿‡å—é—¨ç»ˆç«¯æ— æ„Ÿè®¤è¯',
+                detail: 'å¯ä¿¡æ‰‹æœº phone-001 è¢«è¯†åˆ«ï¼Œé£é™©è¯„åˆ† 18ï¼Œé—¨ç¦ç»ˆç«¯è¿”å›æ”¾è¡Œç»“æœã€‚',
+                status: 'success',
+                timestamp
+            };
+        }
+        if (type === 'blacklist_block') {
+            return {
+                title: 'é»‘åå•æ‹¦æˆª',
+                summary: 'visitor009 è®¾å¤‡è¢«å—é—¨ç»ˆç«¯æ‹¦æˆª',
+                detail: 'è®¾å¤‡ watch-017 å‘½ä¸­é»‘åå•ï¼Œé£é™©ç­‰çº§é«˜ï¼Œå·²å†™å…¥é£é™©æ—¥å¿—å¹¶æç¤ºç®¡ç†å‘˜ã€‚',
+                status: 'danger',
+                timestamp
+            };
+        }
+        if (type === 'late_return_alert') {
+            return {
+                title: 'æ™šå½’æé†’å·²è§¦å‘',
+                summary: 'student001 23:42 è¿”å›å®¿èˆ',
+                detail: 'ç³»ç»Ÿè¯†åˆ«ä¸ºæ™šå½’åœºæ™¯ï¼Œå·²é€šçŸ¥è¾…å¯¼å‘˜ç«¯å¹¶ä¿ç•™å­¦ç”Ÿé€šè¡Œè®°å½•ã€‚',
+                status: 'warning',
+                timestamp
+            };
+        }
+        if (type === 'teacher_export') {
+            return {
+                title: 'è€ƒå‹¤è¡¨å¯¼å‡ºå®Œæˆ',
+                summary: 'ç‹è€å¸ˆå¯¼å‡ºç§»åŠ¨åº”ç”¨å¼€å‘è¯¾ç¨‹è€ƒå‹¤è¡¨',
+                detail: 'å¯¼å‡º 48 äººè€ƒå‹¤è®°å½•ï¼Œå‡ºå‹¤ç‡ 93.75%ï¼Œå¼‚å¸¸ 2 æ¡ï¼Œç”Ÿæˆæ¨¡æ‹Ÿæ–‡ä»¶ attendance_20260509.xlsxã€‚',
+                status: 'info',
+                timestamp
+            };
+        }
+        return {
+            title: 'æƒé™åŒæ­¥å®Œæˆ',
+            summary: 'æ‰‹æœºç«¯æƒé™å·²åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨',
+            detail: 'æ‰‹æœº phone-001 å°†æ•™å­¦æ¥¼ç­¾åˆ°å’Œå›¾ä¹¦é¦†å…¥é¦†æƒé™åŒæ­¥åˆ° watch-008ï¼Œæ‰‹è¡¨ç«¯å¯ç¦»çº¿å±•ç¤ºæƒé™æ‘˜è¦ã€‚',
+            status: 'success',
+            timestamp
+        };
+    }
+    static nowText() {
+        const date = new Date();
+        const hour = `${date.getHours()}`.padStart(2, '0');
+        const minute = `${date.getMinutes()}`.padStart(2, '0');
+        const second = `${date.getSeconds()}`.padStart(2, '0');
+        return `${hour}:${minute}:${second}`;
+    }
+    static realNameProfile() {
+        return {
+            studentId: 'student001',
+            name: 'ææ˜',
+            college: 'è®¡ç®—æœºä¸ä¿¡æ¯å·¥ç¨‹å­¦é™¢',
+            major: 'è½¯ä»¶å·¥ç¨‹ 2301 ç­',
+            status: 'å·²å®Œæˆå®åè®¤è¯',
+            credential: 'æ ¡å›­ç»Ÿä¸€èº«ä»½è®¤è¯ / æ•™åŠ¡ç³»ç»ŸåŒæ­¥'
+        };
+    }
+    static boundDevices() {
+        return [
+            { id: 'phone-001', name: 'OpenHarmony Phone', owner: 'ææ˜', type: 'æ‰‹æœº', trustLevel: 'é«˜å¯ä¿¡', online: true },
+            { id: 'watch-008', name: 'Campus Watch', owner: 'ææ˜', type: 'æ‰‹è¡¨', trustLevel: 'ä¸­å¯ä¿¡', online: true },
+            { id: 'pad-102', name: 'OpenHarmony Tablet', owner: 'ææ˜', type: 'å¹³æ¿', trustLevel: 'é«˜å¯ä¿¡', online: false }
+        ];
+    }
+    static authPermissions() {
+        return [
+            { id: 'p1', name: 'æ•™å­¦æ¥¼æ— æ„Ÿç­¾åˆ°', scene: 'ç»¼åˆæ•™å­¦æ¥¼ / ä¿¡æ¯æ¥¼', enabled: true, riskLevel: 'low' },
+            { id: 'p2', name: 'å›¾ä¹¦é¦†å…¥é¦†è®¤è¯', scene: 'å›¾ä¹¦é¦†é—¸æœº', enabled: true, riskLevel: 'low' },
+            { id: 'p3', name: 'å®éªŒå®¤å¤œé—´é—¨ç¦', scene: 'é‡ç‚¹å®éªŒå®¤', enabled: false, riskLevel: 'high' }
+        ];
+    }
+    static passageRecords() {
+        return [
+            { id: 'pr-001', studentId: 'student001', deviceId: 'phone-001', place: 'ç»¼åˆæ•™å­¦æ¥¼ A203', result: 'æˆåŠŸ', time: '2026-05-09 08:10', riskLevel: 'low' },
+            { id: 'pr-002', studentId: 'student001', deviceId: 'watch-008', place: 'å›¾ä¹¦é¦†åŒ—é—¨', result: 'æˆåŠŸ', time: '2026-05-09 09:02', riskLevel: 'low' },
+            { id: 'pr-003', studentId: 'teacher001', deviceId: 'watch-017', place: 'é‡ç‚¹å®éªŒå®¤ B102', result: 'æ‹¦æˆª', time: '2026-05-09 22:35', riskLevel: 'high' }
+        ];
+    }
+    static attendanceMetrics() {
+        return [
+            { id: 'c1', course: 'ç§»åŠ¨åº”ç”¨å¼€å‘', attended: 15, total: 16, latestTime: 'ä»Šå¤© 08:10' },
+            { id: 'c2', course: 'æ“ä½œç³»ç»Ÿ', attended: 13, total: 16, latestTime: 'æ˜¨å¤© 10:00' },
+            { id: 'c3', course: 'äººå·¥æ™ºèƒ½å¯¼è®º', attended: 16, total: 16, latestTime: 'ä»Šå¤© 14:00' }
+        ];
+    }
+    static watchAttendance() {
+        return [
+            { id: 'wa-001', title: 'ç§»åŠ¨åº”ç”¨å¼€å‘', time: '08:10', place: 'ç»¼åˆæ•™å­¦æ¥¼ A203', status: 'å·²ç­¾åˆ°' },
+            { id: 'wa-002', title: 'å®éªŒè¯¾æé†’', time: '14:00', place: 'è½¯ä»¶å®éªŒå®¤ C401', status: 'å¾…ç­¾åˆ°' }
+        ];
+    }
+    static terminalDevices() {
+        return [
+            { id: 'term-001', name: 'å›¾ä¹¦é¦†åŒ—é—¨é—¸æœº', place: 'å›¾ä¹¦é¦†åŒ—é—¨', status: 'åœ¨çº¿', lastHeartbeat: '3 ç§’å‰' },
+            { id: 'term-002', name: 'æ•™å­¦æ¥¼ A203 ç­¾åˆ°å±', place: 'ç»¼åˆæ•™å­¦æ¥¼', status: 'åœ¨çº¿', lastHeartbeat: '8 ç§’å‰' },
+            { id: 'term-003', name: 'å®éªŒå®¤ B102 é—¨ç¦', place: 'é‡ç‚¹å®éªŒå®¤', status: 'ç»´æŠ¤ä¸­', lastHeartbeat: '12 åˆ†é’Ÿå‰' }
+        ];
+    }
+    static realtimeEvents() {
+        return [
+            { id: 'rt-001', terminal: 'A203 ç­¾åˆ°å±', studentId: 'student001', result: 'é€šè¿‡', latency: '46ms', time: '08:10:06', riskLevel: 'low' },
+            { id: 'rt-002', terminal: 'å›¾ä¹¦é¦†é—¸æœº', studentId: 'student018', result: 'é€šè¿‡', latency: '52ms', time: '08:11:18', riskLevel: 'low' },
+            { id: 'rt-003', terminal: 'å®éªŒå®¤é—¨ç¦', studentId: 'visitor009', result: 'æ‹¦æˆª', latency: '73ms', time: '08:12:02', riskLevel: 'high' }
+        ];
+    }
+    static adminPermissions() {
+        return [
+            { id: 'ap-001', role: 'è¾…å¯¼å‘˜', scope: 'æŸ¥çœ‹æœ¬å­¦é™¢è€ƒå‹¤', owner: 'å¼ è€å¸ˆ', enabled: true },
+            { id: 'ap-002', role: 'é—¨ç¦ç®¡ç†å‘˜', scope: 'é…ç½®é—¨ç¦è§„åˆ™', owner: 'å®‰ä¿å¤„', enabled: true },
+            { id: 'ap-003', role: 'ä¸´æ—¶è®¿å®¢å®¡æ‰¹', scope: 'ä¸´æ—¶è´¦å·å®¡æ ¸', owner: 'ä¿¡æ¯ä¸­å¿ƒ', enabled: false }
+        ];
+    }
+    static accessRules() {
+        return [
+            { id: 'rule-001', name: 'æ•™å­¦æ¥¼ä¸Šè¯¾æ—¶æ®µé€šè¡Œ', place: 'æ•™å­¦æ¥¼', timeRange: '07:00-22:00', riskPolicy: 'ä½é£é™©è‡ªåŠ¨é€šè¿‡', enabled: true },
+            { id: 'rule-002', name: 'å®éªŒå®¤å¤œé—´äºŒæ¬¡è®¤è¯', place: 'é‡ç‚¹å®éªŒå®¤', timeRange: '22:00-06:00', riskPolicy: 'ä¸­é«˜é£é™©æ‹¦æˆª', enabled: true },
+            { id: 'rule-003', name: 'å›¾ä¹¦é¦†è®¿å®¢é™åˆ¶', place: 'å›¾ä¹¦é¦†', timeRange: '08:00-21:30', riskPolicy: 'è®¿å®¢éœ€äººå·¥å®¡æ‰¹', enabled: false }
+        ];
+    }
+    static blacklist() {
+        return [
+            { id: 'bl-001', studentId: 'visitor009', name: 'ä¸´æ—¶è®¿å®¢', reason: 'å®éªŒå®¤é«˜é£é™©è®¿é—®', level: 'high', createdAt: '2026-05-09 08:12' },
+            { id: 'bl-002', studentId: 'student088', name: 'é™ˆæŸ', reason: 'è¿ç»­è®¤è¯å¤±è´¥', level: 'medium', createdAt: '2026-05-08 21:30' }
+        ];
+    }
+}
+//# sourceMappingURL=PortalMockService.js.mapÂ‘ÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo¯hostModulesInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  ‘ÔrC’²hostDependencyName®hostModuleName½../services/PortalMockService¥entryÙ0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚ-Mimport {
+  AccessRuleItem,
+  AdminPermissionItem,
+  AttendanceMetric,
+  AuthPermissionOption,
+  BlacklistItem,
+  BoundDeviceInfo,
+  DefenseDemoResult,
+  DefenseDemoScenario,
+  DemoScenarioType,
+  PassageRecordItem,
+  PortalAction,
+  PortalStat,
+  RealNameProfile,
+  RealtimeAuthEvent,
+  TerminalDeviceRecord,
+  WatchAttendanceItem
+} from '../models/CampusPortal';
+import { AppRoutes } from '../utils/Constants';
+
+export class PortalMockService {
+  static overviewStats(): PortalStat[] {
+    return [
+      { title: 'ä»Šæ—¥è®¤è¯', value: '286', hint: 'æ— æ„Ÿè®¤è¯æˆåŠŸç‡ 98.6%', status: 'success' },
+      { title: 'åœ¨çº¿è®¾å¤‡', value: '42', hint: 'æ‰‹è¡¨ã€é—¨ç¦ã€æ•™å­¦ç»ˆç«¯', status: 'info' },
+      { title: 'é£é™©äº‹ä»¶', value: '7', hint: 'é«˜é£é™© 1 æ¡ï¼Œä¸­é£é™© 6 æ¡', status: 'warning' },
+      { title: 'é»‘åå•', value: '3', hint: 'é—¨ç¦ç­–ç•¥å®æ—¶ç”Ÿæ•ˆ', status: 'danger' }
+    ];
+  }
+
+  static studentActions(): PortalAction[] {
+    return [
+      { title: 'å­¦ç”Ÿå®åè®¤è¯', subtitle: 'æ ¸éªŒå­¦å·ã€å§“åã€å­¦é™¢ä¿¡æ¯', marker: 'ID', route: AppRoutes.studentRealName, status: 'success' },
+      { title: 'è®¾å¤‡ç»‘å®š', subtitle: 'ç»‘å®šæ‰‹æœºã€æ‰‹è¡¨å’Œå¹³æ¿', marker: 'DV', route: AppRoutes.deviceBind, status: 'info' },
+      { title: 'æ— æ„Ÿè®¤è¯æƒé™è®¾ç½®', subtitle: 'æŒ‰åœºæ™¯å¯åœæ— æ„Ÿè®¤è¯', marker: 'AU', route: AppRoutes.authPermission, status: 'warning' },
+      { title: 'é€šè¡Œè®°å½•', subtitle: 'é—¨ç¦ã€å›¾ä¹¦é¦†ã€æ•™å­¦æ¥¼è®°å½•', marker: 'RE', route: AppRoutes.passageRecords, status: 'info' },
+      { title: 'è€ƒå‹¤ç»Ÿè®¡', subtitle: 'è¯¾ç¨‹ç­¾åˆ°ä¸ç¼ºå‹¤è¶‹åŠ¿', marker: 'AT', route: AppRoutes.attendanceStats, status: 'success' }
+    ];
+  }
+
+  static watchActions(): PortalAction[] {
+    return [
+      { title: 'æ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤', subtitle: 'è½»é‡åŒ–è€ƒå‹¤æé†’', marker: 'WA', route: AppRoutes.watchTodayAttendance, status: 'success' },
+      { title: 'æ‰‹è¡¨ç«¯é€šè¡Œè®°å½•', subtitle: 'æŸ¥çœ‹è¿‘åœºé€šè¡Œåé¦ˆ', marker: 'WR', route: AppRoutes.watchPassageRecords, status: 'info' }
+    ];
+  }
+
+  static terminalActions(): PortalAction[] {
+    return [
+      { title: 'æ ¡å›­ç»ˆç«¯è®¾å¤‡å¤‡æ¡ˆ', subtitle: 'ç™»è®°é—¨ç¦ä¸ç­¾åˆ°ç»ˆç«¯', marker: 'TF', route: AppRoutes.terminalFiling, status: 'info' },
+      { title: 'ç»ˆç«¯å®æ—¶è®¤è¯å¤§å±', subtitle: 'å®æ—¶æ˜¾ç¤ºè®¤è¯æ€åŠ¿', marker: 'RT', route: AppRoutes.terminalRealtimeScreen, status: 'success' }
+    ];
+  }
+
+  static adminActions(): PortalAction[] {
+    return [
+      { title: 'ç®¡ç†å‘˜å‡ºå‹¤ç»Ÿè®¡', subtitle: 'æŒ‰å­¦é™¢å’Œè¯¾ç¨‹æ±‡æ€»å‡ºå‹¤', marker: 'AS', route: AppRoutes.adminAttendanceStats, status: 'success' },
+      { title: 'ç®¡ç†å‘˜æƒé™ç®¡ç†', subtitle: 'é…ç½®è§’è‰²ä¸æ“ä½œèŒƒå›´', marker: 'PM', route: AppRoutes.adminPermission, status: 'warning' },
+      { title: 'é—¨ç¦è§„åˆ™é…ç½®', subtitle: 'ç®¡ç†é€šè¡Œæ—¶é—´å’Œé£æ§ç­–ç•¥', marker: 'AR', route: AppRoutes.accessRuleConfig, status: 'info' },
+      { title: 'é»‘åå•ç®¡ç†', subtitle: 'é«˜é£é™©è´¦å·é™åˆ¶é€šè¡Œ', marker: 'BL', route: AppRoutes.blacklist, status: 'danger' }
+    ];
+  }
+
+  static demoActions(): PortalAction[] {
+    return [
+      { title: 'ç­”è¾©æ¼”ç¤ºæ¨¡å¼', subtitle: 'ä¸€é”®æ¨¡æ‹Ÿæ ¡é—¨è®¤è¯ã€é»‘åå•æ‹¦æˆªã€æ™šå½’æé†’ã€è€ƒå‹¤å¯¼å‡ºå’Œæ‰‹è¡¨åŒæ­¥', marker: 'DE', route: AppRoutes.defenseDemo, status: 'success' }
+    ];
+  }
+
+  static defenseDemoScenarios(): DefenseDemoScenario[] {
+    return [
+      {
+        id: 'student_gate_success',
+        title: 'å­¦ç”Ÿé è¿‘æ ¡é—¨',
+        subtitle: 'æ¨¡æ‹Ÿå­¦ç”Ÿæºå¸¦å¯ä¿¡æ‰‹æœºé è¿‘æ ¡é—¨ï¼Œç»ˆç«¯å®Œæˆæ— æ„Ÿè®¤è¯å¹¶æ”¾è¡Œã€‚',
+        buttonText: 'æ¨¡æ‹Ÿè®¤è¯æˆåŠŸ',
+        marker: '01',
+        status: 'success'
+      },
+      {
+        id: 'blacklist_block',
+        title: 'é»‘åå•è®¾å¤‡é è¿‘',
+        subtitle: 'æ¨¡æ‹Ÿé»‘åå•è®¾å¤‡è§¦å‘é—¨ç¦é£æ§ï¼Œç»ˆç«¯æ‹¦æˆªå¹¶å†™å…¥é£é™©æ—¥å¿—ã€‚',
+        buttonText: 'æ¨¡æ‹Ÿæ‹¦æˆª',
+        marker: '02',
+        status: 'danger'
+      },
+      {
+        id: 'late_return_alert',
+        title: 'å­¦ç”Ÿæ™šå½’æé†’',
+        subtitle: 'æ¨¡æ‹Ÿå­¦ç”Ÿå¤œé—´å›å®¿èˆï¼Œç³»ç»Ÿé€šçŸ¥è¾…å¯¼å‘˜å¹¶ç”Ÿæˆæ™šå½’æé†’ã€‚',
+        buttonText: 'æ¨¡æ‹Ÿæ™šå½’æé†’',
+        marker: '03',
+        status: 'warning'
+      },
+      {
+        id: 'teacher_export',
+        title: 'æ•™å¸ˆå¯¼å‡ºè€ƒå‹¤è¡¨',
+        subtitle: 'æ¨¡æ‹Ÿæ•™å¸ˆæŒ‰è¯¾ç¨‹å¯¼å‡ºè€ƒå‹¤æ±‡æ€»è¡¨ï¼Œä¸ä¾èµ–çœŸå®æ–‡ä»¶ç³»ç»Ÿã€‚',
+        buttonText: 'æ¨¡æ‹Ÿå¯¼å‡º',
+        marker: '04',
+        status: 'info'
+      },
+      {
+        id: 'watch_permission_sync',
+        title: 'æ‰‹æœºæƒé™åŒæ­¥åˆ°æ‰‹è¡¨',
+        subtitle: 'æ¨¡æ‹Ÿæ‰‹æœºç«¯è®¤è¯æƒé™é€šè¿‡åˆ†å¸ƒå¼é€šé“åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨ã€‚',
+        buttonText: 'æ¨¡æ‹ŸåŒæ­¥',
+        marker: '05',
+        status: 'success'
+      }
+    ];
+  }
+
+  static defenseDemoResult(type: DemoScenarioType): DefenseDemoResult {
+    const timestamp = PortalMockService.nowText();
+    if (type === 'student_gate_success') {
+      return {
+        title: 'æ ¡é—¨è®¤è¯æˆåŠŸ',
+        summary: 'student001 å·²é€šè¿‡å—é—¨ç»ˆç«¯æ— æ„Ÿè®¤è¯',
+        detail: 'å¯ä¿¡æ‰‹æœº phone-001 è¢«è¯†åˆ«ï¼Œé£é™©è¯„åˆ† 18ï¼Œé—¨ç¦ç»ˆç«¯è¿”å›æ”¾è¡Œç»“æœã€‚',
+        status: 'success',
+        timestamp
+      };
+    }
+    if (type === 'blacklist_block') {
+      return {
+        title: 'é»‘åå•æ‹¦æˆª',
+        summary: 'visitor009 è®¾å¤‡è¢«å—é—¨ç»ˆç«¯æ‹¦æˆª',
+        detail: 'è®¾å¤‡ watch-017 å‘½ä¸­é»‘åå•ï¼Œé£é™©ç­‰çº§é«˜ï¼Œå·²å†™å…¥é£é™©æ—¥å¿—å¹¶æç¤ºç®¡ç†å‘˜ã€‚',
+        status: 'danger',
+        timestamp
+      };
+    }
+    if (type === 'late_return_alert') {
+      return {
+        title: 'æ™šå½’æé†’å·²è§¦å‘',
+        summary: 'student001 23:42 è¿”å›å®¿èˆ',
+        detail: 'ç³»ç»Ÿè¯†åˆ«ä¸ºæ™šå½’åœºæ™¯ï¼Œå·²é€šçŸ¥è¾…å¯¼å‘˜ç«¯å¹¶ä¿ç•™å­¦ç”Ÿé€šè¡Œè®°å½•ã€‚',
+        status: 'warning',
+        timestamp
+      };
+    }
+    if (type === 'teacher_export') {
+      return {
+        title: 'è€ƒå‹¤è¡¨å¯¼å‡ºå®Œæˆ',
+        summary: 'ç‹è€å¸ˆå¯¼å‡ºç§»åŠ¨åº”ç”¨å¼€å‘è¯¾ç¨‹è€ƒå‹¤è¡¨',
+        detail: 'å¯¼å‡º 48 äººè€ƒå‹¤è®°å½•ï¼Œå‡ºå‹¤ç‡ 93.75%ï¼Œå¼‚å¸¸ 2 æ¡ï¼Œç”Ÿæˆæ¨¡æ‹Ÿæ–‡ä»¶ attendance_20260509.xlsxã€‚',
+        status: 'info',
+        timestamp
+      };
+    }
+    return {
+      title: 'æƒé™åŒæ­¥å®Œæˆ',
+      summary: 'æ‰‹æœºç«¯æƒé™å·²åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨',
+      detail: 'æ‰‹æœº phone-001 å°†æ•™å­¦æ¥¼ç­¾åˆ°å’Œå›¾ä¹¦é¦†å…¥é¦†æƒé™åŒæ­¥åˆ° watch-008ï¼Œæ‰‹è¡¨ç«¯å¯ç¦»çº¿å±•ç¤ºæƒé™æ‘˜è¦ã€‚',
+      status: 'success',
+      timestamp
+    };
+  }
+
+  private static nowText(): string {
+    const date = new Date();
+    const hour = `${date.getHours()}`.padStart(2, '0');
+    const minute = `${date.getMinutes()}`.padStart(2, '0');
+    const second = `${date.getSeconds()}`.padStart(2, '0');
+    return `${hour}:${minute}:${second}`;
+  }
+
+  static realNameProfile(): RealNameProfile {
+    return {
+      studentId: 'student001',
+      name: 'ææ˜',
+      college: 'è®¡ç®—æœºä¸ä¿¡æ¯å·¥ç¨‹å­¦é™¢',
+      major: 'è½¯ä»¶å·¥ç¨‹ 2301 ç­',
+      status: 'å·²å®Œæˆå®åè®¤è¯',
+      credential: 'æ ¡å›­ç»Ÿä¸€èº«ä»½è®¤è¯ / æ•™åŠ¡ç³»ç»ŸåŒæ­¥'
+    };
+  }
+
+  static boundDevices(): BoundDeviceInfo[] {
+    return [
+      { id: 'phone-001', name: 'OpenHarmony Phone', owner: 'ææ˜', type: 'æ‰‹æœº', trustLevel: 'é«˜å¯ä¿¡', online: true },
+      { id: 'watch-008', name: 'Campus Watch', owner: 'ææ˜', type: 'æ‰‹è¡¨', trustLevel: 'ä¸­å¯ä¿¡', online: true },
+      { id: 'pad-102', name: 'OpenHarmony Tablet', owner: 'ææ˜', type: 'å¹³æ¿', trustLevel: 'é«˜å¯ä¿¡', online: false }
+    ];
+  }
+
+  static authPermissions(): AuthPermissionOption[] {
+    return [
+      { id: 'p1', name: 'æ•™å­¦æ¥¼æ— æ„Ÿç­¾åˆ°', scene: 'ç»¼åˆæ•™å­¦æ¥¼ / ä¿¡æ¯æ¥¼', enabled: true, riskLevel: 'low' },
+      { id: 'p2', name: 'å›¾ä¹¦é¦†å…¥é¦†è®¤è¯', scene: 'å›¾ä¹¦é¦†é—¸æœº', enabled: true, riskLevel: 'low' },
+      { id: 'p3', name: 'å®éªŒå®¤å¤œé—´é—¨ç¦', scene: 'é‡ç‚¹å®éªŒå®¤', enabled: false, riskLevel: 'high' }
+    ];
+  }
+
+  static passageRecords(): PassageRecordItem[] {
+    return [
+      { id: 'pr-001', studentId: 'student001', deviceId: 'phone-001', place: 'ç»¼åˆæ•™å­¦æ¥¼ A203', result: 'æˆåŠŸ', time: '2026-05-09 08:10', riskLevel: 'low' },
+      { id: 'pr-002', studentId: 'student001', deviceId: 'watch-008', place: 'å›¾ä¹¦é¦†åŒ—é—¨', result: 'æˆåŠŸ', time: '2026-05-09 09:02', riskLevel: 'low' },
+      { id: 'pr-003', studentId: 'teacher001', deviceId: 'watch-017', place: 'é‡ç‚¹å®éªŒå®¤ B102', result: 'æ‹¦æˆª', time: '2026-05-09 22:35', riskLevel: 'high' }
+    ];
+  }
+
+  static attendanceMetrics(): AttendanceMetric[] {
+    return [
+      { id: 'c1', course: 'ç§»åŠ¨åº”ç”¨å¼€å‘', attended: 15, total: 16, latestTime: 'ä»Šå¤© 08:10' },
+      { id: 'c2', course: 'æ“ä½œç³»ç»Ÿ', attended: 13, total: 16, latestTime: 'æ˜¨å¤© 10:00' },
+      { id: 'c3', course: 'äººå·¥æ™ºèƒ½å¯¼è®º', attended: 16, total: 16, latestTime: 'ä»Šå¤© 14:00' }
+    ];
+  }
+
+  static watchAttendance(): WatchAttendanceItem[] {
+    return [
+      { id: 'wa-001', title: 'ç§»åŠ¨åº”ç”¨å¼€å‘', time: '08:10', place: 'ç»¼åˆæ•™å­¦æ¥¼ A203', status: 'å·²ç­¾åˆ°' },
+      { id: 'wa-002', title: 'å®éªŒè¯¾æé†’', time: '14:00', place: 'è½¯ä»¶å®éªŒå®¤ C401', status: 'å¾…ç­¾åˆ°' }
+    ];
+  }
+
+  static terminalDevices(): TerminalDeviceRecord[] {
+    return [
+      { id: 'term-001', name: 'å›¾ä¹¦é¦†åŒ—é—¨é—¸æœº', place: 'å›¾ä¹¦é¦†åŒ—é—¨', status: 'åœ¨çº¿', lastHeartbeat: '3 ç§’å‰' },
+      { id: 'term-002', name: 'æ•™å­¦æ¥¼ A203 ç­¾åˆ°å±', place: 'ç»¼åˆæ•™å­¦æ¥¼', status: 'åœ¨çº¿', lastHeartbeat: '8 ç§’å‰' },
+      { id: 'term-003', name: 'å®éªŒå®¤ B102 é—¨ç¦', place: 'é‡ç‚¹å®éªŒå®¤', status: 'ç»´æŠ¤ä¸­', lastHeartbeat: '12 åˆ†é’Ÿå‰' }
+    ];
+  }
+
+  static realtimeEvents(): RealtimeAuthEvent[] {
+    return [
+      { id: 'rt-001', terminal: 'A203 ç­¾åˆ°å±', studentId: 'student001', result: 'é€šè¿‡', latency: '46ms', time: '08:10:06', riskLevel: 'low' },
+      { id: 'rt-002', terminal: 'å›¾ä¹¦é¦†é—¸æœº', studentId: 'student018', result: 'é€šè¿‡', latency: '52ms', time: '08:11:18', riskLevel: 'low' },
+      { id: 'rt-003', terminal: 'å®éªŒå®¤é—¨ç¦', studentId: 'visitor009', result: 'æ‹¦æˆª', latency: '73ms', time: '08:12:02', riskLevel: 'high' }
+    ];
+  }
+
+  static adminPermissions(): AdminPermissionItem[] {
+    return [
+      { id: 'ap-001', role: 'è¾…å¯¼å‘˜', scope: 'æŸ¥çœ‹æœ¬å­¦é™¢è€ƒå‹¤', owner: 'å¼ è€å¸ˆ', enabled: true },
+      { id: 'ap-002', role: 'é—¨ç¦ç®¡ç†å‘˜', scope: 'é…ç½®é—¨ç¦è§„åˆ™', owner: 'å®‰ä¿å¤„', enabled: true },
+      { id: 'ap-003', role: 'ä¸´æ—¶è®¿å®¢å®¡æ‰¹', scope: 'ä¸´æ—¶è´¦å·å®¡æ ¸', owner: 'ä¿¡æ¯ä¸­å¿ƒ', enabled: false }
+    ];
+  }
+
+  static accessRules(): AccessRuleItem[] {
+    return [
+      { id: 'rule-001', name: 'æ•™å­¦æ¥¼ä¸Šè¯¾æ—¶æ®µé€šè¡Œ', place: 'æ•™å­¦æ¥¼', timeRange: '07:00-22:00', riskPolicy: 'ä½é£é™©è‡ªåŠ¨é€šè¿‡', enabled: true },
+      { id: 'rule-002', name: 'å®éªŒå®¤å¤œé—´äºŒæ¬¡è®¤è¯', place: 'é‡ç‚¹å®éªŒå®¤', timeRange: '22:00-06:00', riskPolicy: 'ä¸­é«˜é£é™©æ‹¦æˆª', enabled: true },
+      { id: 'rule-003', name: 'å›¾ä¹¦é¦†è®¿å®¢é™åˆ¶', place: 'å›¾ä¹¦é¦†', timeRange: '08:00-21:30', riskPolicy: 'è®¿å®¢éœ€äººå·¥å®¡æ‰¹', enabled: false }
+    ];
+  }
+
+  static blacklist(): BlacklistItem[] {
+    return [
+      { id: 'bl-001', studentId: 'visitor009', name: 'ä¸´æ—¶è®¿å®¢', reason: 'å®éªŒå®¤é«˜é£é™©è®¿é—®', level: 'high', createdAt: '2026-05-09 08:12' },
+      { id: 'bl-002', studentId: 'student088', name: 'é™ˆæŸ', reason: 'è¿ç»­è®¤è¯å¤±è´¥', level: 'medium', createdAt: '2026-05-08 21:30' }
+    ];
+  }
+}
+ÀÔrD‘²../utils/ConstantsÔrE—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂ“ÔrF–§version¤fileªsourceRoot§sources¥names¨mappings´PortalMockService.js ‘µPortalMockService.etsÜ Ü˜”   ” ”	 	” ” ” ”. .”/ /””   ” ” ” ”” ”
+ ” 	” ’” ” Ü ” ” ” ” ” ” ”" ”$ ”) #”+ %”/ )”1 +”Ì@ :”ÌB <”ÌH ÌB”ÌJ ÌD”ÌS ÌM”ÌU ÌOÜ ” ” ” ” ” ” ”" ”$ ”( "”* $”. (”0 *”< 6”> 8”ÌD >”ÌF Ì@”ÌL ÌF”ÌN ÌHÜ ” ” ” ” ” ” ”" ”$ ”' !”) #”- '”/ )”Ì@ :”ÌB <”ÌH ÌB”ÌJ ÌD”ÌS ÌM”ÌU ÌOÜ ” ” ” ” ” ” ”! ”# ”&  ”( "”, &”. (”8 2”: 4”Ì@ :”ÌB <”ÌJ ÌD”ÌL ÌF’”	 ”
+ ’” ” ”” ”
+ ” 	” ’” ” Ü ”  ”  ”  ”  ”  ”  ”'  !”)  #”7  1”9  3”?  9”ÌA  ;”ÌE  ?”ÌG  ÌA”ÌL  ÌF”ÌN  ÌH”ÌW  ÌQ”ÌX  ÌR”Ìg  Ìa”Ìi  Ìc”Ìo  Ìi”Ìq  Ìk”Ìz  Ìt”Ì|  ÌvÜ ” !” !” !” !” !” !”% !”' !!”3 !-”5 !/”; !5”= !7”ÌA !;”ÌC !=”ÌH !ÌB”ÌJ !ÌD”ÌS !ÌM”ÌT !ÌN”Ì^ !ÌX”Ì` !ÌZ”Ìf !Ì`”Ìh !Ìb”Ìn !Ìh”Ìp !ÌjÜ ” "” "” "” "” "”! "”) "#”+ "%”6 "0”8 "2”> "8”Ì@ ":”ÌD ">”ÌF "Ì@”ÌK "ÌE”ÌM "ÌG”ÌV "ÌP”ÌW "ÌQ”Ìe "Ì_”Ìg "Ìa”Ìm "Ìg”Ìo "Ìi”Ìx "Ìr”Ìz "ÌtÜ ” #” #” #” #” #” #”% #”' #!”5 #/”7 #1”= #7”? #9”ÌC #=”ÌE #?”ÌJ #ÌD”ÌL #ÌF”ÌU #ÌO”ÌV #ÌP”Ìd #Ì^”Ìf #Ì`”Ìl #Ìf”Ìn #Ìh”Ìt #Ìn”Ìv #ÌpÜ ” $” $” $” $” $” $”% $”' $!”2 $,”4 $.”: $4”< $6”Ì@ $:”ÌB $<”ÌG $ÌA”ÌI $ÌC”ÌR $ÌL”ÌS $ÌM”Ìb $Ì\”Ìd $Ì^”Ìj $Ìd”Ìl $Ìf”Ìu $Ìo”Ìw $Ìq’”	 %”
+ %’” &” &”” (”
+ (” (	” (’” )” )Ü ” *” *” *” *” *”  *”( *"”* *$”3 *-”5 */”; *5”= *7”ÌA *;”ÌC *=”ÌH *ÌB”ÌJ *ÌD”ÌS *ÌM”ÌT *ÌN”Ìh *Ìb”Ìj *Ìd”Ìp *Ìj”Ìr *Ìl”Ì{ *Ìu”Ì} *ÌwÜ ” +” +” +” +” +”  +”( +"”* +$”4 +.”6 +0”< +6”> +8”ÌB +<”ÌD +>”ÌI +ÌC”ÌK +ÌE”ÌT +ÌN”ÌU +ÌO”Ìh +Ìb”Ìj +Ìd”Ìp +Ìj”Ìr +Ìl”Ìx +Ìr”Ìz +Ìt’”	 ,”
+ ,’” -” -”” /”
+ /” /	” /’” 0” 0Ü ” 1” 1” 1” 1” 1”! 1”) 1#”+ 1%”6 10”8 12”> 18”Ì@ 1:”ÌD 1>”ÌF 1Ì@”ÌK 1ÌE”ÌM 1ÌG”ÌV 1ÌP”ÌW 1ÌQ”Ìe 1Ì_”Ìg 1Ìa”Ìm 1Ìg”Ìo 1Ìi”Ìu 1Ìo”Ìw 1ÌqÜ ” 2” 2” 2” 2” 2”! 2”) 2#”+ 2%”5 2/”7 21”= 27”? 29”ÌC 2=”ÌE 2?”ÌJ 2ÌD”ÌL 2ÌF”ÌU 2ÌO”ÌV 2ÌP”Ìl 2Ìf”Ìn 2Ìh”Ìt 2Ìn”Ìv 2Ìp”Ì 2Ìy”Ì 2Ì{’”	 3”
+ 3’” 4” 4”” 6”
+ 6” 6	” 6’” 7” 7Ü ” 8” 8” 8” 8” 8”  8”( 8"”* 8$”6 80”8 82”> 88”Ì@ 8:”ÌD 8>”ÌF 8Ì@”ÌK 8ÌE”ÌM 8ÌG”ÌV 8ÌP”ÌW 8ÌQ”Ìk 8Ìe”Ìm 8Ìg”Ìs 8Ìm”Ìu 8Ìo”Ì~ 8Ìx”Ì€ 8ÌzÜ ” 9” 9” 9” 9” 9”  9”( 9"”* 9$”5 9/”7 91”= 97”? 99”ÌC 9=”ÌE 9?”ÌJ 9ÌD”ÌL 9ÌF”ÌU 9ÌO”ÌV 9ÌP”Ìe 9Ì_”Ìg 9Ìa”Ìm 9Ìg”Ìo 9Ìi”Ìx 9Ìr”Ìz 9ÌtÜ ” :” :” :” :” :” :”' :!”) :#”6 :0”8 :2”> :8”Ì@ ::”ÌD :>”ÌF :Ì@”ÌK :ÌE”ÌM :ÌG”ÌV :ÌP”ÌW :ÌQ”Ìg :Ìa”Ìi :Ìc”Ìo :Ìi”Ìq :Ìk”Ìw :Ìq”Ìy :ÌsÜ ” ;” ;” ;” ;” ;” ;”& ; ”( ;"”3 ;-”5 ;/”; ;5”= ;7”ÌA ;;”ÌC ;=”ÌH ;ÌB”ÌJ ;ÌD”ÌS ;ÌM”ÌT ;ÌN”Ì] ;ÌW”Ì_ ;ÌY”Ìe ;Ì_”Ìg ;Ìa”Ìo ;Ìi”Ìq ;Ìk’”	 <”
+ <’” =” =”” ?”
+ ?” ?	” ?’” Ì@” Ì@Ü ” ÌA” ÌA” ÌA” ÌA” ÌA” ÌA”' ÌA!”) ÌA#”ÌH ÌAÌB”ÌJ ÌAÌD”ÌP ÌAÌJ”ÌR ÌAÌL”ÌV ÌAÌP”ÌX ÌAÌR”Ì] ÌAÌW”Ì_ ÌAÌY”Ìh ÌAÌb”Ìi ÌAÌc”Ìt ÌAÌn”Ìv ÌAÌp”Ì| ÌAÌv”Ì~ ÌAÌx”Ì‡ ÌAÌ”Ì‰ ÌAÌƒ’”	 ÌB”
+ ÌB’” ÌC” ÌC”” ÌE”
+ ÌE” ÌE	” ÌE’” ÌF” ÌF‘” ÌG”” ÌH” ÌH
+” ÌH”* ÌH"”” ÌI” ÌI” ÌI” ÌI”” ÌJ” ÌJ” ÌJ”7 ÌJ/”” ÌK” ÌK” ÌK”$ ÌK”” ÌL” ÌL” ÌL” ÌL”” ÌM” ÌM” ÌM”! ÌM‘” ÌN‘” ÌO”” ÌP” ÌP
+” ÌP”% ÌP”” ÌQ” ÌQ” ÌQ”  ÌQ”” ÌR” ÌR” ÌR”6 ÌR.”” ÌS” ÌS” ÌS”" ÌS”” ÌT” ÌT” ÌT” ÌT”” ÌU” ÌU” ÌU”  ÌU‘” ÌV‘” ÌW”” ÌX” ÌX
+” ÌX”' ÌX”” ÌY” ÌY” ÌY” ÌY”” ÌZ” ÌZ” ÌZ”5 ÌZ-”” Ì[” Ì[” Ì[”$ Ì[”” Ì\” Ì\” Ì\” Ì\”” Ì]” Ì]” Ì]”! Ì]‘” Ì^‘” Ì_”” Ì`” Ì`
+” Ì`”$ Ì`”” Ìa” Ìa” Ìa”  Ìa”” Ìb” Ìb” Ìb”5 Ìb-”” Ìc” Ìc” Ìc”" Ìc”” Ìd” Ìd” Ìd” Ìd”” Ìe” Ìe” Ìe” Ìe‘” Ìf‘” Ìg”” Ìh” Ìh
+” Ìh”+ Ìh#”” Ìi” Ìi” Ìi”" Ìi”” Ìj” Ìj” Ìj”4 Ìj,”” Ìk” Ìk” Ìk”" Ìk”” Ìl” Ìl” Ìl” Ìl”” Ìm” Ìm” Ìm”! Ìm‘” Ìn’”	 Ìo”
+ Ìo’” Ìp” Ìp–” Ìr”
+ Ìr” Ìr	” Ìr” Ìr”! Ìr1™” Ìs” Ìs
+” Ìs” Ìs”+ Ìs'”, Ìs(”3 Ìs/”5 Ìs1”6 Ìs2–” Ìt” Ìt” Ìt” Ìt”+ Ìt'”- Ìt)’” Ìu” Ìu”” Ìv” Ìv” Ìv” Ìv”” Ìw” Ìw” Ìw”1 Ìw)”” Ìx” Ìx” Ìx”Ì@ Ìx8”” Ìy” Ìy” Ìy”! Ìy’” Ìz” Ìz’” Ì{” Ì{‘”	 Ì|–” Ì}” Ì}” Ì}” Ì}”& Ì}"”( Ì}$’” Ì~” Ì~”” Ì” Ì” Ì” Ì”” Ì€” Ì€” Ì€”/ Ì€'”” Ì” Ì” Ì”ÌA Ì9”” Ì‚” Ì‚” Ì‚”  Ì‚’” Ìƒ” Ìƒ’” Ì„” Ì„‘”	 Ì…–” Ì†” Ì†” Ì†” Ì†”( Ì†$”* Ì†&’” Ì‡” Ì‡”” Ìˆ” Ìˆ” Ìˆ”  Ìˆ”” Ì‰” Ì‰” Ì‰”0 Ì‰(”” ÌŠ” ÌŠ” ÌŠ”5 ÌŠ-”” Ì‹” Ì‹” Ì‹”! Ì‹’” ÌŒ” ÌŒ’” Ì” Ì‘”	 Ì–” Ì” Ì” Ì” Ì”% Ì!”' Ì#’” Ì” Ì”” Ì‘” Ì‘” Ì‘”  Ì‘”” Ì’” Ì’” Ì’”+ Ì’#”” Ì“” Ì“” Ì“”ÌX Ì“ÌP”” Ì”” Ì”” Ì”” Ì”’” Ì•” Ì•’” Ì–” Ì–‘”	 Ì—’” Ì˜” Ì˜”” Ì™” Ì™” Ì™” Ì™”” Ìš” Ìš” Ìš”$ Ìš”” Ì›” Ì›” Ì›”ÌL Ì›ÌF”” Ìœ” Ìœ” Ìœ” Ìœ’” Ì” Ì’”	 Ì”
+ Ì’” ÌŸ” ÌŸ”” Ì¡
+”
+ Ì¡” Ì¡” Ì¡˜” Ì¢” Ì¢
+” Ì¢” Ì¢” Ì¢” Ì¢” Ì¢”  Ì¢Ü ” Ì£” Ì£
+” Ì£” Ì£” Ì£” Ì£” Ì£”% Ì£!”' Ì£#”) Ì£%”* Ì£&”2 Ì£.”3 Ì£/”4 Ì£0”6 Ì£2”9 Ì£5”: Ì£6”; Ì£7Ü ” Ì¤” Ì¤
+” Ì¤” Ì¤” Ì¤” Ì¤” Ì¤”) Ì¤%”+ Ì¤'”- Ì¤)”. Ì¤*”6 Ì¤2”7 Ì¤3”8 Ì¤4”: Ì¤6”= Ì¤9”> Ì¤:”? Ì¤;Ü ” Ì¥” Ì¥
+” Ì¥” Ì¥” Ì¥” Ì¥” Ì¥”) Ì¥%”+ Ì¥'”- Ì¥)”. Ì¥*”6 Ì¥2”7 Ì¥3”8 Ì¥4”: Ì¥6”= Ì¥9”> Ì¥:”? Ì¥;š” Ì¦” Ì¦” Ì¦” Ì¦” Ì¦”  Ì¦”$ Ì¦ ”* Ì¦&”, Ì¦(”- Ì¦)’” Ì§” Ì§”” Ì©”
+ Ì©” Ì©	” Ì©’” Ìª” Ìª”” Ì«” Ì«” Ì«”# Ì«”” Ì¬” Ì¬
+” Ì¬” Ì¬”” Ì­” Ì­” Ì­”! Ì­”” Ì®” Ì®” Ì®”  Ì®”” Ì¯” Ì¯” Ì¯” Ì¯”” Ì°” Ì°” Ì°”+ Ì°%’”	 Ì±”
+ Ì±’” Ì²” Ì²”” Ì´”
+ Ì´” Ì´	” Ì´’” Ìµ” ÌµÜ ” Ì¶” Ì¶” Ì¶
+” Ì¶” Ì¶” Ì¶”# Ì¶”% Ì¶”8 Ì¶2”: Ì¶4”? Ì¶9”ÌA Ì¶;”ÌE Ì¶?”ÌG Ì¶ÌA”ÌK Ì¶ÌE”ÌM Ì¶ÌG”ÌQ Ì¶ÌK”ÌS Ì¶ÌM”Ì] Ì¶ÌW”Ì_ Ì¶ÌY”Ìd Ì¶Ì^”Ìf Ì¶Ì`”Ìl Ì¶Ìf”Ìn Ì¶Ìh”Ìr Ì¶Ìl”Ìt Ì¶ÌnÜ ” Ì·” Ì·” Ì·
+” Ì·” Ì·” Ì·”# Ì·”% Ì·”3 Ì·-”5 Ì·/”: Ì·4”< Ì·6”Ì@ Ì·:”ÌB Ì·<”ÌF Ì·Ì@”ÌH Ì·ÌB”ÌL Ì·ÌF”ÌN Ì·ÌH”ÌX Ì·ÌR”ÌZ Ì·ÌT”Ì_ Ì·ÌY”Ìa Ì·Ì[”Ìg Ì·Ìa”Ìi Ì·Ìc”Ìm Ì·Ìg”Ìo Ì·ÌiÜ ” Ì¸” Ì¸” Ì¸
+” Ì¸” Ì¸” Ì¸”! Ì¸”# Ì¸”7 Ì¸1”9 Ì¸3”> Ì¸8”Ì@ Ì¸:”ÌD Ì¸>”ÌF Ì¸Ì@”ÌJ Ì¸ÌD”ÌL Ì¸ÌF”ÌP Ì¸ÌJ”ÌR Ì¸ÌL”Ì\ Ì¸ÌV”Ì^ Ì¸ÌX”Ìc Ì¸Ì]”Ìe Ì¸Ì_”Ìk Ì¸Ìe”Ìm Ì¸Ìg”Ìr Ì¸Ìl”Ìt Ì¸Ìn’”	 Ì¹”
+ Ì¹’” Ìº” Ìº”” Ì¼”
+ Ì¼” Ì¼	” Ì¼’” Ì½” Ì½Ü ” Ì¾” Ì¾” Ì¾
+” Ì¾” Ì¾” Ì¾” Ì¾” Ì¾”' Ì¾!”) Ì¾#”. Ì¾(”0 Ì¾*”= Ì¾7”? Ì¾9”ÌF Ì¾Ì@”ÌH Ì¾ÌB”ÌL Ì¾ÌF”ÌN Ì¾ÌH”ÌW Ì¾ÌQ”ÌY Ì¾ÌS”Ì^ Ì¾ÌX”Ì` Ì¾ÌZÜ ” Ì¿” Ì¿” Ì¿
+” Ì¿” Ì¿” Ì¿” Ì¿” Ì¿”' Ì¿!”) Ì¿#”. Ì¿(”0 Ì¿*”7 Ì¿1”9 Ì¿3”Ì@ Ì¿:”ÌB Ì¿<”ÌF Ì¿Ì@”ÌH Ì¿ÌB”ÌQ Ì¿ÌK”ÌS Ì¿ÌM”ÌX Ì¿ÌR”ÌZ Ì¿ÌTÜ ” ÌÀ” ÌÀ” ÌÀ
+” ÌÀ” ÌÀ” ÌÀ” ÌÀ” ÌÀ”' ÌÀ!”) ÌÀ#”. ÌÀ(”0 ÌÀ*”7 ÌÀ1”9 ÌÀ3”Ì@ ÌÀ:”ÌB ÌÀ<”ÌG ÌÀÌA”ÌI ÌÀÌC”ÌR ÌÀÌL”ÌT ÌÀÌN”ÌZ ÌÀÌT”Ì\ ÌÀÌV’”	 ÌÁ”
+ ÌÁ’” ÌÂ” ÌÂ”” ÌÄ”
+ ÌÄ” ÌÄ	” ÌÄ’” ÌÅ” ÌÅÜ ” ÌÆ” ÌÆ” ÌÆ
+” ÌÆ” ÌÆ” ÌÆ”% ÌÆ”' ÌÆ!”3 ÌÆ-”5 ÌÆ/”= ÌÆ7”? ÌÆ9”ÌJ ÌÆÌD”ÌL ÌÆÌF”ÌQ ÌÆÌK”ÌS ÌÆÌM”Ì_ ÌÆÌY”Ìa ÌÆÌ[”Ìg ÌÆÌa”Ìi ÌÆÌc”Ìm ÌÆÌg”Ìo ÌÆÌi”Ìs ÌÆÌm”Ìu ÌÆÌo”Ì‡ ÌÆÌ”Ì‰ ÌÆÌƒ”Ì’ ÌÆÌŒ”Ì” ÌÆÌ”Ì™ ÌÆÌ“”Ì› ÌÆÌ•Ü ” ÌÇ” ÌÇ” ÌÇ
+” ÌÇ” ÌÇ” ÌÇ”% ÌÇ”' ÌÇ!”3 ÌÇ-”5 ÌÇ/”= ÌÇ7”? ÌÇ9”ÌJ ÌÇÌD”ÌL ÌÇÌF”ÌQ ÌÇÌK”ÌS ÌÇÌM”ÌZ ÌÇÌT”Ì\ ÌÇÌV”Ìb ÌÇÌ\”Ìd ÌÇÌ^”Ìh ÌÇÌb”Ìj ÌÇÌd”Ìn ÌÇÌh”Ìp ÌÇÌj”Ì‚ ÌÇÌ|”Ì„ ÌÇÌ~”Ì ÌÇÌ‡”Ì ÌÇÌ‰”Ì” ÌÇÌ”Ì– ÌÇÌÜ ” ÌÈ” ÌÈ” ÌÈ
+” ÌÈ” ÌÈ” ÌÈ”% ÌÈ”' ÌÈ!”3 ÌÈ-”5 ÌÈ/”= ÌÈ7”? ÌÈ9”ÌJ ÌÈÌD”ÌL ÌÈÌF”ÌQ ÌÈÌK”ÌS ÌÈÌM”Ì_ ÌÈÌY”Ìa ÌÈÌ[”Ìg ÌÈÌa”Ìi ÌÈÌc”Ìm ÌÈÌg”Ìo ÌÈÌi”Ìs ÌÈÌm”Ìu ÌÈÌo”Ì‡ ÌÈÌ”Ì‰ ÌÈÌƒ”Ì’ ÌÈÌŒ”Ì” ÌÈÌ”Ìš ÌÈÌ””Ìœ ÌÈÌ–’”	 ÌÉ”
+ ÌÉ’” ÌÊ” ÌÊ”” ÌÌ”
+ ÌÌ” ÌÌ	” ÌÌ’” ÌÍ” ÌÍÜ ” ÌÎ” ÌÎ” ÌÎ
+” ÌÎ” ÌÎ” ÌÎ” ÌÎ”  ÌÎ”( ÌÎ"”* ÌÎ$”2 ÌÎ,”4 ÌÎ.”6 ÌÎ0”8 ÌÎ2”= ÌÎ7”? ÌÎ9”ÌA ÌÎ;”ÌC ÌÎ=”ÌM ÌÎÌG”ÌO ÌÎÌI”ÌY ÌÎÌS”Ì[ ÌÎÌUÜ ” ÌÏ” ÌÏ” ÌÏ
+” ÌÏ” ÌÏ” ÌÏ” ÌÏ”  ÌÏ”& ÌÏ ”( ÌÏ"”0 ÌÏ*”2 ÌÏ,”4 ÌÏ.”6 ÌÏ0”; ÌÏ5”= ÌÏ7”? ÌÏ9”ÌA ÌÏ;”ÌK ÌÏÌE”ÌM ÌÏÌG”ÌW ÌÏÌQ”ÌY ÌÏÌSÜ ” ÌĞ” ÌĞ” ÌĞ
+” ÌĞ” ÌĞ” ÌĞ” ÌĞ”  ÌĞ”( ÌĞ"”* ÌĞ$”2 ÌĞ,”4 ÌĞ.”6 ÌĞ0”8 ÌĞ2”= ÌĞ7”? ÌĞ9”ÌA ÌĞ;”ÌC ÌĞ=”ÌM ÌĞÌG”ÌO ÌĞÌI”ÌY ÌĞÌS”Ì[ ÌĞÌU’”	 ÌÑ”
+ ÌÑ’” ÌÒ” ÌÒ”” ÌÔ”
+ ÌÔ” ÌÔ	” ÌÔ’” ÌÕ” ÌÕÜ ” ÌÖ” ÌÖ” ÌÖ
+” ÌÖ” ÌÖ” ÌÖ”! ÌÖ”# ÌÖ”+ ÌÖ%”- ÌÖ'”1 ÌÖ+”3 ÌÖ-”: ÌÖ4”< ÌÖ6”ÌA ÌÖ;”ÌC ÌÖ=”ÌO ÌÖÌI”ÌQ ÌÖÌK”ÌW ÌÖÌQ”ÌY ÌÖÌS”Ì^ ÌÖÌX”Ì` ÌÖÌZÜ ” Ì×” Ì×” Ì×
+” Ì×” Ì×” Ì×”! Ì×”# Ì×”* Ì×$”, Ì×&”0 Ì×*”2 Ì×,”9 Ì×3”; Ì×5”Ì@ Ì×:”ÌB Ì×<”ÌN Ì×ÌH”ÌP Ì×ÌJ”ÌV Ì×ÌP”ÌX Ì×ÌR”Ì] Ì×ÌW”Ì_ Ì×ÌY’”	 ÌØ”
+ ÌØ’” ÌÙ” ÌÙ”” ÌÛ”
+ ÌÛ” ÌÛ	” ÌÛ’” ÌÜ” ÌÜÜ ” Ìİ” Ìİ” Ìİ
+” Ìİ” Ìİ” Ìİ”" Ìİ”$ Ìİ”- Ìİ'”/ Ìİ)”4 Ìİ.”6 Ìİ0”= Ìİ7”? Ìİ9”ÌE Ìİ?”ÌG ÌİÌA”ÌK ÌİÌE”ÌM ÌİÌG”ÌZ ÌİÌT”Ì\ ÌİÌV”Ìb ÌİÌ\”Ìd ÌİÌ^Ü ” ÌŞ” ÌŞ” ÌŞ
+” ÌŞ” ÌŞ” ÌŞ”" ÌŞ”$ ÌŞ”2 ÌŞ,”4 ÌŞ.”9 ÌŞ3”; ÌŞ5”ÌB ÌŞ<”ÌD ÌŞ>”ÌJ ÌŞÌD”ÌL ÌŞÌF”ÌP ÌŞÌJ”ÌR ÌŞÌL”Ì_ ÌŞÌY”Ìa ÌŞÌ[”Ìg ÌŞÌa”Ìi ÌŞÌcÜ ” Ìß” Ìß” Ìß
+” Ìß” Ìß” Ìß”" Ìß”$ Ìß”1 Ìß+”3 Ìß-”8 Ìß2”: Ìß4”ÌA Ìß;”ÌC Ìß=”ÌI ÌßÌC”ÌK ÌßÌE”ÌP ÌßÌJ”ÌR ÌßÌL”Ì_ ÌßÌY”Ìa ÌßÌ[”Ìi ÌßÌc”Ìk ÌßÌe’”	 Ìà”
+ Ìà’” Ìá” Ìá”” Ìã”
+ Ìã” Ìã	” Ìã’” Ìä” ÌäÜ ” Ìå” Ìå” Ìå
+” Ìå” Ìå” Ìå”$ Ìå”& Ìå ”0 Ìå*”2 Ìå,”; Ìå5”= Ìå7”ÌI ÌåÌC”ÌK ÌåÌE”ÌQ ÌåÌK”ÌS ÌåÌM”ÌW ÌåÌQ”ÌY ÌåÌS”Ì` ÌåÌZ”Ìb ÌåÌ\”Ìh ÌåÌb”Ìj ÌåÌd”Ìn ÌåÌh”Ìp ÌåÌj”Ìz ÌåÌt”Ì| ÌåÌv”Ì… ÌåÌ”Ì‡ ÌåÌ”ÌŒ ÌåÌ†”Ì ÌåÌˆÜ ” Ìæ” Ìæ” Ìæ
+” Ìæ” Ìæ” Ìæ”$ Ìæ”& Ìæ ”- Ìæ'”/ Ìæ)”8 Ìæ2”: Ìæ4”ÌF ÌæÌ@”ÌH ÌæÌB”ÌN ÌæÌH”ÌP ÌæÌJ”ÌT ÌæÌN”ÌV ÌæÌP”Ì] ÌæÌW”Ì_ ÌæÌY”Ìe ÌæÌ_”Ìg ÌæÌa”Ìk ÌæÌe”Ìm ÌæÌg”Ìw ÌæÌq”Ìy ÌæÌs”Ì‚ ÌæÌ|”Ì„ ÌæÌ~”Ì‰ ÌæÌƒ”Ì‹ ÌæÌ…Ü ” Ìç” Ìç” Ìç
+” Ìç” Ìç” Ìç”$ Ìç”& Ìç ”- Ìç'”/ Ìç)”8 Ìç2”: Ìç4”ÌF ÌçÌ@”ÌH ÌçÌB”ÌN ÌçÌH”ÌP ÌçÌJ”ÌT ÌçÌN”ÌV ÌçÌP”Ì] ÌçÌW”Ì_ ÌçÌY”Ìe ÌçÌ_”Ìg ÌçÌa”Ìk ÌçÌe”Ìm ÌçÌg”Ìw ÌçÌq”Ìy ÌçÌs”Ì‚ ÌçÌ|”Ì„ ÌçÌ~”ÌŠ ÌçÌ„”ÌŒ ÌçÌ†’”	 Ìè”
+ Ìè’” Ìé” Ìé”” Ìë”
+ Ìë” Ìë	” Ìë’” Ìì” ÌìÜ ” Ìí” Ìí” Ìí
+” Ìí” Ìí” Ìí”  Ìí”" Ìí”' Ìí!”) Ìí#”. Ìí(”0 Ìí*”9 Ìí3”; Ìí5”Ì@ Ìí:”ÌB Ìí<”ÌG ÌíÌA”ÌI ÌíÌC”ÌP ÌíÌJ”ÌR ÌíÌL”ÌV ÌíÌP”ÌX ÌíÌRÜ ” Ìî” Ìî” Ìî
+” Ìî” Ìî” Ìî”  Ìî”" Ìî”) Ìî#”+ Ìî%”0 Ìî*”2 Ìî,”: Ìî4”< Ìî6”ÌA Ìî;”ÌC Ìî=”ÌH ÌîÌB”ÌJ ÌîÌD”ÌQ ÌîÌK”ÌS ÌîÌM”ÌW ÌîÌQ”ÌY ÌîÌSÜ ” Ìï” Ìï” Ìï
+” Ìï” Ìï” Ìï”  Ìï”" Ìï”* Ìï$”, Ìï&”1 Ìï+”3 Ìï-”; Ìï5”= Ìï7”ÌB Ìï<”ÌD Ìï>”ÌJ ÌïÌD”ÌL ÌïÌF”ÌS ÌïÌM”ÌU ÌïÌO”ÌZ ÌïÌT”Ì\ ÌïÌV’”	 Ìğ”
+ Ìğ’” Ìñ” Ìñ”” Ìó”
+ Ìó” Ìó	” Ìó’” Ìô” ÌôÜ ” Ìõ” Ìõ” Ìõ
+” Ìõ” Ìõ” Ìõ”" Ìõ”$ Ìõ”/ Ìõ)”1 Ìõ+”6 Ìõ0”8 Ìõ2”= Ìõ7”? Ìõ9”ÌH ÌõÌB”ÌJ ÌõÌD”ÌW ÌõÌQ”ÌY ÌõÌS”Ìc ÌõÌ]”Ìe ÌõÌ_”Ìn ÌõÌh”Ìp ÌõÌj”Ìw ÌõÌq”Ìy ÌõÌs”Ì} ÌõÌw”Ì ÌõÌyÜ ” Ìö” Ìö” Ìö
+” Ìö” Ìö” Ìö”" Ìö”$ Ìö”/ Ìö)”1 Ìö+”6 Ìö0”8 Ìö2”? Ìö9”ÌA Ìö;”ÌJ ÌöÌD”ÌL ÌöÌF”ÌY ÌöÌS”Ì[ ÌöÌU”Ìe ÌöÌ_”Ìg ÌöÌa”Ìo ÌöÌi”Ìq ÌöÌk”Ìx ÌöÌr”Ìz ÌöÌt”Ì~ ÌöÌx”Ì€ ÌöÌzÜ ” Ì÷” Ì÷” Ì÷
+” Ì÷” Ì÷” Ì÷”" Ì÷”$ Ì÷”- Ì÷'”/ Ì÷)”4 Ì÷.”6 Ì÷0”; Ì÷5”= Ì÷7”ÌF Ì÷Ì@”ÌH Ì÷ÌB”ÌU Ì÷ÌO”ÌW Ì÷ÌQ”Ìa Ì÷Ì[”Ìc Ì÷Ì]”Ìl Ì÷Ìf”Ìn Ì÷Ìh”Ìu Ì÷Ìo”Ìw Ì÷Ìq”Ì| Ì÷Ìv”Ì~ Ì÷Ìx’”	 Ìø”
+ Ìø’” Ìù” Ìù”” Ìû”
+ Ìû” Ìû	” Ìû’” Ìü” ÌüÜ ” Ìı” Ìı” Ìı
+” Ìı” Ìı” Ìı”% Ìı”' Ìı!”3 Ìı-”5 Ìı/”9 Ìı3”; Ìı5”ÌA Ìı;”ÌC Ìı=”ÌI ÌıÌC”ÌK ÌıÌE”ÌU ÌıÌO”ÌW ÌıÌQ”Ì\ ÌıÌV”Ì^ ÌıÌX”Ìd ÌıÌ^”Ìf ÌıÌ`”Ìo ÌıÌi”Ìq ÌıÌk”Ìƒ ÌıÌ}”Ì… ÌıÌÜ ” Ìş” Ìş” Ìş
+” Ìş” Ìş” Ìş”% Ìş”' Ìş!”3 Ìş-”5 Ìş/”9 Ìş3”; Ìş5”? Ìş9”ÌA Ìş;”ÌG ÌşÌA”ÌI ÌşÌC”ÌQ ÌşÌK”ÌS ÌşÌM”ÌX ÌşÌR”ÌZ ÌşÌT”Ìb ÌşÌ\”Ìd ÌşÌ^”Ìm ÌşÌg”Ìo ÌşÌi”Ì ÌşÌ{”Ìƒ ÌşÌ}’”	 Ìÿ”
+ Ìÿ’” Í ” Í ‘” ÍÔrG–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ İ‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ì ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ‘”  Ìµ ‘”  Ì¶ ‘”  Ì· ‘”  Ì¸ ‘”  Ì¹ ‘”  Ìº ‘”  Ì» ‘”  Ì¼ ‘”  Ì½ ‘”  Ì¾ ‘”  Ì¿ ‘”  ÌÀ ‘”  ÌÁ ‘”  ÌÂ ‘”  ÌÃ ‘”  ÌÄ ‘”  ÌÅ ‘”  ÌÆ ‘”  ÌÇ ‘”  ÌÈ ‘”  ÌÉ ‘”  ÌÊ ‘”  ÌË ‘”  ÌÌ ‘”  ÌÍ ‘”  ÌÎ ‘”  ÌÏ ‘”  ÌĞ ‘”  ÌÑ ‘”  ÌÒ ‘”  ÌÓ ‘”  ÌÔ ‘”  ÌÕ ‘”  ÌÖ ‘”  Ì× ‘”  ÌØ ‘”  ÌÙ ‘”  ÌÚ ‘”  ÌÛ ‘”  ÌÜ ÔrH’§missing¦pluginÃ¦genAbcÂÔ  ÔrI”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache‘ÔrJ–¤type¥start£end«declarationªspecifiers¦source¶ExportNamedDeclaration1Í'`ÔrK–¤type¥start£end¢idªsuperClass¤body°ClassDeclaration8Í'`ÔrL”¤type¥start£end¤nameªIdentifier>ÌO±PortalMockServiceÀÔrM”¤type¥start£end¤body©ClassBodyÌPÍ'`Ü ÔrN˜¤type¥start£end¦static¨computed£key¤kind¥value°MethodDefinitionÌWÍãÃÂLªIdentifierÌ^Ìk­overviewStats¦methodÔrO™¤type¥start£end¢idªexpression©generator¥async¦params¤body²FunctionExpressionÌkÍãÀÂÂÂM®BlockStatementÌnÍã‘ÔrP”¤type¥start£end¨argument¯ReturnStatementÌyÍÜÔrQ”¤type¥start£end¨elements¯ArrayExpressionÌ€ÍÛ”ÔrR”¤type¥start£endªproperties°ObjectExpressionÌÌØ”ÔrS™¤type¥start£end¦method©shorthand¨computed£key¥value¤kind¨PropertyÌ‘ÌÂÂÂLªIdentifierÌ‘Ì–¥titleÔrT•¤type¥start£end¥value£raw§LiteralÌ˜Ì¬ä»Šæ—¥è®¤è¯®'ä»Šæ—¥è®¤è¯'¤initS¨PropertyÌ Ì¬ÂÂÂLªIdentifierÌ Ì¥¥valueT§LiteralÌ§Ì¬£286¥'286'¤initS¨PropertyÌ®ÌÃÂÂÂLªIdentifierÌ®Ì²¤hintT§LiteralÌ´ÌÃ»æ— æ„Ÿè®¤è¯æˆåŠŸç‡ 98.6%½'æ— æ„Ÿè®¤è¯æˆåŠŸç‡ 98.6%'¤initS¨PropertyÌÅÌÖÂÂÂLªIdentifierÌÅÌË¦statusT§LiteralÌÍÌÖ§success©'success'¤initR°ObjectExpressionÌçÍ)”S¨PropertyÌéÌöÂÂÂLªIdentifierÌéÌî¥titleT§LiteralÌğÌö¬åœ¨çº¿è®¾å¤‡®'åœ¨çº¿è®¾å¤‡'¤initS¨PropertyÌøÍÂÂÂLªIdentifierÌøÌı¥valueT§LiteralÌÿÍ¢42¤'42'¤initS¨PropertyÍÍÂÂÂLªIdentifierÍÍ	¤hintT§LiteralÍÍ¾æ‰‹è¡¨ã€é—¨ç¦ã€æ•™å­¦ç»ˆç«¯Ù 'æ‰‹è¡¨ã€é—¨ç¦ã€æ•™å­¦ç»ˆç«¯'¤initS¨PropertyÍÍ'ÂÂÂLªIdentifierÍÍ¦statusT§LiteralÍ!Í'¤info¦'info'¤initR°ObjectExpressionÍ8Í”S¨PropertyÍ:ÍGÂÂÂLªIdentifierÍ:Í?¥titleT§LiteralÍAÍG¬é£é™©äº‹ä»¶®'é£é™©äº‹ä»¶'¤initS¨PropertyÍIÍSÂÂÂLªIdentifierÍIÍN¥valueT§LiteralÍPÍS¡7£'7'¤initS¨PropertyÍUÍlÂÂÂLªIdentifierÍUÍY¤hintT§LiteralÍ[ÍlÙ!é«˜é£é™© 1 æ¡ï¼Œä¸­é£é™© 6 æ¡Ù#'é«˜é£é™© 1 æ¡ï¼Œä¸­é£é™© 6 æ¡'¤initS¨PropertyÍnÍÂÂÂLªIdentifierÍnÍt¦statusT§LiteralÍvÍ§warning©'warning'¤initR°ObjectExpressionÍÍĞ”S¨PropertyÍ’ÍÂÂÂLªIdentifierÍ’Í—¥titleT§LiteralÍ™Í©é»‘åå•«'é»‘åå•'¤initS¨PropertyÍ ÍªÂÂÂLªIdentifierÍ Í¥¥valueT§LiteralÍ§Íª¡3£'3'¤initS¨PropertyÍ¬Í¼ÂÂÂLªIdentifierÍ¬Í°¤hintT§LiteralÍ²Í¼¸é—¨ç¦ç­–ç•¥å®æ—¶ç”Ÿæ•ˆº'é—¨ç¦ç­–ç•¥å®æ—¶ç”Ÿæ•ˆ'¤initS¨PropertyÍ¾ÍÎÂÂÂLªIdentifierÍ¾ÍÄ¦statusT§LiteralÍÆÍÎ¦danger¨'danger'¤initN°MethodDefinitionÍéÍˆÃÂLªIdentifierÍğÍş®studentActions¦methodO²FunctionExpressionÍşÍˆÀÂÂÂM®BlockStatementÍÍˆ‘P¯ReturnStatementÍÍQ¯ArrayExpressionÍÍ€•R°ObjectExpressionÍ"Í’•S¨PropertyÍ$Í3ÂÂÂLªIdentifierÍ$Í)¥titleT§LiteralÍ+Í3²å­¦ç”Ÿå®åè®¤è¯´'å­¦ç”Ÿå®åè®¤è¯'¤initS¨PropertyÍ5ÍMÂÂÂLªIdentifierÍ5Í=¨subtitleT§LiteralÍ?ÍMÙ$æ ¸éªŒå­¦å·ã€å§“åã€å­¦é™¢ä¿¡æ¯Ù&'æ ¸éªŒå­¦å·ã€å§“åã€å­¦é™¢ä¿¡æ¯'¤initS¨PropertyÍOÍ[ÂÂÂLªIdentifierÍOÍU¦markerT§LiteralÍWÍ[¢ID¤'ID'¤initS¨PropertyÍ]Í}ÂÂÂLªIdentifierÍ]Íb¥routeÔrU—¤type¥start£end¦object¨property¨computed¨optional°MemberExpressionÍdÍ}LªIdentifierÍdÍm©AppRoutesLªIdentifierÍnÍ}¯studentRealNameÂÂ¤initS¨PropertyÍÍÂÂÂLªIdentifierÍÍ…¦statusT§LiteralÍ‡Í§success©'success'¤initR°ObjectExpressionÍ¡Í•S¨PropertyÍ£Í°ÂÂÂLªIdentifierÍ£Í¨¥titleT§LiteralÍªÍ°¬è®¾å¤‡ç»‘å®š®'è®¾å¤‡ç»‘å®š'¤initS¨PropertyÍ²ÍÈÂÂÂLªIdentifierÍ²Íº¨subtitleT§LiteralÍ¼ÍÈ¾ç»‘å®šæ‰‹æœºã€æ‰‹è¡¨å’Œå¹³æ¿Ù 'ç»‘å®šæ‰‹æœºã€æ‰‹è¡¨å’Œå¹³æ¿'¤initS¨PropertyÍÊÍÖÂÂÂLªIdentifierÍÊÍĞ¦markerT§LiteralÍÒÍÖ¢DV¤'DV'¤initS¨PropertyÍØÍóÂÂÂLªIdentifierÍØÍİ¥routeU°MemberExpressionÍßÍóLªIdentifierÍßÍè©AppRoutesLªIdentifierÍéÍóªdeviceBindÂÂ¤initS¨PropertyÍõÍÂÂÂLªIdentifierÍõÍû¦statusT§LiteralÍıÍ¤info¦'info'¤initR°ObjectExpressionÍÍ‚•S¨PropertyÍÍ'ÂÂÂLªIdentifierÍÍ¥titleT§LiteralÍÍ'¸æ— æ„Ÿè®¤è¯æƒé™è®¾ç½®º'æ— æ„Ÿè®¤è¯æƒé™è®¾ç½®'¤initS¨PropertyÍ)Í>ÂÂÂLªIdentifierÍ)Í1¨subtitleT§LiteralÍ3Í>»æŒ‰åœºæ™¯å¯åœæ— æ„Ÿè®¤è¯½'æŒ‰åœºæ™¯å¯åœæ— æ„Ÿè®¤è¯'¤initS¨PropertyÍ@ÍLÂÂÂLªIdentifierÍ@ÍF¦markerT§LiteralÍHÍL¢AU¤'AU'¤initS¨PropertyÍNÍmÂÂÂLªIdentifierÍNÍS¥routeU°MemberExpressionÍUÍmLªIdentifierÍUÍ^©AppRoutesLªIdentifierÍ_Ím®authPermissionÂÂ¤initS¨PropertyÍoÍ€ÂÂÂLªIdentifierÍoÍu¦statusT§LiteralÍwÍ€§warning©'warning'¤initR°ObjectExpressionÍ‘Íû•S¨PropertyÍ“Í ÂÂÂLªIdentifierÍ“Í˜¥titleT§LiteralÍšÍ ¬é€šè¡Œè®°å½•®'é€šè¡Œè®°å½•'¤initS¨PropertyÍ¢ÍºÂÂÂLªIdentifierÍ¢Íª¨subtitleT§LiteralÍ¬ÍºÙ$é—¨ç¦ã€å›¾ä¹¦é¦†ã€æ•™å­¦æ¥¼è®°å½•Ù&'é—¨ç¦ã€å›¾ä¹¦é¦†ã€æ•™å­¦æ¥¼è®°å½•'¤initS¨PropertyÍ¼ÍÈÂÂÂLªIdentifierÍ¼ÍÂ¦markerT§LiteralÍÄÍÈ¢RE¤'RE'¤initS¨PropertyÍÊÍéÂÂÂLªIdentifierÍÊÍÏ¥routeU°MemberExpressionÍÑÍéLªIdentifierÍÑÍÚ©AppRoutesLªIdentifierÍÛÍé®passageRecordsÂÂ¤initS¨PropertyÍëÍùÂÂÂLªIdentifierÍëÍñ¦statusT§LiteralÍóÍù¤info¦'info'¤initR°ObjectExpressionÍ
+Íu•S¨PropertyÍÍÂÂÂLªIdentifierÍÍ¥titleT§LiteralÍÍ¬è€ƒå‹¤ç»Ÿè®¡®'è€ƒå‹¤ç»Ÿè®¡'¤initS¨PropertyÍÍ0ÂÂÂLªIdentifierÍÍ#¨subtitleT§LiteralÍ%Í0»è¯¾ç¨‹ç­¾åˆ°ä¸ç¼ºå‹¤è¶‹åŠ¿½'è¯¾ç¨‹ç­¾åˆ°ä¸ç¼ºå‹¤è¶‹åŠ¿'¤initS¨PropertyÍ2Í>ÂÂÂLªIdentifierÍ2Í8¦markerT§LiteralÍ:Í>¢AT¤'AT'¤initS¨PropertyÍ@Í`ÂÂÂLªIdentifierÍ@ÍE¥routeU°MemberExpressionÍGÍ`LªIdentifierÍGÍP©AppRoutesLªIdentifierÍQÍ`¯attendanceStatsÂÂ¤initS¨PropertyÍbÍsÂÂÂLªIdentifierÍbÍh¦statusT§LiteralÍjÍs§success©'success'¤initN°MethodDefinitionÍÍÆÃÂLªIdentifierÍ•Í¡¬watchActions¦methodO²FunctionExpressionÍ¡ÍÆÀÂÂÂM®BlockStatementÍ¤ÍÆ‘P¯ReturnStatementÍ¯Í¿Q¯ArrayExpressionÍ¶Í¾’R°ObjectExpressionÍÅÍ6•S¨PropertyÍÇÍ×ÂÂÂLªIdentifierÍÇÍÌ¥titleT§LiteralÍÎÍ×µæ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤·'æ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤'¤initS¨PropertyÍÙÍìÂÂÂLªIdentifierÍÙÍá¨subtitleT§LiteralÍãÍìµè½»é‡åŒ–è€ƒå‹¤æé†’·'è½»é‡åŒ–è€ƒå‹¤æé†’'¤initS¨PropertyÍîÍúÂÂÂLªIdentifierÍîÍô¦markerT§LiteralÍöÍú¢WA¤'WA'¤initS¨PropertyÍüÍ!ÂÂÂLªIdentifierÍüÍ¥routeU°MemberExpressionÍÍ!LªIdentifierÍÍ©AppRoutesLªIdentifierÍÍ!´watchTodayAttendanceÂÂ¤initS¨PropertyÍ#Í4ÂÂÂLªIdentifierÍ#Í)¦statusT§LiteralÍ+Í4§success©'success'¤initR°ObjectExpressionÍEÍ³•S¨PropertyÍGÍWÂÂÂLªIdentifierÍGÍL¥titleT§LiteralÍNÍWµæ‰‹è¡¨ç«¯é€šè¡Œè®°å½•·'æ‰‹è¡¨ç«¯é€šè¡Œè®°å½•'¤initS¨PropertyÍYÍmÂÂÂLªIdentifierÍYÍa¨subtitleT§LiteralÍcÍm¸æŸ¥çœ‹è¿‘åœºé€šè¡Œåé¦ˆº'æŸ¥çœ‹è¿‘åœºé€šè¡Œåé¦ˆ'¤initS¨PropertyÍoÍ{ÂÂÂLªIdentifierÍoÍu¦markerT§LiteralÍwÍ{¢WR¤'WR'¤initS¨PropertyÍ}Í¡ÂÂÂLªIdentifierÍ}Í‚¥routeU°MemberExpressionÍ„Í¡LªIdentifierÍ„Í©AppRoutesLªIdentifierÍÍ¡³watchPassageRecordsÂÂ¤initS¨PropertyÍ£Í±ÂÂÂLªIdentifierÍ£Í©¦statusT§LiteralÍ«Í±¤info¦'info'¤initN°MethodDefinitionÍÌÍÃÂLªIdentifierÍÓÍâ¯terminalActions¦methodO²FunctionExpressionÍâÍÀÂÂÂM®BlockStatementÍåÍ‘P¯ReturnStatementÍğÍQ¯ArrayExpressionÍ÷Í ’R°ObjectExpressionÍÍq•S¨PropertyÍÍÂÂÂLªIdentifierÍÍ¥titleT§LiteralÍÍ¸æ ¡å›­ç»ˆç«¯è®¾å¤‡å¤‡æ¡ˆº'æ ¡å›­ç»ˆç«¯è®¾å¤‡å¤‡æ¡ˆ'¤initS¨PropertyÍÍ0ÂÂÂLªIdentifierÍÍ#¨subtitleT§LiteralÍ%Í0»ç™»è®°é—¨ç¦ä¸ç­¾åˆ°ç»ˆç«¯½'ç™»è®°é—¨ç¦ä¸ç­¾åˆ°ç»ˆç«¯'¤initS¨PropertyÍ2Í>ÂÂÂLªIdentifierÍ2Í8¦markerT§LiteralÍ:Í>¢TF¤'TF'¤initS¨PropertyÍ@Í_ÂÂÂLªIdentifierÍ@ÍE¥routeU°MemberExpressionÍGÍ_LªIdentifierÍGÍP©AppRoutesLªIdentifierÍQÍ_®terminalFilingÂÂ¤initS¨PropertyÍaÍoÂÂÂLªIdentifierÍaÍg¦statusT§LiteralÍiÍo¤info¦'info'¤initR°ObjectExpressionÍ€Íõ•S¨PropertyÍ‚Í“ÂÂÂLªIdentifierÍ‚Í‡¥titleT§LiteralÍ‰Í“¸ç»ˆç«¯å®æ—¶è®¤è¯å¤§å±º'ç»ˆç«¯å®æ—¶è®¤è¯å¤§å±'¤initS¨PropertyÍ•Í©ÂÂÂLªIdentifierÍ•Í¨subtitleT§LiteralÍŸÍ©¸å®æ—¶æ˜¾ç¤ºè®¤è¯æ€åŠ¿º'å®æ—¶æ˜¾ç¤ºè®¤è¯æ€åŠ¿'¤initS¨PropertyÍ«Í·ÂÂÂLªIdentifierÍ«Í±¦markerT§LiteralÍ³Í·¢RT¤'RT'¤initS¨PropertyÍ¹ÍàÂÂÂLªIdentifierÍ¹Í¾¥routeU°MemberExpressionÍÀÍàLªIdentifierÍÀÍÉ©AppRoutesLªIdentifierÍÊÍà¶terminalRealtimeScreenÂÂ¤initS¨PropertyÍâÍóÂÂÂLªIdentifierÍâÍè¦statusT§LiteralÍêÍó§success©'success'¤initN°MethodDefinitionÍÍ	9ÃÂLªIdentifierÍÍ!¬adminActions¦methodO²FunctionExpressionÍ!Í	9ÀÂÂÂM®BlockStatementÍ$Í	9‘P¯ReturnStatementÍ/Í	2Q¯ArrayExpressionÍ6Í	1”R°ObjectExpressionÍEÍ¹•S¨PropertyÍGÍWÂÂÂLªIdentifierÍGÍL¥titleT§LiteralÍNÍWµç®¡ç†å‘˜å‡ºå‹¤ç»Ÿè®¡·'ç®¡ç†å‘˜å‡ºå‹¤ç»Ÿè®¡'¤initS¨PropertyÍYÍoÂÂÂLªIdentifierÍYÍa¨subtitleT§LiteralÍcÍo¾æŒ‰å­¦é™¢å’Œè¯¾ç¨‹æ±‡æ€»å‡ºå‹¤Ù 'æŒ‰å­¦é™¢å’Œè¯¾ç¨‹æ±‡æ€»å‡ºå‹¤'¤initS¨PropertyÍqÍ}ÂÂÂLªIdentifierÍqÍw¦markerT§LiteralÍyÍ}¢AS¤'AS'¤initS¨PropertyÍÍ¤ÂÂÂLªIdentifierÍÍ„¥routeU°MemberExpressionÍ†Í¤LªIdentifierÍ†Í©AppRoutesLªIdentifierÍÍ¤´adminAttendanceStatsÂÂ¤initS¨PropertyÍ¦Í·ÂÂÂLªIdentifierÍ¦Í¬¦statusT§LiteralÍ®Í·§success©'success'¤initR°ObjectExpressionÍÈÍ6•S¨PropertyÍÊÍÚÂÂÂLªIdentifierÍÊÍÏ¥titleT§LiteralÍÑÍÚµç®¡ç†å‘˜æƒé™ç®¡ç†·'ç®¡ç†å‘˜æƒé™ç®¡ç†'¤initS¨PropertyÍÜÍñÂÂÂLªIdentifierÍÜÍä¨subtitleT§LiteralÍæÍñ»é…ç½®è§’è‰²ä¸æ“ä½œèŒƒå›´½'é…ç½®è§’è‰²ä¸æ“ä½œèŒƒå›´'¤initS¨PropertyÍóÍÿÂÂÂLªIdentifierÍóÍù¦markerT§LiteralÍûÍÿ¢PM¤'PM'¤initS¨PropertyÍÍ!ÂÂÂLªIdentifierÍÍ¥routeU°MemberExpressionÍÍ!LªIdentifierÍÍ©AppRoutesLªIdentifierÍÍ!¯adminPermissionÂÂ¤initS¨PropertyÍ#Í4ÂÂÂLªIdentifierÍ#Í)¦statusT§LiteralÍ+Í4§warning©'warning'¤initR°ObjectExpressionÍEÍ²•S¨PropertyÍGÍVÂÂÂLªIdentifierÍGÍL¥titleT§LiteralÍNÍV²é—¨ç¦è§„åˆ™é…ç½®´'é—¨ç¦è§„åˆ™é…ç½®'¤initS¨PropertyÍXÍoÂÂÂLªIdentifierÍXÍ`¨subtitleT§LiteralÍbÍoÙ!ç®¡ç†é€šè¡Œæ—¶é—´å’Œé£æ§ç­–ç•¥Ù#'ç®¡ç†é€šè¡Œæ—¶é—´å’Œé£æ§ç­–ç•¥'¤initS¨PropertyÍqÍ}ÂÂÂLªIdentifierÍqÍw¦markerT§LiteralÍyÍ}¢AR¤'AR'¤initS¨PropertyÍÍ ÂÂÂLªIdentifierÍÍ„¥routeU°MemberExpressionÍ†Í LªIdentifierÍ†Í©AppRoutesLªIdentifierÍÍ °accessRuleConfigÂÂ¤initS¨PropertyÍ¢Í°ÂÂÂLªIdentifierÍ¢Í¨¦statusT§LiteralÍªÍ°¤info¦'info'¤initR°ObjectExpressionÍÁÍ	&•S¨PropertyÍÃÍÑÂÂÂLªIdentifierÍÃÍÈ¥titleT§LiteralÍÊÍÑ¯é»‘åå•ç®¡ç†±'é»‘åå•ç®¡ç†'¤initS¨PropertyÍÓÍèÂÂÂLªIdentifierÍÓÍÛ¨subtitleT§LiteralÍİÍè»é«˜é£é™©è´¦å·é™åˆ¶é€šè¡Œ½'é«˜é£é™©è´¦å·é™åˆ¶é€šè¡Œ'¤initS¨PropertyÍêÍöÂÂÂLªIdentifierÍêÍğ¦markerT§LiteralÍòÍö¢BL¤'BL'¤initS¨PropertyÍøÍ	ÂÂÂLªIdentifierÍøÍı¥routeU°MemberExpressionÍÿÍ	LªIdentifierÍÿÍ	©AppRoutesLªIdentifierÍ		Í	©blacklistÂÂ¤initS¨PropertyÍ	Í	$ÂÂÂLªIdentifierÍ	Í	¦statusT§LiteralÍ	Í	$¦danger¨'danger'¤initN°MethodDefinitionÍ	?Í
+ÃÂLªIdentifierÍ	FÍ	Q«demoActions¦methodO²FunctionExpressionÍ	QÍ
+ÀÂÂÂM®BlockStatementÍ	TÍ
+‘P¯ReturnStatementÍ	_Í	şQ¯ArrayExpressionÍ	fÍ	ı‘R°ObjectExpressionÍ	uÍ	ò•S¨PropertyÍ	wÍ	†ÂÂÂLªIdentifierÍ	wÍ	|¥titleT§LiteralÍ	~Í	†²ç­”è¾©æ¼”ç¤ºæ¨¡å¼´'ç­”è¾©æ¼”ç¤ºæ¨¡å¼'¤initS¨PropertyÍ	ˆÍ	±ÂÂÂLªIdentifierÍ	ˆÍ	¨subtitleT§LiteralÍ	’Í	±ÙWä¸€é”®æ¨¡æ‹Ÿæ ¡é—¨è®¤è¯ã€é»‘åå•æ‹¦æˆªã€æ™šå½’æé†’ã€è€ƒå‹¤å¯¼å‡ºå’Œæ‰‹è¡¨åŒæ­¥ÙY'ä¸€é”®æ¨¡æ‹Ÿæ ¡é—¨è®¤è¯ã€é»‘åå•æ‹¦æˆªã€æ™šå½’æé†’ã€è€ƒå‹¤å¯¼å‡ºå’Œæ‰‹è¡¨åŒæ­¥'¤initS¨PropertyÍ	³Í	¿ÂÂÂLªIdentifierÍ	³Í	¹¦markerT§LiteralÍ	»Í	¿¢DE¤'DE'¤initS¨PropertyÍ	ÁÍ	İÂÂÂLªIdentifierÍ	ÁÍ	Æ¥routeU°MemberExpressionÍ	ÈÍ	İLªIdentifierÍ	ÈÍ	Ñ©AppRoutesLªIdentifierÍ	ÒÍ	İ«defenseDemoÂÂ¤initS¨PropertyÍ	ßÍ	ğÂÂÂLªIdentifierÍ	ßÍ	å¦statusT§LiteralÍ	çÍ	ğ§success©'success'¤initN°MethodDefinitionÍ
+Í‰ÃÂLªIdentifierÍ
+Í
+&´defenseDemoScenarios¦methodO²FunctionExpressionÍ
+&Í‰ÀÂÂÂM®BlockStatementÍ
+)Í‰‘P¯ReturnStatementÍ
+4Í‚Q¯ArrayExpressionÍ
+;Í•R°ObjectExpressionÍ
+JÍL–S¨PropertyÍ
+]Í
+wÂÂÂLªIdentifierÍ
+]Í
+_¢idT§LiteralÍ
+aÍ
+w´student_gate_success¶'student_gate_success'¤initS¨PropertyÍ
+ŠÍ
+™ÂÂÂLªIdentifierÍ
+ŠÍ
+¥titleT§LiteralÍ
+‘Í
+™²å­¦ç”Ÿé è¿‘æ ¡é—¨´'å­¦ç”Ÿé è¿‘æ ¡é—¨'¤initS¨PropertyÍ
+¬Í
+ÓÂÂÂLªIdentifierÍ
+¬Í
+´¨subtitleT§LiteralÍ
+¶Í
+ÓÙQæ¨¡æ‹Ÿå­¦ç”Ÿæºå¸¦å¯ä¿¡æ‰‹æœºé è¿‘æ ¡é—¨ï¼Œç»ˆç«¯å®Œæˆæ— æ„Ÿè®¤è¯å¹¶æ”¾è¡Œã€‚ÙS'æ¨¡æ‹Ÿå­¦ç”Ÿæºå¸¦å¯ä¿¡æ‰‹æœºé è¿‘æ ¡é—¨ï¼Œç»ˆç«¯å®Œæˆæ— æ„Ÿè®¤è¯å¹¶æ”¾è¡Œã€‚'¤initS¨PropertyÍ
+æÍ
+úÂÂÂLªIdentifierÍ
+æÍ
+ğªbuttonTextT§LiteralÍ
+òÍ
+ú²æ¨¡æ‹Ÿè®¤è¯æˆåŠŸ´'æ¨¡æ‹Ÿè®¤è¯æˆåŠŸ'¤initS¨PropertyÍÍÂÂÂLªIdentifierÍÍ¦markerT§LiteralÍÍ¢01¤'01'¤initS¨PropertyÍ,Í=ÂÂÂLªIdentifierÍ,Í2¦statusT§LiteralÍ4Í=§success©'success'¤initR°ObjectExpressionÍ[ÍU–S¨PropertyÍnÍƒÂÂÂLªIdentifierÍnÍp¢idT§LiteralÍrÍƒ¯blacklist_block±'blacklist_block'¤initS¨PropertyÍ–Í¦ÂÂÂLªIdentifierÍ–Í›¥titleT§LiteralÍÍ¦µé»‘åå•è®¾å¤‡é è¿‘·'é»‘åå•è®¾å¤‡é è¿‘'¤initS¨PropertyÍ¹ÍßÂÂÂLªIdentifierÍ¹ÍÁ¨subtitleT§LiteralÍÃÍßÙNæ¨¡æ‹Ÿé»‘åå•è®¾å¤‡è§¦å‘é—¨ç¦é£æ§ï¼Œç»ˆç«¯æ‹¦æˆªå¹¶å†™å…¥é£é™©æ—¥å¿—ã€‚ÙP'æ¨¡æ‹Ÿé»‘åå•è®¾å¤‡è§¦å‘é—¨ç¦é£æ§ï¼Œç»ˆç«¯æ‹¦æˆªå¹¶å†™å…¥é£é™©æ—¥å¿—ã€‚'¤initS¨PropertyÍòÍÂÂÂLªIdentifierÍòÍüªbuttonTextT§LiteralÍşÍ¬æ¨¡æ‹Ÿæ‹¦æˆª®'æ¨¡æ‹Ÿæ‹¦æˆª'¤initS¨PropertyÍÍ#ÂÂÂLªIdentifierÍÍ¦markerT§LiteralÍÍ#¢02¤'02'¤initS¨PropertyÍ6ÍFÂÂÂLªIdentifierÍ6Í<¦statusT§LiteralÍ>ÍF¦danger¨'danger'¤initR°ObjectExpressionÍdÍa–S¨PropertyÍwÍÂÂÂLªIdentifierÍwÍy¢idT§LiteralÍ{Í±late_return_alert³'late_return_alert'¤initS¨PropertyÍ¡Í°ÂÂÂLªIdentifierÍ¡Í¦¥titleT§LiteralÍ¨Í°²å­¦ç”Ÿæ™šå½’æé†’´'å­¦ç”Ÿæ™šå½’æé†’'¤initS¨PropertyÍÃÍèÂÂÂLªIdentifierÍÃÍË¨subtitleT§LiteralÍÍÍèÙKæ¨¡æ‹Ÿå­¦ç”Ÿå¤œé—´å›å®¿èˆï¼Œç³»ç»Ÿé€šçŸ¥è¾…å¯¼å‘˜å¹¶ç”Ÿæˆæ™šå½’æé†’ã€‚ÙM'æ¨¡æ‹Ÿå­¦ç”Ÿå¤œé—´å›å®¿èˆï¼Œç³»ç»Ÿé€šçŸ¥è¾…å¯¼å‘˜å¹¶ç”Ÿæˆæ™šå½’æé†’ã€‚'¤initS¨PropertyÍûÍÂÂÂLªIdentifierÍûÍªbuttonTextT§LiteralÍÍ²æ¨¡æ‹Ÿæ™šå½’æé†’´'æ¨¡æ‹Ÿæ™šå½’æé†’'¤initS¨PropertyÍ"Í.ÂÂÂLªIdentifierÍ"Í(¦markerT§LiteralÍ*Í.¢03¤'03'¤initS¨PropertyÍAÍRÂÂÂLªIdentifierÍAÍG¦statusT§LiteralÍIÍR§warning©'warning'¤initR°ObjectExpressionÍpÍf–S¨PropertyÍƒÍ—ÂÂÂLªIdentifierÍƒÍ…¢idT§LiteralÍ‡Í—®teacher_export°'teacher_export'¤initS¨PropertyÍªÍºÂÂÂLªIdentifierÍªÍ¯¥titleT§LiteralÍ±Íºµæ•™å¸ˆå¯¼å‡ºè€ƒå‹¤è¡¨·'æ•™å¸ˆå¯¼å‡ºè€ƒå‹¤è¡¨'¤initS¨PropertyÍÍÍòÂÂÂLªIdentifierÍÍÍÕ¨subtitleT§LiteralÍ×ÍòÙKæ¨¡æ‹Ÿæ•™å¸ˆæŒ‰è¯¾ç¨‹å¯¼å‡ºè€ƒå‹¤æ±‡æ€»è¡¨ï¼Œä¸ä¾èµ–çœŸå®æ–‡ä»¶ç³»ç»Ÿã€‚ÙM'æ¨¡æ‹Ÿæ•™å¸ˆæŒ‰è¯¾ç¨‹å¯¼å‡ºè€ƒå‹¤æ±‡æ€»è¡¨ï¼Œä¸ä¾èµ–çœŸå®æ–‡ä»¶ç³»ç»Ÿã€‚'¤initS¨PropertyÍÍÂÂÂLªIdentifierÍÍªbuttonTextT§LiteralÍÍ¬æ¨¡æ‹Ÿå¯¼å‡º®'æ¨¡æ‹Ÿå¯¼å‡º'¤initS¨PropertyÍ*Í6ÂÂÂLªIdentifierÍ*Í0¦markerT§LiteralÍ2Í6¢04¤'04'¤initS¨PropertyÍIÍWÂÂÂLªIdentifierÍIÍO¦statusT§LiteralÍQÍW¤info¦'info'¤initR°ObjectExpressionÍuÍv–S¨PropertyÍˆÍ£ÂÂÂLªIdentifierÍˆÍŠ¢idT§LiteralÍŒÍ£µwatch_permission_sync·'watch_permission_sync'¤initS¨PropertyÍ¶ÍÈÂÂÂLªIdentifierÍ¶Í»¥titleT§LiteralÍ½ÍÈ»æ‰‹æœºæƒé™åŒæ­¥åˆ°æ‰‹è¡¨½'æ‰‹æœºæƒé™åŒæ­¥åˆ°æ‰‹è¡¨'¤initS¨PropertyÍÛÍÿÂÂÂLªIdentifierÍÛÍã¨subtitleT§LiteralÍåÍÿÙHæ¨¡æ‹Ÿæ‰‹æœºç«¯è®¤è¯æƒé™é€šè¿‡åˆ†å¸ƒå¼é€šé“åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨ã€‚ÙJ'æ¨¡æ‹Ÿæ‰‹æœºç«¯è®¤è¯æƒé™é€šè¿‡åˆ†å¸ƒå¼é€šé“åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨ã€‚'¤initS¨PropertyÍÍ$ÂÂÂLªIdentifierÍÍªbuttonTextT§LiteralÍÍ$¬æ¨¡æ‹ŸåŒæ­¥®'æ¨¡æ‹ŸåŒæ­¥'¤initS¨PropertyÍ7ÍCÂÂÂLªIdentifierÍ7Í=¦markerT§LiteralÍ?ÍC¢05¤'05'¤initS¨PropertyÍVÍgÂÂÂLªIdentifierÍVÍ\¦statusT§LiteralÍ^Íg§success©'success'¤initN°MethodDefinitionÍÍ¯ÃÂLªIdentifierÍ–Í§±defenseDemoResult¦methodO²FunctionExpressionÍ§Í¯ÀÂÂÂ‘LªIdentifierÍ¨Í¬¤typeM®BlockStatementÍ®Í¯–ÔrV•¤type¥start£end¬declarations¤kind³VariableDeclarationÍ¹Íç‘ÔrW•¤type¥start£end¢id¤init²VariableDeclaratorÍ¿ÍæLªIdentifierÍ¿ÍÈ©timestampÔrX–¤type¥start£end¦callee©arguments¨optional®CallExpressionÍËÍæU°MemberExpressionÍËÍäLªIdentifierÍËÍÜ±PortalMockServiceLªIdentifierÍİÍä§nowTextÂÂÂ¥constÔrY–¤type¥start£end¤testªconsequent©alternate«IfStatementÍñÍ ÔrZ–¤type¥start£end¤left¨operator¥right°BinaryExpressionÍõÍLªIdentifierÍõÍù¤type£===T§LiteralÍşÍ´student_gate_success¶'student_gate_success'M®BlockStatementÍÍ ‘P¯ReturnStatementÍ%ÍR°ObjectExpressionÍ,Í•S¨PropertyÍ?ÍNÂÂÂLªIdentifierÍ?ÍD¥titleT§LiteralÍFÍN²æ ¡é—¨è®¤è¯æˆåŠŸ´'æ ¡é—¨è®¤è¯æˆåŠŸ'¤initS¨PropertyÍaÍ‚ÂÂÂLªIdentifierÍaÍh§summaryT§LiteralÍjÍ‚Ù,student001 å·²é€šè¿‡å—é—¨ç»ˆç«¯æ— æ„Ÿè®¤è¯Ù.'student001 å·²é€šè¿‡å—é—¨ç»ˆç«¯æ— æ„Ÿè®¤è¯'¤initS¨PropertyÍ•ÍÅÂÂÂLªIdentifierÍ•Í›¦detailT§LiteralÍÍÅÙVå¯ä¿¡æ‰‹æœº phone-001 è¢«è¯†åˆ«ï¼Œé£é™©è¯„åˆ† 18ï¼Œé—¨ç¦ç»ˆç«¯è¿”å›æ”¾è¡Œç»“æœã€‚ÙX'å¯ä¿¡æ‰‹æœº phone-001 è¢«è¯†åˆ«ï¼Œé£é™©è¯„åˆ† 18ï¼Œé—¨ç¦ç»ˆç«¯è¿”å›æ”¾è¡Œç»“æœã€‚'¤initS¨PropertyÍØÍéÂÂÂLªIdentifierÍØÍŞ¦statusT§LiteralÍàÍé§success©'success'¤initÔr[™¤type¥start£end¦method©shorthand¨computed£key¤kind¥value¨PropertyÍüÍÂÃÂLªIdentifierÍüÍ©timestamp¤initLªIdentifierÍüÍ©timestampÀY«IfStatementÍ*ÍQZ°BinaryExpressionÍ.ÍHLªIdentifierÍ.Í2¤type£===T§LiteralÍ7ÍH¯blacklist_block±'blacklist_block'M®BlockStatementÍJÍQ‘P¯ReturnStatementÍYÍFR°ObjectExpressionÍ`ÍE•S¨PropertyÍsÍÂÂÂLªIdentifierÍsÍx¥titleT§LiteralÍzÍ¯é»‘åå•æ‹¦æˆª±'é»‘åå•æ‹¦æˆª'¤initS¨PropertyÍ”Í³ÂÂÂLªIdentifierÍ”Í›§summaryT§LiteralÍÍ³Ù&visitor009 è®¾å¤‡è¢«å—é—¨ç»ˆç«¯æ‹¦æˆªÙ('visitor009 è®¾å¤‡è¢«å—é—¨ç»ˆç«¯æ‹¦æˆª'¤initS¨PropertyÍÆÍ÷ÂÂÂLªIdentifierÍÆÍÌ¦detailT§LiteralÍÎÍ÷Ù_è®¾å¤‡ watch-017 å‘½ä¸­é»‘åå•ï¼Œé£é™©ç­‰çº§é«˜ï¼Œå·²å†™å…¥é£é™©æ—¥å¿—å¹¶æç¤ºç®¡ç†å‘˜ã€‚Ùa'è®¾å¤‡ watch-017 å‘½ä¸­é»‘åå•ï¼Œé£é™©ç­‰çº§é«˜ï¼Œå·²å†™å…¥é£é™©æ—¥å¿—å¹¶æç¤ºç®¡ç†å‘˜ã€‚'¤initS¨PropertyÍ
+ÍÂÂÂLªIdentifierÍ
+Í¦statusT§LiteralÍÍ¦danger¨'danger'¤init[¨PropertyÍ-Í6ÂÃÂLªIdentifierÍ-Í6©timestamp¤initLªIdentifierÍ-Í6©timestampÀY«IfStatementÍ[Í|Z°BinaryExpressionÍ_Í{LªIdentifierÍ_Íc¤type£===T§LiteralÍhÍ{±late_return_alert³'late_return_alert'M®BlockStatementÍ}Í|‘P¯ReturnStatementÍŒÍqR°ObjectExpressionÍ“Íp•S¨PropertyÍ¦Í¶ÂÂÂLªIdentifierÍ¦Í«¥titleT§LiteralÍ­Í¶µæ™šå½’æé†’å·²è§¦å‘·'æ™šå½’æé†’å·²è§¦å‘'¤initS¨PropertyÍÉÍéÂÂÂLªIdentifierÍÉÍĞ§summaryT§LiteralÍÒÍé½student001 23:42 è¿”å›å®¿èˆ¿'student001 23:42 è¿”å›å®¿èˆ'¤initS¨PropertyÍüÍ!ÂÂÂLªIdentifierÍüÍ¦detailT§LiteralÍÍ!ÙQç³»ç»Ÿè¯†åˆ«ä¸ºæ™šå½’åœºæ™¯ï¼Œå·²é€šçŸ¥è¾…å¯¼å‘˜ç«¯å¹¶ä¿ç•™å­¦ç”Ÿé€šè¡Œè®°å½•ã€‚ÙS'ç³»ç»Ÿè¯†åˆ«ä¸ºæ™šå½’åœºæ™¯ï¼Œå·²é€šçŸ¥è¾…å¯¼å‘˜ç«¯å¹¶ä¿ç•™å­¦ç”Ÿé€šè¡Œè®°å½•ã€‚'¤initS¨PropertyÍ4ÍEÂÂÂLªIdentifierÍ4Í:¦statusT§LiteralÍ<ÍE§warning©'warning'¤init[¨PropertyÍXÍaÂÃÂLªIdentifierÍXÍa©timestamp¤initLªIdentifierÍXÍa©timestampÀY«IfStatementÍ†Í¿Z°BinaryExpressionÍŠÍ£LªIdentifierÍŠÍ¤type£===T§LiteralÍ“Í£®teacher_export°'teacher_export'M®BlockStatementÍ¥Í¿‘P¯ReturnStatementÍ´Í´R°ObjectExpressionÍ»Í³•S¨PropertyÍÎÍŞÂÂÂLªIdentifierÍÎÍÓ¥titleT§LiteralÍÕÍŞµè€ƒå‹¤è¡¨å¯¼å‡ºå®Œæˆ·'è€ƒå‹¤è¡¨å¯¼å‡ºå®Œæˆ'¤initS¨PropertyÍñÍÂÂÂLªIdentifierÍñÍø§summaryT§LiteralÍúÍÙ0ç‹è€å¸ˆå¯¼å‡ºç§»åŠ¨åº”ç”¨å¼€å‘è¯¾ç¨‹è€ƒå‹¤è¡¨Ù2'ç‹è€å¸ˆå¯¼å‡ºç§»åŠ¨åº”ç”¨å¼€å‘è¯¾ç¨‹è€ƒå‹¤è¡¨'¤initS¨PropertyÍÍgÂÂÂLªIdentifierÍÍ%¦detailT§LiteralÍ'ÍgÙlå¯¼å‡º 48 äººè€ƒå‹¤è®°å½•ï¼Œå‡ºå‹¤ç‡ 93.75%ï¼Œå¼‚å¸¸ 2 æ¡ï¼Œç”Ÿæˆæ¨¡æ‹Ÿæ–‡ä»¶ attendance_20260509.xlsxã€‚Ùn'å¯¼å‡º 48 äººè€ƒå‹¤è®°å½•ï¼Œå‡ºå‹¤ç‡ 93.75%ï¼Œå¼‚å¸¸ 2 æ¡ï¼Œç”Ÿæˆæ¨¡æ‹Ÿæ–‡ä»¶ attendance_20260509.xlsxã€‚'¤initS¨PropertyÍzÍˆÂÂÂLªIdentifierÍzÍ€¦statusT§LiteralÍ‚Íˆ¤info¦'info'¤init[¨PropertyÍ›Í¤ÂÃÂLªIdentifierÍ›Í¤©timestamp¤initLªIdentifierÍ›Í¤©timestampÀP¯ReturnStatementÍÉÍ¨R°ObjectExpressionÍĞÍ§•S¨PropertyÍßÍîÂÂÂLªIdentifierÍßÍä¥titleT§LiteralÍæÍî²æƒé™åŒæ­¥å®Œæˆ´'æƒé™åŒæ­¥å®Œæˆ'¤initS¨PropertyÍıÍÂÂÂLªIdentifierÍıÍ§summaryT§LiteralÍÍÙ'æ‰‹æœºç«¯æƒé™å·²åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨Ù)'æ‰‹æœºç«¯æƒé™å·²åŒæ­¥åˆ°é¸¿è’™æ‰‹è¡¨'¤initS¨PropertyÍ$ÍdÂÂÂLªIdentifierÍ$Í*¦detailT§LiteralÍ,ÍdÙxæ‰‹æœº phone-001 å°†æ•™å­¦æ¥¼ç­¾åˆ°å’Œå›¾ä¹¦é¦†å…¥é¦†æƒé™åŒæ­¥åˆ° watch-008ï¼Œæ‰‹è¡¨ç«¯å¯ç¦»çº¿å±•ç¤ºæƒé™æ‘˜è¦ã€‚Ùz'æ‰‹æœº phone-001 å°†æ•™å­¦æ¥¼ç­¾åˆ°å’Œå›¾ä¹¦é¦†å…¥é¦†æƒé™åŒæ­¥åˆ° watch-008ï¼Œæ‰‹è¡¨ç«¯å¯ç¦»çº¿å±•ç¤ºæƒé™æ‘˜è¦ã€‚'¤initS¨PropertyÍsÍ„ÂÂÂLªIdentifierÍsÍy¦statusT§LiteralÍ{Í„§success©'success'¤init[¨PropertyÍ“ÍœÂÃÂLªIdentifierÍ“Íœ©timestamp¤initLªIdentifierÍ“Íœ©timestampN°MethodDefinitionÍµÍŞÃÂLªIdentifierÍ¼ÍÃ§nowText¦methodO²FunctionExpressionÍÃÍŞÀÂÂÂM®BlockStatementÍÆÍŞ•V³VariableDeclarationÍÑÍé‘W²VariableDeclaratorÍ×ÍèLªIdentifierÍ×ÍÛ¤dateÔr\•¤type¥start£end¦callee©arguments­NewExpressionÍŞÍèLªIdentifierÍâÍæ¤Date¥constV³VariableDeclarationÍóÍ&‘W²VariableDeclaratorÍùÍ%LªIdentifierÍùÍı¤hourX®CallExpressionÍ Í%U°MemberExpressionÍ ÍÔr]•¤type¥start£end«expressions¦quasis¯TemplateLiteralÍ Í‘X®CallExpressionÍÍU°MemberExpressionÍÍLªIdentifierÍÍ¤dateLªIdentifierÍÍ¨getHoursÂÂÂ’Ôr^•¤type¥start£end¥value¤tail¯TemplateElementÍÍÔr_’£raw¦cooked  Â^¯TemplateElementÍÍ_  ÃLªIdentifierÍÍ¨padStartÂÂ’T§LiteralÍÍ¡2T§LiteralÍ!Í$¡0£'0'Â¥constV³VariableDeclarationÍ0Íg‘W²VariableDeclaratorÍ6ÍfLªIdentifierÍ6Í<¦minuteX®CallExpressionÍ?ÍfU°MemberExpressionÍ?Í^]¯TemplateLiteralÍ?ÍU‘X®CallExpressionÍBÍSU°MemberExpressionÍBÍQLªIdentifierÍBÍF¤dateLªIdentifierÍGÍQªgetMinutesÂÂÂ’^¯TemplateElementÍ@Í@_  Â^¯TemplateElementÍTÍT_  ÃLªIdentifierÍVÍ^¨padStartÂÂ’T§LiteralÍ_Í`¡2T§LiteralÍbÍe¡0£'0'Â¥constV³VariableDeclarationÍqÍ¨‘W²VariableDeclaratorÍwÍ§LªIdentifierÍwÍ}¦secondX®CallExpressionÍ€Í§U°MemberExpressionÍ€ÍŸ]¯TemplateLiteralÍ€Í–‘X®CallExpressionÍƒÍ”U°MemberExpressionÍƒÍ’LªIdentifierÍƒÍ‡¤dateLªIdentifierÍˆÍ’ªgetSecondsÂÂÂ’^¯TemplateElementÍÍ_  Â^¯TemplateElementÍ•Í•_  ÃLªIdentifierÍ—ÍŸ¨padStartÂÂ’T§LiteralÍ Í¡¡2T§LiteralÍ£Í¦¡0£'0'Â¥constP¯ReturnStatementÍ²Í×]¯TemplateLiteralÍ¹ÍÖ“LªIdentifierÍ¼ÍÀ¤hourLªIdentifierÍÄÍÊ¦minuteLªIdentifierÍÎÍÔ¦second”^¯TemplateElementÍºÍº_  Â^¯TemplateElementÍÁÍÂ_¡:¡:Â^¯TemplateElementÍËÍÌ_¡:¡:Â^¯TemplateElementÍÕÍÕ_  ÃN°MethodDefinitionÍäÍöÃÂLªIdentifierÍëÍú¯realNameProfile¦methodO²FunctionExpressionÍúÍöÀÂÂÂM®BlockStatementÍıÍö‘P¯ReturnStatementÍÍïR°ObjectExpressionÍÍî–S¨PropertyÍÍ5ÂÂÂLªIdentifierÍÍ'©studentIdT§LiteralÍ)Í5ªstudent001¬'student001'¤initS¨PropertyÍDÍNÂÂÂLªIdentifierÍDÍH¤nameT§LiteralÍJÍN¦ææ˜¨'ææ˜'¤initS¨PropertyÍ]ÍrÂÂÂLªIdentifierÍ]Íd§collegeT§LiteralÍfÍr¾è®¡ç®—æœºä¸ä¿¡æ¯å·¥ç¨‹å­¦é™¢Ù 'è®¡ç®—æœºä¸ä¿¡æ¯å·¥ç¨‹å­¦é™¢'¤initS¨PropertyÍÍ•ÂÂÂLªIdentifierÍÍ†¥majorT§LiteralÍˆÍ•µè½¯ä»¶å·¥ç¨‹ 2301 ç­·'è½¯ä»¶å·¥ç¨‹ 2301 ç­'¤initS¨PropertyÍ¤ÍµÂÂÂLªIdentifierÍ¤Íª¦statusT§LiteralÍ¬Íµµå·²å®Œæˆå®åè®¤è¯·'å·²å®Œæˆå®åè®¤è¯'¤initS¨PropertyÍÄÍãÂÂÂLªIdentifierÍÄÍÎªcredentialT§LiteralÍĞÍãÙ-æ ¡å›­ç»Ÿä¸€èº«ä»½è®¤è¯ / æ•™åŠ¡ç³»ç»ŸåŒæ­¥Ù/'æ ¡å›­ç»Ÿä¸€èº«ä»½è®¤è¯ / æ•™åŠ¡ç³»ç»ŸåŒæ­¥'¤initN°MethodDefinitionÍüÍ—ÃÂLªIdentifierÍÍ¬boundDevices¦methodO²FunctionExpressionÍÍ—ÀÂÂÂM®BlockStatementÍÍ—‘P¯ReturnStatementÍÍQ¯ArrayExpressionÍ$Í“R°ObjectExpressionÍ3Í›–S¨PropertyÍ5ÍDÂÂÂLªIdentifierÍ5Í7¢idT§LiteralÍ9ÍD©phone-001«'phone-001'¤initS¨PropertyÍFÍ_ÂÂÂLªIdentifierÍFÍJ¤nameT§LiteralÍLÍ_±OpenHarmony Phone³'OpenHarmony Phone'¤initS¨PropertyÍaÍlÂÂÂLªIdentifierÍaÍf¥ownerT§LiteralÍhÍl¦ææ˜¨'ææ˜'¤initS¨PropertyÍnÍxÂÂÂLªIdentifierÍnÍr¤typeT§LiteralÍtÍx¦æ‰‹æœº¨'æ‰‹æœº'¤initS¨PropertyÍzÍ‹ÂÂÂLªIdentifierÍzÍ„ªtrustLevelT§LiteralÍ†Í‹©é«˜å¯ä¿¡«'é«˜å¯ä¿¡'¤initS¨PropertyÍÍ™ÂÂÂLªIdentifierÍÍ“¦onlineT§LiteralÍ•Í™Ã¤true¤initR°ObjectExpressionÍªÍ–S¨PropertyÍ¬Í»ÂÂÂLªIdentifierÍ¬Í®¢idT§LiteralÍ°Í»©watch-008«'watch-008'¤initS¨PropertyÍ½ÍÑÂÂÂLªIdentifierÍ½ÍÁ¤nameT§LiteralÍÃÍÑ¬Campus Watch®'Campus Watch'¤initS¨PropertyÍÓÍŞÂÂÂLªIdentifierÍÓÍØ¥ownerT§LiteralÍÚÍŞ¦ææ˜¨'ææ˜'¤initS¨PropertyÍàÍêÂÂÂLªIdentifierÍàÍä¤typeT§LiteralÍæÍê¦æ‰‹è¡¨¨'æ‰‹è¡¨'¤initS¨PropertyÍìÍıÂÂÂLªIdentifierÍìÍöªtrustLevelT§LiteralÍøÍı©ä¸­å¯ä¿¡«'ä¸­å¯ä¿¡'¤initS¨PropertyÍÿÍÂÂÂLªIdentifierÍÿÍ¦onlineT§LiteralÍÍÃ¤true¤initR°ObjectExpressionÍÍ„–S¨PropertyÍÍ+ÂÂÂLªIdentifierÍÍ ¢idT§LiteralÍ"Í+§pad-102©'pad-102'¤initS¨PropertyÍ-ÍGÂÂÂLªIdentifierÍ-Í1¤nameT§LiteralÍ3ÍG²OpenHarmony Tablet´'OpenHarmony Tablet'¤initS¨PropertyÍIÍTÂÂÂLªIdentifierÍIÍN¥ownerT§LiteralÍPÍT¦ææ˜¨'ææ˜'¤initS¨PropertyÍVÍ`ÂÂÂLªIdentifierÍVÍZ¤typeT§LiteralÍ\Í`¦å¹³æ¿¨'å¹³æ¿'¤initS¨PropertyÍbÍsÂÂÂLªIdentifierÍbÍlªtrustLevelT§LiteralÍnÍs©é«˜å¯ä¿¡«'é«˜å¯ä¿¡'¤initS¨PropertyÍuÍ‚ÂÂÂLªIdentifierÍuÍ{¦onlineT§LiteralÍ}Í‚Â¥false¤initN°MethodDefinitionÍÍúÃÂLªIdentifierÍ¤Í³¯authPermissions¦methodO²FunctionExpressionÍ³ÍúÀÂÂÂM®BlockStatementÍ¶Íú‘P¯ReturnStatementÍÁÍóQ¯ArrayExpressionÍÈÍò“R°ObjectExpressionÍ×Í+•S¨PropertyÍÙÍáÂÂÂLªIdentifierÍÙÍÛ¢idT§LiteralÍİÍá¢p1¤'p1'¤initS¨PropertyÍãÍòÂÂÂLªIdentifierÍãÍç¤nameT§LiteralÍéÍòµæ•™å­¦æ¥¼æ— æ„Ÿç­¾åˆ°·'æ•™å­¦æ¥¼æ— æ„Ÿç­¾åˆ°'¤initS¨PropertyÍôÍÂÂÂLªIdentifierÍôÍù¥sceneT§LiteralÍûÍ»ç»¼åˆæ•™å­¦æ¥¼ / ä¿¡æ¯æ¥¼½'ç»¼åˆæ•™å­¦æ¥¼ / ä¿¡æ¯æ¥¼'¤initS¨PropertyÍ
+ÍÂÂÂLªIdentifierÍ
+Í§enabledT§LiteralÍÍÃ¤true¤initS¨PropertyÍÍ)ÂÂÂLªIdentifierÍÍ"©riskLevelT§LiteralÍ$Í)£low¥'low'¤initR°ObjectExpressionÍ:Íˆ•S¨PropertyÍ<ÍDÂÂÂLªIdentifierÍ<Í>¢idT§LiteralÍ@ÍD¢p2¤'p2'¤initS¨PropertyÍFÍUÂÂÂLªIdentifierÍFÍJ¤nameT§LiteralÍLÍUµå›¾ä¹¦é¦†å…¥é¦†è®¤è¯·'å›¾ä¹¦é¦†å…¥é¦†è®¤è¯'¤initS¨PropertyÍWÍeÂÂÂLªIdentifierÍWÍ\¥sceneT§LiteralÍ^Íe¯å›¾ä¹¦é¦†é—¸æœº±'å›¾ä¹¦é¦†é—¸æœº'¤initS¨PropertyÍgÍtÂÂÂLªIdentifierÍgÍn§enabledT§LiteralÍpÍtÃ¤true¤initS¨PropertyÍvÍ†ÂÂÂLªIdentifierÍvÍ©riskLevelT§LiteralÍÍ†£low¥'low'¤initR°ObjectExpressionÍ—Íç•S¨PropertyÍ™Í¡ÂÂÂLªIdentifierÍ™Í›¢idT§LiteralÍÍ¡¢p3¤'p3'¤initS¨PropertyÍ£Í²ÂÂÂLªIdentifierÍ£Í§¤nameT§LiteralÍ©Í²µå®éªŒå®¤å¤œé—´é—¨ç¦·'å®éªŒå®¤å¤œé—´é—¨ç¦'¤initS¨PropertyÍ´ÍÂÂÂÂLªIdentifierÍ´Í¹¥sceneT§LiteralÍ»ÍÂ¯é‡ç‚¹å®éªŒå®¤±'é‡ç‚¹å®éªŒå®¤'¤initS¨PropertyÍÄÍÒÂÂÂLªIdentifierÍÄÍË§enabledT§LiteralÍÍÍÒÂ¥false¤initS¨PropertyÍÔÍåÂÂÂLªIdentifierÍÔÍİ©riskLevelT§LiteralÍßÍå¤high¦'high'¤initN°MethodDefinitionÍ ÍÃÂLªIdentifierÍÍ®passageRecords¦methodO²FunctionExpressionÍÍÀÂÂÂM®BlockStatementÍÍ‘P¯ReturnStatementÍ#ÍQ¯ArrayExpressionÍ*Í“R°ObjectExpressionÍ9ÍÈ—S¨PropertyÍ;ÍGÂÂÂLªIdentifierÍ;Í=¢idT§LiteralÍ?ÍG¦pr-001¨'pr-001'¤initS¨PropertyÍIÍ`ÂÂÂLªIdentifierÍIÍR©studentIdT§LiteralÍTÍ`ªstudent001¬'student001'¤initS¨PropertyÍbÍwÂÂÂLªIdentifierÍbÍj¨deviceIdT§LiteralÍlÍw©phone-001«'phone-001'¤initS¨PropertyÍyÍŒÂÂÂLªIdentifierÍyÍ~¥placeT§LiteralÍ€ÍŒ´ç»¼åˆæ•™å­¦æ¥¼ A203¶'ç»¼åˆæ•™å­¦æ¥¼ A203'¤initS¨PropertyÍÍšÂÂÂLªIdentifierÍÍ”¦resultT§LiteralÍ–Íš¦æˆåŠŸ¨'æˆåŠŸ'¤initS¨PropertyÍœÍ´ÂÂÂLªIdentifierÍœÍ ¤timeT§LiteralÍ¢Í´°2026-05-09 08:10²'2026-05-09 08:10'¤initS¨PropertyÍ¶ÍÆÂÂÂLªIdentifierÍ¶Í¿©riskLevelT§LiteralÍÁÍÆ£low¥'low'¤initR°ObjectExpressionÍ×Ía—S¨PropertyÍÙÍåÂÂÂLªIdentifierÍÙÍÛ¢idT§LiteralÍİÍå¦pr-002¨'pr-002'¤initS¨PropertyÍçÍşÂÂÂLªIdentifierÍçÍğ©studentIdT§LiteralÍòÍşªstudent001¬'student001'¤initS¨PropertyÍ ÍÂÂÂLªIdentifierÍ Í¨deviceIdT§LiteralÍ
+Í©watch-008«'watch-008'¤initS¨PropertyÍÍ%ÂÂÂLªIdentifierÍÍ¥placeT§LiteralÍÍ%¯å›¾ä¹¦é¦†åŒ—é—¨±'å›¾ä¹¦é¦†åŒ—é—¨'¤initS¨PropertyÍ'Í3ÂÂÂLªIdentifierÍ'Í-¦resultT§LiteralÍ/Í3¦æˆåŠŸ¨'æˆåŠŸ'¤initS¨PropertyÍ5ÍMÂÂÂLªIdentifierÍ5Í9¤timeT§LiteralÍ;ÍM°2026-05-09 09:02²'2026-05-09 09:02'¤initS¨PropertyÍOÍ_ÂÂÂLªIdentifierÍOÍX©riskLevelT§LiteralÍZÍ_£low¥'low'¤initR°ObjectExpressionÍpÍ —S¨PropertyÍrÍ~ÂÂÂLªIdentifierÍrÍt¢idT§LiteralÍvÍ~¦pr-003¨'pr-003'¤initS¨PropertyÍ€Í—ÂÂÂLªIdentifierÍ€Í‰©studentIdT§LiteralÍ‹Í—ªteacher001¬'teacher001'¤initS¨PropertyÍ™Í®ÂÂÂLªIdentifierÍ™Í¡¨deviceIdT§LiteralÍ£Í®©watch-017«'watch-017'¤initS¨PropertyÍ°ÍÃÂÂÂLªIdentifierÍ°Íµ¥placeT§LiteralÍ·ÍÃ´é‡ç‚¹å®éªŒå®¤ B102¶'é‡ç‚¹å®éªŒå®¤ B102'¤initS¨PropertyÍÅÍÑÂÂÂLªIdentifierÍÅÍË¦resultT§LiteralÍÍÍÑ¦æ‹¦æˆª¨'æ‹¦æˆª'¤initS¨PropertyÍÓÍëÂÂÂLªIdentifierÍÓÍ×¤timeT§LiteralÍÙÍë°2026-05-09 22:35²'2026-05-09 22:35'¤initS¨PropertyÍíÍşÂÂÂLªIdentifierÍíÍö©riskLevelT§LiteralÍøÍş¤high¦'high'¤initN°MethodDefinitionÍÍqÃÂLªIdentifierÍ Í1±attendanceMetrics¦methodO²FunctionExpressionÍ1ÍqÀÂÂÂM®BlockStatementÍ4Íq‘P¯ReturnStatementÍ?ÍjQ¯ArrayExpressionÍFÍi“R°ObjectExpressionÍUÍ¤•S¨PropertyÍWÍ_ÂÂÂLªIdentifierÍWÍY¢idT§LiteralÍ[Í_¢c1¤'c1'¤initS¨PropertyÍaÍqÂÂÂLªIdentifierÍaÍg¦courseT§LiteralÍiÍq²ç§»åŠ¨åº”ç”¨å¼€å‘´'ç§»åŠ¨åº”ç”¨å¼€å‘'¤initS¨PropertyÍsÍÂÂÂLªIdentifierÍsÍ{¨attendedT§LiteralÍ}Í¢15¤initS¨PropertyÍÍŠÂÂÂLªIdentifierÍÍ†¥totalT§LiteralÍˆÍŠ¢16¤initS¨PropertyÍŒÍ¢ÂÂÂLªIdentifierÍŒÍ–ªlatestTimeT§LiteralÍ˜Í¢¬ä»Šå¤© 08:10®'ä»Šå¤© 08:10'¤initR°ObjectExpressionÍ³Í •S¨PropertyÍµÍ½ÂÂÂLªIdentifierÍµÍ·¢idT§LiteralÍ¹Í½¢c2¤'c2'¤initS¨PropertyÍ¿ÍÍÂÂÂLªIdentifierÍ¿ÍÅ¦courseT§LiteralÍÇÍÍ¬æ“ä½œç³»ç»Ÿ®'æ“ä½œç³»ç»Ÿ'¤initS¨PropertyÍÏÍÛÂÂÂLªIdentifierÍÏÍ×¨attendedT§LiteralÍÙÍÛ¢13¤initS¨PropertyÍİÍæÂÂÂLªIdentifierÍİÍâ¥totalT§LiteralÍäÍæ¢16¤initS¨PropertyÍèÍşÂÂÂLªIdentifierÍèÍòªlatestTimeT§LiteralÍôÍş¬æ˜¨å¤© 10:00®'æ˜¨å¤© 10:00'¤initR°ObjectExpressionÍÍ^•S¨PropertyÍÍÂÂÂLªIdentifierÍÍ¢idT§LiteralÍÍ¢c3¤'c3'¤initS¨PropertyÍÍ+ÂÂÂLªIdentifierÍÍ!¦courseT§LiteralÍ#Í+²äººå·¥æ™ºèƒ½å¯¼è®º´'äººå·¥æ™ºèƒ½å¯¼è®º'¤initS¨PropertyÍ-Í9ÂÂÂLªIdentifierÍ-Í5¨attendedT§LiteralÍ7Í9¢16¤initS¨PropertyÍ;ÍDÂÂÂLªIdentifierÍ;Í@¥totalT§LiteralÍBÍD¢16¤initS¨PropertyÍFÍ\ÂÂÂLªIdentifierÍFÍPªlatestTimeT§LiteralÍRÍ\¬ä»Šå¤© 14:00®'ä»Šå¤© 14:00'¤initN°MethodDefinitionÍwÍzÃÂLªIdentifierÍ~Í¯watchAttendance¦methodO²FunctionExpressionÍÍzÀÂÂÂM®BlockStatementÍÍz‘P¯ReturnStatementÍ›ÍsQ¯ArrayExpressionÍ¢Ír’R°ObjectExpressionÍ±Í•S¨PropertyÍ³Í¿ÂÂÂLªIdentifierÍ³Íµ¢idT§LiteralÍ·Í¿¦wa-001¨'wa-001'¤initS¨PropertyÍÁÍĞÂÂÂLªIdentifierÍÁÍÆ¥titleT§LiteralÍÈÍĞ²ç§»åŠ¨åº”ç”¨å¼€å‘´'ç§»åŠ¨åº”ç”¨å¼€å‘'¤initS¨PropertyÍÒÍßÂÂÂLªIdentifierÍÒÍÖ¤timeT§LiteralÍØÍß¥08:10§'08:10'¤initS¨PropertyÍáÍôÂÂÂLªIdentifierÍáÍæ¥placeT§LiteralÍèÍô´ç»¼åˆæ•™å­¦æ¥¼ A203¶'ç»¼åˆæ•™å­¦æ¥¼ A203'¤initS¨PropertyÍöÍÂÂÂLªIdentifierÍöÍü¦statusT§LiteralÍşÍ©å·²ç­¾åˆ°«'å·²ç­¾åˆ°'¤initR°ObjectExpressionÍÍg•S¨PropertyÍÍ"ÂÂÂLªIdentifierÍÍ¢idT§LiteralÍÍ"¦wa-002¨'wa-002'¤initS¨PropertyÍ$Í2ÂÂÂLªIdentifierÍ$Í)¥titleT§LiteralÍ+Í2¯å®éªŒè¯¾æé†’±'å®éªŒè¯¾æé†’'¤initS¨PropertyÍ4ÍAÂÂÂLªIdentifierÍ4Í8¤timeT§LiteralÍ:ÍA¥14:00§'14:00'¤initS¨PropertyÍCÍVÂÂÂLªIdentifierÍCÍH¥placeT§LiteralÍJÍV´è½¯ä»¶å®éªŒå®¤ C401¶'è½¯ä»¶å®éªŒå®¤ C401'¤initS¨PropertyÍXÍeÂÂÂLªIdentifierÍXÍ^¦statusT§LiteralÍ`Íe©å¾…ç­¾åˆ°«'å¾…ç­¾åˆ°'¤initN°MethodDefinitionÍ€Í ÿÃÂLªIdentifierÍ‡Í–¯terminalDevices¦methodO²FunctionExpressionÍ–Í ÿÀÂÂÂM®BlockStatementÍ™Í ÿ‘P¯ReturnStatementÍ¤Í øQ¯ArrayExpressionÍ«Í ÷“R°ObjectExpressionÍºÍ •S¨PropertyÍ¼ÍÊÂÂÂLªIdentifierÍ¼Í¾¢idT§LiteralÍÀÍÊ¨term-001ª'term-001'¤initS¨PropertyÍÌÍÛÂÂÂLªIdentifierÍÌÍĞ¤nameT§LiteralÍÒÍÛµå›¾ä¹¦é¦†åŒ—é—¨é—¸æœº·'å›¾ä¹¦é¦†åŒ—é—¨é—¸æœº'¤initS¨PropertyÍİÍëÂÂÂLªIdentifierÍİÍâ¥placeT§LiteralÍäÍë¯å›¾ä¹¦é¦†åŒ—é—¨±'å›¾ä¹¦é¦†åŒ—é—¨'¤initS¨PropertyÍíÍùÂÂÂLªIdentifierÍíÍó¦statusT§LiteralÍõÍù¦åœ¨çº¿¨'åœ¨çº¿'¤initS¨PropertyÍûÍ ÂÂÂLªIdentifierÍûÍ ­lastHeartbeatT§LiteralÍ 
+Í ¨3 ç§’å‰ª'3 ç§’å‰'¤initR°ObjectExpressionÍ !Í ~•S¨PropertyÍ #Í 1ÂÂÂLªIdentifierÍ #Í %¢idT§LiteralÍ 'Í 1¨term-002ª'term-002'¤initS¨PropertyÍ 3Í GÂÂÂLªIdentifierÍ 3Í 7¤nameT§LiteralÍ 9Í G¸æ•™å­¦æ¥¼ A203 ç­¾åˆ°å±º'æ•™å­¦æ¥¼ A203 ç­¾åˆ°å±'¤initS¨PropertyÍ IÍ WÂÂÂLªIdentifierÍ IÍ N¥placeT§LiteralÍ PÍ W¯ç»¼åˆæ•™å­¦æ¥¼±'ç»¼åˆæ•™å­¦æ¥¼'¤initS¨PropertyÍ YÍ eÂÂÂLªIdentifierÍ YÍ _¦statusT§LiteralÍ aÍ e¦åœ¨çº¿¨'åœ¨çº¿'¤initS¨PropertyÍ gÍ |ÂÂÂLªIdentifierÍ gÍ t­lastHeartbeatT§LiteralÍ vÍ |¨8 ç§’å‰ª'8 ç§’å‰'¤initR°ObjectExpressionÍ Í ì•S¨PropertyÍ Í ÂÂÂLªIdentifierÍ Í ‘¢idT§LiteralÍ “Í ¨term-003ª'term-003'¤initS¨PropertyÍ ŸÍ ²ÂÂÂLªIdentifierÍ ŸÍ £¤nameT§LiteralÍ ¥Í ²µå®éªŒå®¤ B102 é—¨ç¦·'å®éªŒå®¤ B102 é—¨ç¦'¤initS¨PropertyÍ ´Í ÂÂÂÂLªIdentifierÍ ´Í ¹¥placeT§LiteralÍ »Í Â¯é‡ç‚¹å®éªŒå®¤±'é‡ç‚¹å®éªŒå®¤'¤initS¨PropertyÍ ÄÍ ÑÂÂÂLªIdentifierÍ ÄÍ Ê¦statusT§LiteralÍ ÌÍ Ñ©ç»´æŠ¤ä¸­«'ç»´æŠ¤ä¸­'¤initS¨PropertyÍ ÓÍ êÂÂÂLªIdentifierÍ ÓÍ à­lastHeartbeatT§LiteralÍ âÍ ê¬12 åˆ†é’Ÿå‰®'12 åˆ†é’Ÿå‰'¤initN°MethodDefinitionÍ!Í"ğÃÂLªIdentifierÍ!Í!®realtimeEvents¦methodO²FunctionExpressionÍ!Í"ğÀÂÂÂM®BlockStatementÍ!Í"ğ‘P¯ReturnStatementÍ!(Í"éQ¯ArrayExpressionÍ!/Í"è“R°ObjectExpressionÍ!>Í!À—S¨PropertyÍ!@Í!LÂÂÂLªIdentifierÍ!@Í!B¢idT§LiteralÍ!DÍ!L¦rt-001¨'rt-001'¤initS¨PropertyÍ!NÍ!bÂÂÂLªIdentifierÍ!NÍ!V¨terminalT§LiteralÍ!XÍ!b®A203 ç­¾åˆ°å±°'A203 ç­¾åˆ°å±'¤initS¨PropertyÍ!dÍ!{ÂÂÂLªIdentifierÍ!dÍ!m©studentIdT§LiteralÍ!oÍ!{ªstudent001¬'student001'¤initS¨PropertyÍ!}Í!‰ÂÂÂLªIdentifierÍ!}Í!ƒ¦resultT§LiteralÍ!…Í!‰¦é€šè¿‡¨'é€šè¿‡'¤initS¨PropertyÍ!‹Í!šÂÂÂLªIdentifierÍ!‹Í!’§latencyT§LiteralÍ!”Í!š¤46ms¦'46ms'¤initS¨PropertyÍ!œÍ!¬ÂÂÂLªIdentifierÍ!œÍ! ¤timeT§LiteralÍ!¢Í!¬¨08:10:06ª'08:10:06'¤initS¨PropertyÍ!®Í!¾ÂÂÂLªIdentifierÍ!®Í!·©riskLevelT§LiteralÍ!¹Í!¾£low¥'low'¤initR°ObjectExpressionÍ!ÏÍ"N—S¨PropertyÍ!ÑÍ!İÂÂÂLªIdentifierÍ!ÑÍ!Ó¢idT§LiteralÍ!ÕÍ!İ¦rt-002¨'rt-002'¤initS¨PropertyÍ!ßÍ!ğÂÂÂLªIdentifierÍ!ßÍ!ç¨terminalT§LiteralÍ!éÍ!ğ¯å›¾ä¹¦é¦†é—¸æœº±'å›¾ä¹¦é¦†é—¸æœº'¤initS¨PropertyÍ!òÍ"	ÂÂÂLªIdentifierÍ!òÍ!û©studentIdT§LiteralÍ!ıÍ"	ªstudent018¬'student018'¤initS¨PropertyÍ"Í"ÂÂÂLªIdentifierÍ"Í"¦resultT§LiteralÍ"Í"¦é€šè¿‡¨'é€šè¿‡'¤initS¨PropertyÍ"Í"(ÂÂÂLªIdentifierÍ"Í" §latencyT§LiteralÍ""Í"(¤52ms¦'52ms'¤initS¨PropertyÍ"*Í":ÂÂÂLªIdentifierÍ"*Í".¤timeT§LiteralÍ"0Í":¨08:11:18ª'08:11:18'¤initS¨PropertyÍ"<Í"LÂÂÂLªIdentifierÍ"<Í"E©riskLevelT§LiteralÍ"GÍ"L£low¥'low'¤initR°ObjectExpressionÍ"]Í"İ—S¨PropertyÍ"_Í"kÂÂÂLªIdentifierÍ"_Í"a¢idT§LiteralÍ"cÍ"k¦rt-003¨'rt-003'¤initS¨PropertyÍ"mÍ"~ÂÂÂLªIdentifierÍ"mÍ"u¨terminalT§LiteralÍ"wÍ"~¯å®éªŒå®¤é—¨ç¦±'å®éªŒå®¤é—¨ç¦'¤initS¨PropertyÍ"€Í"—ÂÂÂLªIdentifierÍ"€Í"‰©studentIdT§LiteralÍ"‹Í"—ªvisitor009¬'visitor009'¤initS¨PropertyÍ"™Í"¥ÂÂÂLªIdentifierÍ"™Í"Ÿ¦resultT§LiteralÍ"¡Í"¥¦æ‹¦æˆª¨'æ‹¦æˆª'¤initS¨PropertyÍ"§Í"¶ÂÂÂLªIdentifierÍ"§Í"®§latencyT§LiteralÍ"°Í"¶¤73ms¦'73ms'¤initS¨PropertyÍ"¸Í"ÈÂÂÂLªIdentifierÍ"¸Í"¼¤timeT§LiteralÍ"¾Í"È¨08:12:02ª'08:12:02'¤initS¨PropertyÍ"ÊÍ"ÛÂÂÂLªIdentifierÍ"ÊÍ"Ó©riskLevelT§LiteralÍ"ÕÍ"Û¤high¦'high'¤initN°MethodDefinitionÍ"öÍ$KÃÂLªIdentifierÍ"ıÍ#°adminPermissions¦methodO²FunctionExpressionÍ#Í$KÀÂÂÂM®BlockStatementÍ#Í$K‘P¯ReturnStatementÍ#Í$DQ¯ArrayExpressionÍ#"Í$C“R°ObjectExpressionÍ#1Í#}•S¨PropertyÍ#3Í#?ÂÂÂLªIdentifierÍ#3Í#5¢idT§LiteralÍ#7Í#?¦ap-001¨'ap-001'¤initS¨PropertyÍ#AÍ#LÂÂÂLªIdentifierÍ#AÍ#E¤roleT§LiteralÍ#GÍ#L©è¾…å¯¼å‘˜«'è¾…å¯¼å‘˜'¤initS¨PropertyÍ#NÍ#^ÂÂÂLªIdentifierÍ#NÍ#S¥scopeT§LiteralÍ#UÍ#^µæŸ¥çœ‹æœ¬å­¦é™¢è€ƒå‹¤·'æŸ¥çœ‹æœ¬å­¦é™¢è€ƒå‹¤'¤initS¨PropertyÍ#`Í#lÂÂÂLªIdentifierÍ#`Í#e¥ownerT§LiteralÍ#gÍ#l©å¼ è€å¸ˆ«'å¼ è€å¸ˆ'¤initS¨PropertyÍ#nÍ#{ÂÂÂLªIdentifierÍ#nÍ#u§enabledT§LiteralÍ#wÍ#{Ã¤true¤initR°ObjectExpressionÍ#ŒÍ#Ù•S¨PropertyÍ#Í#šÂÂÂLªIdentifierÍ#Í#¢idT§LiteralÍ#’Í#š¦ap-002¨'ap-002'¤initS¨PropertyÍ#œÍ#©ÂÂÂLªIdentifierÍ#œÍ# ¤roleT§LiteralÍ#¢Í#©¯é—¨ç¦ç®¡ç†å‘˜±'é—¨ç¦ç®¡ç†å‘˜'¤initS¨PropertyÍ#«Í#ºÂÂÂLªIdentifierÍ#«Í#°¥scopeT§LiteralÍ#²Í#º²é…ç½®é—¨ç¦è§„åˆ™´'é…ç½®é—¨ç¦è§„åˆ™'¤initS¨PropertyÍ#¼Í#ÈÂÂÂLªIdentifierÍ#¼Í#Á¥ownerT§LiteralÍ#ÃÍ#È©å®‰ä¿å¤„«'å®‰ä¿å¤„'¤initS¨PropertyÍ#ÊÍ#×ÂÂÂLªIdentifierÍ#ÊÍ#Ñ§enabledT§LiteralÍ#ÓÍ#×Ã¤true¤initR°ObjectExpressionÍ#èÍ$8•S¨PropertyÍ#êÍ#öÂÂÂLªIdentifierÍ#êÍ#ì¢idT§LiteralÍ#îÍ#ö¦ap-003¨'ap-003'¤initS¨PropertyÍ#øÍ$ÂÂÂLªIdentifierÍ#øÍ#ü¤roleT§LiteralÍ#şÍ$²ä¸´æ—¶è®¿å®¢å®¡æ‰¹´'ä¸´æ—¶è®¿å®¢å®¡æ‰¹'¤initS¨PropertyÍ$Í$ÂÂÂLªIdentifierÍ$Í$¥scopeT§LiteralÍ$Í$²ä¸´æ—¶è´¦å·å®¡æ ¸´'ä¸´æ—¶è´¦å·å®¡æ ¸'¤initS¨PropertyÍ$Í$&ÂÂÂLªIdentifierÍ$Í$¥ownerT§LiteralÍ$ Í$&¬ä¿¡æ¯ä¸­å¿ƒ®'ä¿¡æ¯ä¸­å¿ƒ'¤initS¨PropertyÍ$(Í$6ÂÂÂLªIdentifierÍ$(Í$/§enabledT§LiteralÍ$1Í$6Â¥false¤initN°MethodDefinitionÍ$QÍ&ÃÂLªIdentifierÍ$XÍ$c«accessRules¦methodO²FunctionExpressionÍ$cÍ&ÀÂÂÂM®BlockStatementÍ$fÍ&‘P¯ReturnStatementÍ$qÍ&
+Q¯ArrayExpressionÍ$xÍ&	“R°ObjectExpressionÍ$‡Í$ú–S¨PropertyÍ$‰Í$—ÂÂÂLªIdentifierÍ$‰Í$‹¢idT§LiteralÍ$Í$—¨rule-001ª'rule-001'¤initS¨PropertyÍ$™Í$ªÂÂÂLªIdentifierÍ$™Í$¤nameT§LiteralÍ$ŸÍ$ª»æ•™å­¦æ¥¼ä¸Šè¯¾æ—¶æ®µé€šè¡Œ½'æ•™å­¦æ¥¼ä¸Šè¯¾æ—¶æ®µé€šè¡Œ'¤initS¨PropertyÍ$¬Í$¸ÂÂÂLªIdentifierÍ$¬Í$±¥placeT§LiteralÍ$³Í$¸©æ•™å­¦æ¥¼«'æ•™å­¦æ¥¼'¤initS¨PropertyÍ$ºÍ$ÒÂÂÂLªIdentifierÍ$ºÍ$Ã©timeRangeT§LiteralÍ$ÅÍ$Ò«07:00-22:00­'07:00-22:00'¤initS¨PropertyÍ$ÔÍ$éÂÂÂLªIdentifierÍ$ÔÍ$ŞªriskPolicyT§LiteralÍ$àÍ$éµä½é£é™©è‡ªåŠ¨é€šè¿‡·'ä½é£é™©è‡ªåŠ¨é€šè¿‡'¤initS¨PropertyÍ$ëÍ$øÂÂÂLªIdentifierÍ$ëÍ$ò§enabledT§LiteralÍ$ôÍ$øÃ¤true¤initR°ObjectExpressionÍ%	Í%}–S¨PropertyÍ%Í%ÂÂÂLªIdentifierÍ%Í%¢idT§LiteralÍ%Í%¨rule-002ª'rule-002'¤initS¨PropertyÍ%Í%,ÂÂÂLªIdentifierÍ%Í%¤nameT§LiteralÍ%!Í%,»å®éªŒå®¤å¤œé—´äºŒæ¬¡è®¤è¯½'å®éªŒå®¤å¤œé—´äºŒæ¬¡è®¤è¯'¤initS¨PropertyÍ%.Í%<ÂÂÂLªIdentifierÍ%.Í%3¥placeT§LiteralÍ%5Í%<¯é‡ç‚¹å®éªŒå®¤±'é‡ç‚¹å®éªŒå®¤'¤initS¨PropertyÍ%>Í%VÂÂÂLªIdentifierÍ%>Í%G©timeRangeT§LiteralÍ%IÍ%V«22:00-06:00­'22:00-06:00'¤initS¨PropertyÍ%XÍ%lÂÂÂLªIdentifierÍ%XÍ%bªriskPolicyT§LiteralÍ%dÍ%l²ä¸­é«˜é£é™©æ‹¦æˆª´'ä¸­é«˜é£é™©æ‹¦æˆª'¤initS¨PropertyÍ%nÍ%{ÂÂÂLªIdentifierÍ%nÍ%u§enabledT§LiteralÍ%wÍ%{Ã¤true¤initR°ObjectExpressionÍ%ŒÍ%ş–S¨PropertyÍ%Í%œÂÂÂLªIdentifierÍ%Í%¢idT§LiteralÍ%’Í%œ¨rule-003ª'rule-003'¤initS¨PropertyÍ%Í%­ÂÂÂLªIdentifierÍ%Í%¢¤nameT§LiteralÍ%¤Í%­µå›¾ä¹¦é¦†è®¿å®¢é™åˆ¶·'å›¾ä¹¦é¦†è®¿å®¢é™åˆ¶'¤initS¨PropertyÍ%¯Í%»ÂÂÂLªIdentifierÍ%¯Í%´¥placeT§LiteralÍ%¶Í%»©å›¾ä¹¦é¦†«'å›¾ä¹¦é¦†'¤initS¨PropertyÍ%½Í%ÕÂÂÂLªIdentifierÍ%½Í%Æ©timeRangeT§LiteralÍ%ÈÍ%Õ«08:00-21:30­'08:00-21:30'¤initS¨PropertyÍ%×Í%ìÂÂÂLªIdentifierÍ%×Í%áªriskPolicyT§LiteralÍ%ãÍ%ìµè®¿å®¢éœ€äººå·¥å®¡æ‰¹·'è®¿å®¢éœ€äººå·¥å®¡æ‰¹'¤initS¨PropertyÍ%îÍ%üÂÂÂLªIdentifierÍ%îÍ%õ§enabledT§LiteralÍ%÷Í%üÂ¥false¤initN°MethodDefinitionÍ&Í']ÃÂLªIdentifierÍ&Í&'©blacklist¦methodO²FunctionExpressionÍ&'Í']ÀÂÂÂM®BlockStatementÍ&*Í']‘P¯ReturnStatementÍ&5Í'VQ¯ArrayExpressionÍ&<Í'U’R°ObjectExpressionÍ&KÍ&Ä–S¨PropertyÍ&MÍ&YÂÂÂLªIdentifierÍ&MÍ&O¢idT§LiteralÍ&QÍ&Y¦bl-001¨'bl-001'¤initS¨PropertyÍ&[Í&rÂÂÂLªIdentifierÍ&[Í&d©studentIdT§LiteralÍ&fÍ&rªvisitor009¬'visitor009'¤initS¨PropertyÍ&tÍ&€ÂÂÂLªIdentifierÍ&tÍ&x¤nameT§LiteralÍ&zÍ&€¬ä¸´æ—¶è®¿å®¢®'ä¸´æ—¶è®¿å®¢'¤initS¨PropertyÍ&‚Í&”ÂÂÂLªIdentifierÍ&‚Í&ˆ¦reasonT§LiteralÍ&ŠÍ&”¸å®éªŒå®¤é«˜é£é™©è®¿é—®º'å®éªŒå®¤é«˜é£é™©è®¿é—®'¤initS¨PropertyÍ&–Í&£ÂÂÂLªIdentifierÍ&–Í&›¥levelT§LiteralÍ&Í&£¤high¦'high'¤initS¨PropertyÍ&¥Í&ÂÂÂÂLªIdentifierÍ&¥Í&®©createdAtT§LiteralÍ&°Í&Â°2026-05-09 08:12²'2026-05-09 08:12'¤initR°ObjectExpressionÍ&ÓÍ'J–S¨PropertyÍ&ÕÍ&áÂÂÂLªIdentifierÍ&ÕÍ&×¢idT§LiteralÍ&ÙÍ&á¦bl-002¨'bl-002'¤initS¨PropertyÍ&ãÍ&úÂÂÂLªIdentifierÍ&ãÍ&ì©studentIdT§LiteralÍ&îÍ&úªstudent088¬'student088'¤initS¨PropertyÍ&üÍ'ÂÂÂLªIdentifierÍ&üÍ' ¤nameT§LiteralÍ'Í'¦é™ˆæŸ¨'é™ˆæŸ'¤initS¨PropertyÍ'Í'ÂÂÂLªIdentifierÍ'Í'¦reasonT§LiteralÍ'Í'²è¿ç»­è®¤è¯å¤±è´¥´'è¿ç»­è®¤è¯å¤±è´¥'¤initS¨PropertyÍ'Í')ÂÂÂLªIdentifierÍ'Í'¥levelT§LiteralÍ'!Í')¦medium¨'medium'¤initS¨PropertyÍ'+Í'HÂÂÂLªIdentifierÍ'+Í'4©createdAtT§LiteralÍ'6Í'H°2026-05-08 21:30²'2026-05-08 21:30'¤initÀ‘Ôr`•¤type¥start£endªspecifiers¦source±ImportDeclaration /‘Ôra•¤type¥start£end¨imported¥local¯ImportSpecifier	LªIdentifier	©AppRoutesLªIdentifier	©AppRoutesT§Literal.²../utils/Constants´'../utils/Constants'

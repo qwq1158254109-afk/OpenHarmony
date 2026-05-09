@@ -1,0 +1,245 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚ!"if (!("finalizeConstruction" in ViewPU.prototype)) {
+    Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
+}
+import { PageTitleBar } from '../components/PageTitleBar';
+import { StatePanel } from '../components/StatePanel';
+import { PortalMockService } from '../services/PortalMockService';
+import { AppColors, AppLayout } from '../utils/Constants';
+class WatchTodayAttendancePage extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.__state = new ObservedPropertySimplePU('loading', this, "state");
+        this.__items = new ObservedPropertyObjectPU([], this, "items");
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params) {
+        if (params.state !== undefined) {
+            this.state = params.state;
+        }
+        if (params.items !== undefined) {
+            this.items = params.items;
+        }
+    }
+    updateStateVars(params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__state.purgeDependencyOnElmtId(rmElmtId);
+        this.__items.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__state.aboutToBeDeleted();
+        this.__items.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    get state() {
+        return this.__state.get();
+    }
+    set state(newValue) {
+        this.__state.set(newValue);
+    }
+    get items() {
+        return this.__items.get();
+    }
+    set items(newValue) {
+        this.__items.set(newValue);
+    }
+    aboutToAppear() {
+        this.items = PortalMockService.watchAttendance();
+        this.state = this.items.length === 0 ? 'empty' : 'ready';
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Scroll.create();
+            Scroll.backgroundColor(AppColors.background);
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 14 });
+            Column.width('100%');
+            Column.constraintSize({ maxWidth: 520 });
+            Column.alignSelf(ItemAlign.Center);
+            Column.padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 });
+        }, Column);
+        {
+            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                if (isInitialRender) {
+                    let componentCall = new PageTitleBar(this, { title: 'æ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤', subtitle: 'é€‚é…æ‰‹è¡¨ç«¯çš„è½»é‡è€ƒå‹¤æé†’' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchTodayAttendancePage.ets", line: 21, col: 9 });
+                    ViewPU.create(componentCall);
+                    let paramsLambda = () => {
+                        return {
+                            title: 'æ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤',
+                            subtitle: 'é€‚é…æ‰‹è¡¨ç«¯çš„è½»é‡è€ƒå‹¤æé†’'
+                        };
+                    };
+                    componentCall.paramsGenerator_ = paramsLambda;
+                }
+                else {
+                    this.updateStateVarsOfChildByElmtId(elmtId, {});
+                }
+            }, { name: "PageTitleBar" });
+        }
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.state !== 'ready') {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: 'ä»Šæ—¥æš‚æ— è€ƒå‹¤ä»»åŠ¡', errorText: 'æ‰‹è¡¨è€ƒå‹¤åŠ è½½å¤±è´¥' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchTodayAttendancePage.ets", line: 23, col: 11 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        state: this.state,
+                                        emptyText: 'ä»Šæ—¥æš‚æ— è€ƒå‹¤ä»»åŠ¡',
+                                        errorText: 'æ‰‹è¡¨è€ƒå‹¤åŠ è½½å¤±è´¥'
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
+                            }
+                        }, { name: "StatePanel" });
+                    }
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        ForEach.create();
+                        const forEachItemGenFunction = _item => {
+                            const item = _item;
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Row.create();
+                                Row.width('100%');
+                                Row.padding(14);
+                                Row.backgroundColor(AppColors.surface);
+                                Row.borderRadius(8);
+                                Row.border({ width: 1, color: AppColors.border });
+                            }, Row);
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Text.create(item.time);
+                                Text.fontSize(20);
+                                Text.fontWeight(FontWeight.Bold);
+                                Text.fontColor(AppColors.primary);
+                                Text.width(64);
+                            }, Text);
+                            Text.pop();
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Column.create();
+                                Column.alignItems(HorizontalAlign.Start);
+                                Column.layoutWeight(1);
+                            }, Column);
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Text.create(item.title);
+                                Text.fontSize(16);
+                                Text.fontWeight(FontWeight.Bold);
+                                Text.fontColor(AppColors.text);
+                            }, Text);
+                            Text.pop();
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                Text.create(`${item.place} Â· ${item.status}`);
+                                Text.fontSize(12);
+                                Text.fontColor(item.status === 'å·²ç­¾åˆ°' ? AppColors.success : AppColors.warning);
+                                Text.margin({ top: 4 });
+                            }, Text);
+                            Text.pop();
+                            Column.pop();
+                            Row.pop();
+                        };
+                        this.forEachUpdateFunction(elmtId, this.items, forEachItemGenFunction, (item) => item.id, false, false);
+                    }, ForEach);
+                    ForEach.pop();
+                });
+            }
+        }, If);
+        If.pop();
+        Column.pop();
+        Scroll.pop();
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+    static getEntryName() {
+        return "WatchTodayAttendancePage";
+    }
+}
+registerNamedRoute(() => new WatchTodayAttendancePage(undefined, {}), "", { bundleName: "com.example.campusauth", moduleName: "entry", pagePath: "pages/WatchTodayAttendancePage", pageFullPath: "entry/src/main/ets/pages/WatchTodayAttendancePage", integratedHsp: "false", moduleType: "followWithHap" });
+//# sourceMappingURL=WatchTodayAttendancePage.js.mapÂ”ÙYE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\PageTitleBar.etsÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙ`E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\WatchTodayAttendancePage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚ¸import { PageTitleBar } from '../components/PageTitleBar';
+import { StatePanel } from '../components/StatePanel';
+import { PageLoadState, WatchAttendanceItem } from '../models/CampusPortal';
+import { PortalMockService } from '../services/PortalMockService';
+import { AppColors, AppLayout } from '../utils/Constants';
+
+@Entry
+@Component
+struct WatchTodayAttendancePage {
+  @State state: PageLoadState = 'loading';
+  @State items: WatchAttendanceItem[] = [];
+
+  aboutToAppear(): void {
+    this.items = PortalMockService.watchAttendance();
+    this.state = this.items.length === 0 ? 'empty' : 'ready';
+  }
+
+  build() {
+    Scroll() {
+      Column({ space: 14 }) {
+        PageTitleBar({ title: 'æ‰‹è¡¨ç«¯ä»Šæ—¥è€ƒå‹¤', subtitle: 'é€‚é…æ‰‹è¡¨ç«¯çš„è½»é‡è€ƒå‹¤æé†’' })
+        if (this.state !== 'ready') {
+          StatePanel({ state: this.state, emptyText: 'ä»Šæ—¥æš‚æ— è€ƒå‹¤ä»»åŠ¡', errorText: 'æ‰‹è¡¨è€ƒå‹¤åŠ è½½å¤±è´¥' })
+        } else {
+          ForEach(this.items, (item: WatchAttendanceItem) => {
+            Row() {
+              Text(item.time)
+                .fontSize(20)
+                .fontWeight(FontWeight.Bold)
+                .fontColor(AppColors.primary)
+                .width(64)
+              Column() {
+                Text(item.title)
+                  .fontSize(16)
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor(AppColors.text)
+                Text(`${item.place} Â· ${item.status}`)
+                  .fontSize(12)
+                  .fontColor(item.status === 'å·²ç­¾åˆ°' ? AppColors.success : AppColors.warning)
+                  .margin({ top: 4 })
+              }
+              .alignItems(HorizontalAlign.Start)
+              .layoutWeight(1)
+            }
+            .width('100%')
+            .padding(14)
+            .backgroundColor(AppColors.surface)
+            .borderRadius(8)
+            .border({ width: 1, color: AppColors.border })
+          }, (item: WatchAttendanceItem): string => item.id)
+        }
+      }
+      .width('100%')
+      .constraintSize({ maxWidth: 520 })
+      .alignSelf(ItemAlign.Center)
+      .padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 })
+    }
+    .backgroundColor(AppColors.background)
+  }
+}
+ÀÔrC”º../components/PageTitleBar½../services/PortalMockService²../utils/Constants¸../components/StatePanelÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÂÙYE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\PageTitleBar.etsAÃªoh-resolveÂDAÂÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂDAÂÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsAÃªoh-resolveÂ“ÔrE–§version¤fileªsourceRoot§sources¥names¨mappings»WatchTodayAttendancePage.js ‘¼WatchTodayAttendancePage.etsÜ £˜”    ”  ”	  	”  ”  ”  ”9  9”:  :˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ”" "”ÌA ÌA”ÌB ÌBš”   ” ”	 	” ” ” ” ”% %”9 9”: :’” ” ‘”  ’”4 	 ”= 	)’”4 
+(”6 
+*‘” :’” 		” 	’” 		” 	’” 
+	” 
+’” 
+	” 
+’” ” š” ” ” 	” ” ”& "”' #”6 2”8 4”9 5Ü ” ” ” 	” ” ” ” ” ”  ”& "”+ '”, (”- )”. *”/ +”6 2”7 3”8 4”9 5”Ì@ <”ÌA =’” ” ‘” ’” ” 
+˜” ” 
+” 9”" 9”# 9”, 9”- 9”7 9)˜” ” ” ” ”! ”# ”% ”' –” ” ” 4” 4” 4” 4š” ” ” 5”! 5”" 5”$ 5”, 5 ”. 5"”1 5%”3 5'˜” ” ” 6” 6” 6”& 6”' 6”- 6!Ü ” ” ” 7” 7” 7” 7”! 7”# 7”, 7 ”- 7!”8 7,”: 7.”? 73”ÌA 75”ÌJ 7>”ÌK 7?”ÌV 7ÌJ”ÌX 7ÌL”Ì^ 7ÌR”Ì` 7ÌT”Ìb 7ÌV”Ìd 7ÌXœ”, ”8 ”? ”ÌA ”ÌF ”ÌH ”ÌQ '”ÌS )”Ì[ 1”Ì] 3”Ìk ÌA”Ìm ÌC”” ”! ”# ”, '”” )”$ 1”& 3”4 ÌA˜” ” ” ” ” ” ”& "”( $Ü ”8 
+”ÌB ”ÌI ”ÌK ”ÌP ”ÌR ”ÌV "”ÌW #”Ì\ (”Ì^ *”Ìg 3”Ìi 5”Ìs ?”Ìu ÌA”Ì~ ÌJ”Ì€ ÌL”ÌŠ ÌV”ÌŒ ÌX–”( ”- ”/ ”3 "”4 #”9 (””( *”1 3”3 5”= ?””( ÌA”1 ÌJ”3 ÌL”= ÌV‘” 	‘” ’” 
+” ’”  ”# –”  ”# ”$ ,”) ,”* ,”0 ,–”  ”# ”$ -”+ -”, -”. -˜”  ”# ”$ .”3 .”4 .”= .&”> .'”ÌE ..–”  ”# ”$ /”0 /”1 /”2 /Ü ”  ”# ”$ 0”* 0”+ 0”- 0”2 0”4 0”5 0”7 0 ”< 0%”> 0'”ÌG 00”ÌH 01”ÌN 07”ÌP 09–”  ”$ ”, ”0 ”1 ”5 –”  ”$ ”% ”- ”. ”0 ˜”  ”$ ”% ”/ ”0 ”: &”; '”? +˜”  ”$ ”% ”. ”/ ”8 $”9 %”Ì@ ,–”  ”$ ”% ”* ”+ ”- ’” ”  ’”  ”& ˜”  ”& ”' )”1 )”2 )”ÌA ))”ÌB )*”ÌG )/–”  ”& ”' *”3 *”4 *”5 *–”   ”$  ”,  ”0  ”1  ”6  –”   ”$  ”% !”- !”. !”0 !˜”   ”$  ”% "”/ "”0 "”: "(”; ")”? "-˜”   ”$  ”% #”. #”/ #”8 #&”9 #'”= #+’”  ”   œ”  $”$ $”, $”/ $”3 $”4 $”9 $"”? $(”ÌC $,”ÌD $-”ÌJ $3”ÌL $5–”  $”$ $”% %”- %”. %”0 %Ü ”  $”$ $”% &”. &”/ &”3 &!”4 &"”: &(”? &-”ÌD &2”ÌE &3”ÌF &4”ÌG &5”ÌP &>”ÌQ &?”ÌX &ÌF”ÌY &ÌG”ÌZ &ÌH”Ì[ &ÌI”Ìd &ÌR”Ìe &ÌS”Ìl &ÌZš”  $”$ $”% '”+ '”, '”. '”1 '”3 '!”4 '"”6 '$’” $”  $’” ”" ’” ” ”; ”? ”Ì@ ”ÌE ”Ì_ 1”Ì` 1”Ìd 1'”Ìf 11”Ìh 13”Ìi 14”Ìm 18”Ìn 19”Ìp 1;’” 
+” ‘” 2	’” ” ’” ” 
+‘” :ÔrF–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ ¬‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ì ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ÔrG’§missing¦pluginÃ¦genAbcÂÔ  ÔrH”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache”ÔrI•¤type¥start£endªspecifiers¦source±ImportDeclarationÌ€Ìº‘ÔrJ•¤type¥start£end¨imported¥local¯ImportSpecifierÌ‰Ì•ÔrK”¤type¥start£end¤nameªIdentifierÌ‰Ì•¬PageTitleBarKªIdentifierÌ‰Ì•¬PageTitleBarÔrL•¤type¥start£end¥value£raw§LiteralÌÌ¹º../components/PageTitleBar¼'../components/PageTitleBar'I±ImportDeclarationÌ¼Ìò‘J¯ImportSpecifierÌÅÌÏKªIdentifierÌÅÌÏªStatePanelKªIdentifierÌÅÌÏªStatePanelL§LiteralÌ×Ìñ¸../components/StatePanelº'../components/StatePanel'I±ImportDeclarationÌôÍ6‘J¯ImportSpecifierÌıÍKªIdentifierÌıÍ±PortalMockServiceKªIdentifierÌıÍ±PortalMockServiceL§LiteralÍÍ5½../services/PortalMockService¿'../services/PortalMockService'I±ImportDeclarationÍ8Ír’J¯ImportSpecifierÍAÍJKªIdentifierÍAÍJ©AppColorsKªIdentifierÍAÍJ©AppColorsJ¯ImportSpecifierÍLÍUKªIdentifierÍLÍU©AppLayoutKªIdentifierÍLÍU©AppLayoutL§LiteralÍ]Íq²../utils/Constants´'../utils/Constants'

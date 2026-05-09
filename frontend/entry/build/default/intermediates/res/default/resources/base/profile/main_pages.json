@@ -1,10 +1,25 @@
 {
   "src": [
     "pages/LoginPage",
+    "pages/OverviewPage",
+    "pages/DefenseDemoPage",
     "pages/DashboardPage",
     "pages/AuthPage",
     "pages/RecordsPage",
     "pages/DevicePage",
-    "pages/AdminPage"
+    "pages/AdminPage",
+    "pages/StudentRealNamePage",
+    "pages/DeviceBindPage",
+    "pages/AuthPermissionPage",
+    "pages/PassageRecordsPage",
+    "pages/AttendanceStatsPage",
+    "pages/WatchTodayAttendancePage",
+    "pages/WatchPassageRecordsPage",
+    "pages/TerminalFilingPage",
+    "pages/TerminalRealtimeScreenPage",
+    "pages/AdminAttendanceStatsPage",
+    "pages/AdminPermissionPage",
+    "pages/AccessRuleConfigPage",
+    "pages/BlacklistPage"
   ]
 }
