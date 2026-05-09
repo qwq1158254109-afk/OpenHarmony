@@ -1,0 +1,706 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚE“if (!("finalizeConstruction" in ViewPU.prototype)) {
+    Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
+}
+import router from '@ohos.router';
+import promptAction from '@ohos.promptAction';
+import { FeatureCard } from '../components/FeatureCard';
+import { AuthService } from '../services/AuthService';
+import { AuthSessionService } from '../services/AuthSessionService';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { FormatUtil } from '../utils/FormatUtil';
+class LoginPage extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.__account = new ObservedPropertySimplePU('student001', this, "account");
+        this.__password = new ObservedPropertySimplePU('123456', this, "password");
+        this.__role = new ObservedPropertySimplePU('student', this, "role");
+        this.__errorMessage = new ObservedPropertySimplePU('', this, "errorMessage");
+        this.__loginMessage = new ObservedPropertySimplePU('ç­‰å¾…ç™»å½•', this, "loginMessage");
+        this.__loggingIn = new ObservedPropertySimplePU(false, this, "loggingIn");
+        this.roles = ['student', 'teacher', 'admin'];
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params) {
+        if (params.account !== undefined) {
+            this.account = params.account;
+        }
+        if (params.password !== undefined) {
+            this.password = params.password;
+        }
+        if (params.role !== undefined) {
+            this.role = params.role;
+        }
+        if (params.errorMessage !== undefined) {
+            this.errorMessage = params.errorMessage;
+        }
+        if (params.loginMessage !== undefined) {
+            this.loginMessage = params.loginMessage;
+        }
+        if (params.loggingIn !== undefined) {
+            this.loggingIn = params.loggingIn;
+        }
+        if (params.roles !== undefined) {
+            this.roles = params.roles;
+        }
+    }
+    updateStateVars(params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__account.purgeDependencyOnElmtId(rmElmtId);
+        this.__password.purgeDependencyOnElmtId(rmElmtId);
+        this.__role.purgeDependencyOnElmtId(rmElmtId);
+        this.__errorMessage.purgeDependencyOnElmtId(rmElmtId);
+        this.__loginMessage.purgeDependencyOnElmtId(rmElmtId);
+        this.__loggingIn.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__account.aboutToBeDeleted();
+        this.__password.aboutToBeDeleted();
+        this.__role.aboutToBeDeleted();
+        this.__errorMessage.aboutToBeDeleted();
+        this.__loginMessage.aboutToBeDeleted();
+        this.__loggingIn.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    get account() {
+        return this.__account.get();
+    }
+    set account(newValue) {
+        this.__account.set(newValue);
+    }
+    get password() {
+        return this.__password.get();
+    }
+    set password(newValue) {
+        this.__password.set(newValue);
+    }
+    get role() {
+        return this.__role.get();
+    }
+    set role(newValue) {
+        this.__role.set(newValue);
+    }
+    get errorMessage() {
+        return this.__errorMessage.get();
+    }
+    set errorMessage(newValue) {
+        this.__errorMessage.set(newValue);
+    }
+    get loginMessage() {
+        return this.__loginMessage.get();
+    }
+    set loginMessage(newValue) {
+        this.__loginMessage.set(newValue);
+    }
+    get loggingIn() {
+        return this.__loggingIn.get();
+    }
+    set loggingIn(newValue) {
+        this.__loggingIn.set(newValue);
+    }
+    aboutToAppear() {
+        AuthSessionService.initialize();
+        const user = AuthSessionService.currentUser();
+        if (AuthSessionService.isLoggedIn() && user) {
+            router.replaceUrl({ url: AppRoutes.dashboard });
+        }
+    }
+    submit() {
+        if (this.loggingIn) {
+            return;
+        }
+        this.loggingIn = true;
+        this.errorMessage = '';
+        this.loginMessage = 'æ­£åœ¨ç™»å½•...';
+        setTimeout(() => {
+            const result = AuthService.login(this.account, this.password, this.role);
+            this.loggingIn = false;
+            if (!result.success || !result.user) {
+                this.errorMessage = result.message;
+                this.loginMessage = 'ç™»å½•å¤±è´¥';
+                promptAction.showToast({ message: result.message });
+                return;
+            }
+            AuthSessionService.saveLogin(result.user);
+            this.loginMessage = 'ç™»å½•æˆåŠŸ';
+            promptAction.showToast({ message: 'ç™»å½•æˆåŠŸ' });
+            router.replaceUrl({ url: AppRoutes.dashboard });
+        }, 300);
+    }
+    switchRole(item) {
+        this.role = item;
+        if (item === 'student') {
+            this.account = 'student001';
+        }
+        else if (item === 'teacher') {
+            this.account = 'teacher001';
+        }
+        else {
+            this.account = 'admin001';
+        }
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Scroll.create();
+            Scroll.backgroundColor(AppColors.background);
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 18 });
+            Column.width('100%');
+            Column.constraintSize({ maxWidth: AppLayout.pageMaxWidth });
+            Column.alignSelf(ItemAlign.Center);
+            Column.padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 32 });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 16 });
+            Column.width('100%');
+            Column.padding(20);
+            Column.backgroundColor(AppColors.hero);
+            Column.borderRadius(8);
+            Column.margin({ top: 18 });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.alignItems(HorizontalAlign.Start);
+            Column.layoutWeight(1);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('Campus Distributed Authentication System');
+            Text.fontSize(13);
+            Text.fontColor('#BDEBFF');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('æ ¡å›­åˆ†å¸ƒå¼æ— æ„Ÿèº«ä»½è®¤è¯ç³»ç»Ÿ');
+            Text.fontSize(30);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#FFFFFF');
+            Text.margin({ top: 6 });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('é¢å‘æ™ºæ…§æ ¡å›­çš„å¤šè®¾å¤‡ååŒè®¤è¯ã€è®¾å¤‡ç»‘å®šä¸ AI é£é™©è¯„ä¼°å¹³å°');
+            Text.fontSize(14);
+            Text.fontColor('#D7EEF7');
+            Text.lineHeight(21);
+            Text.margin({ top: 10 });
+        }, Text);
+        Text.pop();
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('OH');
+            Text.fontSize(18);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor(AppColors.hero);
+            Text.textAlign(TextAlign.Center);
+            Text.width(54);
+            Text.height(54);
+            Text.backgroundColor('#DFF6FF');
+            Text.borderRadius(8);
+        }, Text);
+        Text.pop();
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Grid.create();
+            Grid.columnsTemplate('1fr 1fr');
+            Grid.columnsGap(12);
+            Grid.height(82);
+        }, Grid);
+        {
+            const itemCreation2 = (elmtId, isInitialRender) => {
+                GridItem.create(() => { }, false);
+            };
+            const observedDeepRender = () => {
+                this.observeComponentCreation2(itemCreation2, GridItem);
+                {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        if (isInitialRender) {
+                            let componentCall = new FeatureCard(this, { title: 'æ— æ„Ÿè®¤è¯', subtitle: 'é è¿‘è®¾å¤‡åè‡ªåŠ¨è¯†åˆ«èº«ä»½', marker: '01', active: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/LoginPage.ets", line: 101, col: 15 });
+                            ViewPU.create(componentCall);
+                            let paramsLambda = () => {
+                                return {
+                                    title: 'æ— æ„Ÿè®¤è¯',
+                                    subtitle: 'é è¿‘è®¾å¤‡åè‡ªåŠ¨è¯†åˆ«èº«ä»½',
+                                    marker: '01',
+                                    active: true
+                                };
+                            };
+                            componentCall.paramsGenerator_ = paramsLambda;
+                        }
+                        else {
+                            this.updateStateVarsOfChildByElmtId(elmtId, {});
+                        }
+                    }, { name: "FeatureCard" });
+                }
+                GridItem.pop();
+            };
+            observedDeepRender();
+        }
+        {
+            const itemCreation2 = (elmtId, isInitialRender) => {
+                GridItem.create(() => { }, false);
+            };
+            const observedDeepRender = () => {
+                this.observeComponentCreation2(itemCreation2, GridItem);
+                {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        if (isInitialRender) {
+                            let componentCall = new FeatureCard(this, { title: 'å¤šç«¯ååŒ', subtitle: 'æ‰‹æœºå‘èµ·ï¼Œå¹³æ¿åŒæ­¥ç»“æœ', marker: '02' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/LoginPage.ets", line: 104, col: 15 });
+                            ViewPU.create(componentCall);
+                            let paramsLambda = () => {
+                                return {
+                                    title: 'å¤šç«¯ååŒ',
+                                    subtitle: 'æ‰‹æœºå‘èµ·ï¼Œå¹³æ¿åŒæ­¥ç»“æœ',
+                                    marker: '02'
+                                };
+                            };
+                            componentCall.paramsGenerator_ = paramsLambda;
+                        }
+                        else {
+                            this.updateStateVarsOfChildByElmtId(elmtId, {});
+                        }
+                    }, { name: "FeatureCard" });
+                }
+                GridItem.pop();
+            };
+            observedDeepRender();
+        }
+        Grid.pop();
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 16 });
+            Column.width('100%');
+            Column.padding(20);
+            Column.backgroundColor(AppColors.surface);
+            Column.borderRadius(8);
+            Column.border({ width: 1, color: AppColors.border });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('ç™»å½•ç³»ç»Ÿ');
+            Text.fontSize(22);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor(AppColors.text);
+            Text.width('100%');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: 'å­¦å· / å·¥å·', text: this.account });
+            TextInput.height(50);
+            TextInput.fontSize(15);
+            TextInput.backgroundColor(AppColors.surfaceSoft);
+            TextInput.borderRadius(8);
+            TextInput.border({ width: 1, color: AppColors.border });
+            TextInput.padding({ left: 12, right: 12 });
+            TextInput.onChange((value) => {
+                this.account = value;
+            });
+        }, TextInput);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: 'å¯†ç ', text: this.password });
+            TextInput.height(50);
+            TextInput.fontSize(15);
+            TextInput.type(InputType.Password);
+            TextInput.backgroundColor(AppColors.surfaceSoft);
+            TextInput.borderRadius(8);
+            TextInput.border({ width: 1, color: AppColors.border });
+            TextInput.padding({ left: 12, right: 12 });
+            TextInput.onChange((value) => {
+                this.password = value;
+            });
+        }, TextInput);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.loginMessage);
+            Text.fontSize(12);
+            Text.fontColor(this.loginMessage === 'ç™»å½•å¤±è´¥' ? AppColors.danger : AppColors.primary);
+            Text.width('100%');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('é€‰æ‹©èº«ä»½');
+            Text.fontSize(13);
+            Text.fontColor(AppColors.muted);
+            Text.width('100%');
+            Text.margin({ bottom: 8 });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 10 });
+            Row.width('100%');
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            ForEach.create();
+            const forEachItemGenFunction = _item => {
+                const item = _item;
+                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                    Button.createWithLabel(FormatUtil.roleLabel(item));
+                    Button.layoutWeight(1);
+                    Button.height(42);
+                    Button.fontSize(14);
+                    Button.fontColor(this.role === item ? '#FFFFFF' : AppColors.primary);
+                    Button.backgroundColor(this.role === item ? AppColors.primary : AppColors.cyanSoft);
+                    Button.borderRadius(8);
+                    Button.onClick(() => {
+                        this.switchRole(item);
+                    });
+                }, Button);
+                Button.pop();
+            };
+            this.forEachUpdateFunction(elmtId, this.roles, forEachItemGenFunction, (item) => item, false, false);
+        }, ForEach);
+        ForEach.pop();
+        Row.pop();
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.errorMessage.length > 0) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(this.errorMessage);
+                        Text.fontSize(13);
+                        Text.fontColor(AppColors.danger);
+                        Text.width('100%');
+                        Text.padding(10);
+                        Text.backgroundColor(AppColors.dangerSoft);
+                        Text.borderRadius(8);
+                    }, Text);
+                    Text.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Button.createWithLabel(this.loggingIn ? 'æ­£åœ¨ç™»å½•...' : 'è¿›å…¥æ™ºæ…§æ ¡å›­è®¤è¯å¹³å°');
+            Button.width('100%');
+            Button.height(50);
+            Button.fontSize(16);
+            Button.fontWeight(FontWeight.Medium);
+            Button.backgroundColor(this.loggingIn ? AppColors.borderStrong : AppColors.primary);
+            Button.borderRadius(8);
+            Button.onClick(() => {
+                this.submit();
+            });
+        }, Button);
+        Button.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('æµ‹è¯•è´¦å·ï¼šstudent001 / teacher001 / admin001ï¼Œå¯†ç å‡ä¸º 123456');
+            Text.fontSize(12);
+            Text.fontColor(AppColors.muted);
+            Text.lineHeight(18);
+            Text.width('100%');
+        }, Text);
+        Text.pop();
+        Column.pop();
+        Column.pop();
+        Scroll.pop();
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+    static getEntryName() {
+        return "LoginPage";
+    }
+}
+registerNamedRoute(() => new LoginPage(undefined, {}), "", { bundleName: "com.example.campusauth", moduleName: "entry", pagePath: "pages/LoginPage", pageFullPath: "entry/src/main/ets/pages/LoginPage", integratedHsp: "false", moduleType: "followWithHap" });
+//# sourceMappingURL=LoginPage.js.mapÂ—Ùf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthService.etsÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\LoginPage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚDimport router from '@ohos.router';
+import promptAction from '@ohos.promptAction';
+import { FeatureCard } from '../components/FeatureCard';
+import { LoginResult } from '../models/User';
+import { AuthService } from '../services/AuthService';
+import { AuthSessionService } from '../services/AuthSessionService';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { FormatUtil } from '../utils/FormatUtil';
+import { UserProfile, UserRole } from '../models/User';
+
+@Entry
+@Component
+struct LoginPage {
+  @State account: string = 'student001';
+  @State password: string = '123456';
+  @State role: UserRole = 'student';
+  @State errorMessage: string = '';
+  @State loginMessage: string = 'ç­‰å¾…ç™»å½•';
+  @State loggingIn: boolean = false;
+  private roles: UserRole[] = ['student', 'teacher', 'admin'];
+
+  aboutToAppear(): void {
+    AuthSessionService.initialize();
+    const user = AuthSessionService.currentUser();
+    if (AuthSessionService.isLoggedIn() && user) {
+      router.replaceUrl({ url: AppRoutes.dashboard });
+    }
+  }
+
+  private submit(): void {
+    if (this.loggingIn) {
+      return;
+    }
+    this.loggingIn = true;
+    this.errorMessage = '';
+    this.loginMessage = 'æ­£åœ¨ç™»å½•...';
+
+    setTimeout(() => {
+      const result: LoginResult = AuthService.login(this.account, this.password, this.role);
+      this.loggingIn = false;
+      if (!result.success || !result.user) {
+        this.errorMessage = result.message;
+        this.loginMessage = 'ç™»å½•å¤±è´¥';
+        promptAction.showToast({ message: result.message });
+        return;
+      }
+      AuthSessionService.saveLogin(result.user);
+      this.loginMessage = 'ç™»å½•æˆåŠŸ';
+      promptAction.showToast({ message: 'ç™»å½•æˆåŠŸ' });
+      router.replaceUrl({ url: AppRoutes.dashboard });
+    }, 300);
+  }
+
+  private switchRole(item: UserRole): void {
+    this.role = item;
+    if (item === 'student') {
+      this.account = 'student001';
+    } else if (item === 'teacher') {
+      this.account = 'teacher001';
+    } else {
+      this.account = 'admin001';
+    }
+  }
+
+  build() {
+    Scroll() {
+      Column({ space: 18 }) {
+        Column({ space: 16 }) {
+          Row() {
+            Column() {
+              Text('Campus Distributed Authentication System')
+                .fontSize(13)
+                .fontColor('#BDEBFF')
+              Text('æ ¡å›­åˆ†å¸ƒå¼æ— æ„Ÿèº«ä»½è®¤è¯ç³»ç»Ÿ')
+                .fontSize(30)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#FFFFFF')
+                .margin({ top: 6 })
+              Text('é¢å‘æ™ºæ…§æ ¡å›­çš„å¤šè®¾å¤‡ååŒè®¤è¯ã€è®¾å¤‡ç»‘å®šä¸ AI é£é™©è¯„ä¼°å¹³å°')
+                .fontSize(14)
+                .fontColor('#D7EEF7')
+                .lineHeight(21)
+                .margin({ top: 10 })
+            }
+            .alignItems(HorizontalAlign.Start)
+            .layoutWeight(1)
+            Text('OH')
+              .fontSize(18)
+              .fontWeight(FontWeight.Bold)
+              .fontColor(AppColors.hero)
+              .textAlign(TextAlign.Center)
+              .width(54)
+              .height(54)
+              .backgroundColor('#DFF6FF')
+              .borderRadius(8)
+          }
+          .width('100%')
+
+          Grid() {
+            GridItem() {
+              FeatureCard({ title: 'æ— æ„Ÿè®¤è¯', subtitle: 'é è¿‘è®¾å¤‡åè‡ªåŠ¨è¯†åˆ«èº«ä»½', marker: '01', active: true })
+            }
+            GridItem() {
+              FeatureCard({ title: 'å¤šç«¯ååŒ', subtitle: 'æ‰‹æœºå‘èµ·ï¼Œå¹³æ¿åŒæ­¥ç»“æœ', marker: '02' })
+            }
+          }
+          .columnsTemplate('1fr 1fr')
+          .columnsGap(12)
+          .height(82)
+        }
+        .width('100%')
+        .padding(20)
+        .backgroundColor(AppColors.hero)
+        .borderRadius(8)
+        .margin({ top: 18 })
+
+        Column({ space: 16 }) {
+          Text('ç™»å½•ç³»ç»Ÿ')
+            .fontSize(22)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(AppColors.text)
+            .width('100%')
+
+          TextInput({ placeholder: 'å­¦å· / å·¥å·', text: this.account })
+            .height(50)
+            .fontSize(15)
+            .backgroundColor(AppColors.surfaceSoft)
+            .borderRadius(8)
+            .border({ width: 1, color: AppColors.border })
+            .padding({ left: 12, right: 12 })
+            .onChange((value: string) => {
+              this.account = value;
+            })
+
+          TextInput({ placeholder: 'å¯†ç ', text: this.password })
+            .height(50)
+            .fontSize(15)
+            .type(InputType.Password)
+            .backgroundColor(AppColors.surfaceSoft)
+            .borderRadius(8)
+            .border({ width: 1, color: AppColors.border })
+            .padding({ left: 12, right: 12 })
+            .onChange((value: string) => {
+              this.password = value;
+            })
+
+          Text(this.loginMessage)
+            .fontSize(12)
+            .fontColor(this.loginMessage === 'ç™»å½•å¤±è´¥' ? AppColors.danger : AppColors.primary)
+            .width('100%')
+
+          Column() {
+            Text('é€‰æ‹©èº«ä»½')
+              .fontSize(13)
+              .fontColor(AppColors.muted)
+              .width('100%')
+              .margin({ bottom: 8 })
+            Row({ space: 10 }) {
+              ForEach(this.roles, (item: UserRole) => {
+                Button(FormatUtil.roleLabel(item))
+                  .layoutWeight(1)
+                  .height(42)
+                  .fontSize(14)
+                  .fontColor(this.role === item ? '#FFFFFF' : AppColors.primary)
+                  .backgroundColor(this.role === item ? AppColors.primary : AppColors.cyanSoft)
+                  .borderRadius(8)
+                  .onClick(() => {
+                    this.switchRole(item);
+                  })
+              }, (item: UserRole) => item)
+            }
+            .width('100%')
+          }
+
+          if (this.errorMessage.length > 0) {
+            Text(this.errorMessage)
+              .fontSize(13)
+              .fontColor(AppColors.danger)
+              .width('100%')
+              .padding(10)
+              .backgroundColor(AppColors.dangerSoft)
+              .borderRadius(8)
+          }
+
+          Button(this.loggingIn ? 'æ­£åœ¨ç™»å½•...' : 'è¿›å…¥æ™ºæ…§æ ¡å›­è®¤è¯å¹³å°')
+            .width('100%')
+            .height(50)
+            .fontSize(16)
+            .fontWeight(FontWeight.Medium)
+            .backgroundColor(this.loggingIn ? AppColors.borderStrong : AppColors.primary)
+            .borderRadius(8)
+            .onClick(() => {
+              this.submit();
+            })
+
+          Text('æµ‹è¯•è´¦å·ï¼šstudent001 / teacher001 / admin001ï¼Œå¯†ç å‡ä¸º 123456')
+            .fontSize(12)
+            .fontColor(AppColors.muted)
+            .lineHeight(18)
+            .width('100%')
+        }
+        .width('100%')
+        .padding(20)
+        .backgroundColor(AppColors.surface)
+        .borderRadius(8)
+        .border({ width: 1, color: AppColors.border })
+      }
+      .width('100%')
+      .constraintSize({ maxWidth: AppLayout.pageMaxWidth })
+      .alignSelf(ItemAlign.Center)
+      .padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 32 })
+    }
+    .backgroundColor(AppColors.background)
+  }
+}
+ÀÔrC—¬@ohos.router²@ohos.promptAction¹../components/FeatureCard·../services/AuthService¾../services/AuthSessionService²../utils/Constants³../utils/FormatUtilÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÔrE‘¯hostModulesInfo‘ÔrF’²hostDependencyName®hostModuleName¬@ohos.router¥entryÃªoh-resolveÂDAÃÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsE‘F²@ohos.promptAction¥entryÃªoh-resolveÂDAÂÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsAÃªoh-resolveÂDAÂÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthService.etsAÃªoh-resolveÂDAÂÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂDAÂÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsAÃªoh-resolveÂ“ÔrG–§version¤fileªsourceRoot§sources¥names¨mappings¬LoginPage.js ‘­LoginPage.etsÜ›–”    ”  ”  ”  ”!  !”"  "–”   ” ” ” ”- -”. .˜”   ” ”	 	” ” ” ”7 7”8 8˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ”# #”ÌC ÌC”ÌD ÌDœ”   ” ”	 	” ” ” ” ”( (”* *”0 0”ÌD ÌD”ÌE ÌE˜”   ” ”	 	” ” ” ”0 0”1 1’” ” ‘” 
+ ’”6 ”ÌB '’”7 ”? $’”3 ”< #’”;  ”= "’”;  ”ÌA &’”8 ”= #˜” ” ” (”! *”* 3”, 5”3 <”4 =‘” 7’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” ” –” ” ” ”% !”' #”( $™” ” 
+” ” ”' #”( $”3 /”5 1”6 2™” ” ” ” ”) %”+ '”/ +”3 /”5 1” ” ” ” ” ”  ”# ”% ”. (”/ )”8 2”: 4”; 5”< 6‘”	 ’” ” ’” 
+”
+ –” ” ” ” ” ” ’” ” ‘”	  —” !” !” !	” !” !” !” !—” "” "” "	” "” "” "” "—” #” #” #	” #” #”% #!”& #"•” %” %” %” %” %Ü ” &” &” &” &"”& &-”' &.”, &3”- &4”1 &8”2 &9”9 &Ì@”; &ÌB”? &ÌF”Ì@ &ÌG”ÌH &ÌO”ÌJ &ÌQ”ÌN &ÌU”ÌO &ÌV”ÌS &ÌZ”ÌT &Ì[”ÌU &Ì\—” '” '
+” '” '” '”" '”# 'œ” (” (
+” (” (” (” (”# (”$ (”* ($”+ (%”/ ()”1 (+™” )” )” )”! )”$ )”* )"”+ )#”2 )*”3 )+—” *” *” *”! *”$ *”* *"”+ *#” +” +” +”& +”' +”) +!”0 +(”2 +*”8 +0”9 +1”Ì@ +8”ÌB +:”ÌC +;”ÌD +<’” ,” ,‘” -š” .” .” .”( ."”) .#”/ .)”0 .*”4 ..”5 ./”6 .0—” /” /
+” /” /”  /”& / ”' /!œ” 0” 0” 0”" 0”# 0”% 0”, 0&”. 0(”4 0.”6 00”7 01”8 02” 1” 1” 1” 1” 1”  1”# 1”% 1”. 1(”/ 1)”8 12”: 14”; 15”< 16–” 2”	 2” 2” 2
+” 2” 2’” 3” 3”” 5
+” 5” 5” 5#—” 6” 6” 6	” 6” 6” 6” 6–” 7” 7” 7” 7” 7”  7—” 8” 8
+” 8” 8” 8”' 8!”( 8"‘”	 9–” 9” 9” 9” 9”# 9!”% 9#—” :” :
+” :” :” :”' :!”( :"‘”	 ;‘” ;—” <” <
+” <” <” <”% <”& < ‘”	 =’” >” >‘” Ì@’” ÌA” ÌA
+˜” ÌA” ÌA
+” ÌÔ”" ÌÔ”# ÌÔ”, ÌÔ”- ÌÔ”7 ÌÔ)˜” ÌB” ÌB” ÌB” ÌB”! ÌB”# ÌB”% ÌB”' ÌB–” ÌB” ÌB” ÌÏ” ÌÏ” ÌÏ” ÌÏœ” ÌB” ÌB” ÌĞ”! ÌĞ”" ÌĞ”$ ÌĞ”, ÌĞ ”. ÌĞ"”7 ÌĞ+”8 ÌĞ,”ÌD ÌĞ8”ÌF ÌĞ:˜” ÌB” ÌB” ÌÑ” ÌÑ” ÌÑ”& ÌÑ”' ÌÑ”- ÌÑ!Ü ” ÌB” ÌB” ÌÒ” ÌÒ” ÌÒ” ÌÒ”! ÌÒ”# ÌÒ”, ÌÒ ”- ÌÒ!”8 ÌÒ,”: ÌÒ.”? ÌÒ3”ÌA ÌÒ5”ÌJ ÌÒ>”ÌK ÌÒ?”ÌV ÌÒÌJ”ÌX ÌÒÌL”Ì^ ÌÒÌR”Ì` ÌÒÌT”Ìb ÌÒÌV”Ìd ÌÒÌX˜” ÌC” ÌC” ÌC” ÌC”! ÌC”# ÌC”% ÌC”' ÌC–” ÌC” ÌC” Ìn	” Ìn” Ìn” Ìn–” ÌC” ÌC” Ìo	” Ìo” Ìo” Ìo˜” ÌC” ÌC” Ìp	”" Ìp”# Ìp”, Ìp"”- Ìp#”1 Ìp'–” ÌC” ÌC” Ìq	” Ìq”  Ìq”! Ìqš” ÌC” ÌC” Ìr	” Ìr” Ìr” Ìr” Ìr”! Ìr”# Ìr”% Ìr’” ÌD
+” ÌD–” ÌD
+” ÌD” Ì`” Ì`” Ì`” Ì`’” ÌE” ÌE˜” ÌE” ÌE” ÌT” ÌT” ÌT”- ÌT'”. ÌT(”3 ÌT-–” ÌE” ÌE” ÌU” ÌU”  ÌU”! ÌU”” ÌF” ÌF” ÌF”ÌB ÌF=–” ÌF” ÌF” ÌG” ÌG” ÌG” ÌG–” ÌF” ÌF” ÌH” ÌH” ÌH”$ ÌH$’” ÌF” ÌF”” ÌI” ÌI” ÌI”' ÌI"–” ÌI” ÌI” ÌJ” ÌJ” ÌJ” ÌJ˜” ÌI” ÌI” ÌK” ÌK” ÌK”& ÌK&”' ÌK'”+ ÌK+–” ÌI” ÌI” ÌL” ÌL” ÌL”$ ÌL$š” ÌI” ÌI” ÌM” ÌM” ÌM” ÌM” ÌM” ÌM”  ÌM ”" ÌM"’” ÌI” ÌI”” ÌN” ÌN” ÌN”8 ÌN3–” ÌN” ÌN” ÌO” ÌO” ÌO” ÌO–” ÌN” ÌN” ÌP” ÌP” ÌP”$ ÌP$–” ÌN” ÌN” ÌQ” ÌQ” ÌQ” ÌQš” ÌN” ÌN” ÌR” ÌR” ÌR” ÌR” ÌR” ÌR”! ÌR!”# ÌR#’” ÌN” ÌN’” ÌE” ÌE”” ÌV” ÌV” ÌV” ÌV–” ÌV” ÌV” ÌW” ÌW” ÌW” ÌW˜” ÌV” ÌV” ÌX” ÌX” ÌX”& ÌX$”' ÌX%”+ ÌX)˜” ÌV” ÌV” ÌY” ÌY” ÌY”$ ÌY"”% ÌY#”) ÌY'˜” ÌV” ÌV” ÌZ” ÌZ” ÌZ”$ ÌZ"”% ÌZ#”+ ÌZ)–” ÌV” ÌV” Ì[” Ì[” Ì[” Ì[–” ÌV” ÌV” Ì\” Ì\” Ì\” Ì\–” ÌV” ÌV” Ì]”  Ì]”! Ì]”* Ì](–” ÌV” ÌV” Ì^” Ì^” Ì^” Ì^’” ÌV” ÌV’” ÌD
+” ÌD’” Ìb
+” Ìb–” Ìb
+” Ìb” Ìj”  Ìj”! Ìj”* Ìj$–” Ìb
+” Ìb” Ìk” Ìk” Ìk” Ìk–” Ìb
+” Ìb” Ìl” Ìl” Ìl” ÌlÜ ”4 Ìd”? Ìd”ÌF Ìd”ÌH Ìd”ÌM Ìd!”ÌO Ìd#”ÌU Ìd)”ÌW Ìd+”Ì_ Ìd3”Ìa Ìd5”Ìn ÌdÌB”Ìp ÌdÌD”Ìv ÌdÌJ”Ìx ÌdÌL”Ì| ÌdÌP”Ì~ ÌdÌR”Ì„ ÌdÌX”Ì† ÌdÌZ”ÌŠ ÌdÌ^”ÌŒ ÌdÌ`””$ Ìd”) Ìd!”+ Ìd#”1 Ìd)””$ Ìd+”, Ìd3”. Ìd5”; ÌdÌB””$ ÌdÌD”* ÌdÌJ”, ÌdÌL”0 ÌdÌP””$ ÌdÌR”* ÌdÌX”, ÌdÌZ”0 ÌdÌ^’” Ìc” ÌcÜ ”4 Ìg”? Ìg”ÌF Ìg”ÌH Ìg”ÌM Ìg!”ÌO Ìg#”ÌU Ìg)”ÌW Ìg+”Ì_ Ìg3”Ìa Ìg5”Ìn ÌgÌB”Ìp ÌgÌD”Ìv ÌgÌJ”Ìx ÌgÌL”Ì| ÌgÌP”Ì~ ÌgÌR””$ Ìg”) Ìg!”+ Ìg#”1 Ìg)””$ Ìg+”, Ìg3”. Ìg5”; ÌgÌB””$ ÌgÌD”* ÌgÌJ”, ÌgÌL”0 ÌgÌP’” Ìf” Ìf’” Ìb
+” Ìb’” ÌC” ÌC˜” Ìt” Ìt” Ìt” Ìt”! Ìt”# Ìt”% Ìt”' Ìt–” Ìt” Ìt” ÌÉ	” ÌÉ” ÌÉ” ÌÉ–” Ìt” Ìt” ÌÊ	” ÌÊ” ÌÊ” ÌÊ˜” Ìt” Ìt” ÌË	”" ÌË”# ÌË”, ÌË"”- ÌË#”4 ÌË*–” Ìt” Ìt” ÌÌ	” ÌÌ”  ÌÌ”! ÌÌÜ ” Ìt” Ìt” ÌÍ	” ÌÍ” ÌÍ” ÌÍ”! ÌÍ”# ÌÍ”$ ÌÍ”& ÌÍ”+ ÌÍ!”- ÌÍ#”6 ÌÍ,”7 ÌÍ-”= ÌÍ3”? ÌÍ5”” Ìu
+” Ìu” Ìu” Ìu–” Ìu
+” Ìu” Ìv” Ìv” Ìv” Ìv˜” Ìu
+” Ìu” Ìw” Ìw” Ìw”& Ìw"”' Ìw#”+ Ìw'˜” Ìu
+” Ìu” Ìx” Ìx” Ìx”$ Ìx ”% Ìx!”) Ìx%–” Ìu
+” Ìu” Ìy” Ìy” Ìy” Ìy’” Ìu
+” Ìu” Ì{
+” Ì{” Ì{” Ì{”* Ì{!”, Ì{#”5 Ì{,”7 Ì{.”; Ì{2”= Ì{4”ÌA Ì{8”ÌB Ì{9”ÌI Ì{Ì@”ÌK Ì{ÌB–” Ì{
+” Ì{” Ì|” Ì|” Ì|” Ì|–” Ì{
+” Ì{” Ì}” Ì}” Ì}”! Ì}˜” Ì{
+” Ì{” Ì~”% Ì~”& Ì~”/ Ì~&”0 Ì~'”; Ì~2–” Ì{
+” Ì{” Ì”" Ì”# Ì”$ ÌÜ ” Ì{
+” Ì{” Ì€” Ì€” Ì€” Ì€”$ Ì€”& Ì€”' Ì€”) Ì€ ”. Ì€%”0 Ì€'”9 Ì€0”: Ì€1”Ì@ Ì€7”ÌB Ì€9” Ì{
+” Ì{” Ì” Ì” Ì”  Ì”$ Ì”& Ì”( Ì”* Ì!”/ Ì&”1 Ì(”3 Ì*”5 Ì,™” Ì{
+” Ì{” Ì‚” Ì‚” Ì‚”  Ì‚”% Ì‚$”' Ì‚&”) Ì‚(—” Ìƒ” Ìƒ” Ìƒ” Ìƒ” Ìƒ”$ Ìƒ"”% Ìƒ#’” Ì„” Ì„” Ì†
+” Ì†” Ì†” Ì†”* Ì†!”, Ì†#”0 Ì†'”2 Ì†)”6 Ì†-”8 Ì†/”< Ì†3”= Ì†4”ÌE Ì†<”ÌG Ì†>–” Ì†
+” Ì†” Ì‡” Ì‡” Ì‡” Ì‡–” Ì†
+” Ì†” Ìˆ” Ìˆ” Ìˆ”! Ìˆ˜” Ì†
+” Ì†” Ì‰” Ì‰” Ì‰”$ Ì‰”% Ì‰”- Ì‰$˜” Ì†
+” Ì†” ÌŠ”% ÌŠ”& ÌŠ”/ ÌŠ&”0 ÌŠ'”; ÌŠ2–” Ì†
+” Ì†” Ì‹”" Ì‹”# Ì‹”$ Ì‹Ü ” Ì†
+” Ì†” ÌŒ” ÌŒ” ÌŒ” ÌŒ”$ ÌŒ”& ÌŒ”' ÌŒ”) ÌŒ ”. ÌŒ%”0 ÌŒ'”9 ÌŒ0”: ÌŒ1”Ì@ ÌŒ7”ÌB ÌŒ9” Ì†
+” Ì†” Ì” Ì” Ì”  Ì”$ Ì”& Ì”( Ì”* Ì!”/ Ì&”1 Ì(”3 Ì*”5 Ì,™” Ì†
+” Ì†” Ì” Ì” Ì”  Ì”% Ì$”' Ì&”) Ì(—” Ì” Ì” Ì” Ì”  Ì”% Ì#”& Ì$’” Ì” Ì–” Ì’
+” Ì’” Ì’” Ì’” Ì’”) Ì’ –” Ì’
+” Ì’” Ì“” Ì“” Ì“” Ì“Ü ” Ì’
+” Ì’” Ì”” Ì”” Ì”” Ì””  Ì””, Ì”(”1 Ì”-”7 Ì”3”8 Ì”4”9 Ì”5”: Ì”6”ÌC Ì”?”ÌD Ì”Ì@”ÌJ Ì”ÌF”ÌK Ì”ÌG”ÌL Ì”ÌH”ÌM Ì”ÌI”ÌV Ì”ÌR”ÌW Ì”ÌS”Ì^ Ì”ÌZ–” Ì’
+” Ì’” Ì•” Ì•” Ì•” Ì•’” Ì’
+” Ì’’” Ì—
+” Ì—”” Ì˜” Ì˜” Ì˜” Ì˜–” Ì˜” Ì˜” Ì™” Ì™” Ì™” Ì™˜” Ì˜” Ì˜” Ìš” Ìš” Ìš”$ Ìš"”% Ìš#”* Ìš(–” Ì˜” Ì˜” Ì›” Ì›” Ì›” Ì›š” Ì˜” Ì˜” Ìœ” Ìœ” Ìœ” Ìœ”  Ìœ”" Ìœ ”# Ìœ!”% Ìœ#’” Ì˜” Ì˜˜” Ì” Ì” Ì” Ì” Ì”  Ì”" Ì”$ Ì–” Ì” Ì” Ì«” Ì«” Ì«” Ì«’” Ì” Ì™” ÌŸ” ÌŸ”+ ÌŸ”5 ÌŸ!”6 ÌŸ"”? ÌŸ+”Ì@ ÌŸ,”ÌD ÌŸ0”ÌE ÌŸ1–” ÌŸ” ÌŸ” Ì ”' Ì ”( Ì  ”) Ì !–” ÌŸ” ÌŸ” Ì¡”! Ì¡”" Ì¡”$ Ì¡–” ÌŸ” ÌŸ” Ì¢”# Ì¢”$ Ì¢”& Ì¢Ü ” ÌŸ” ÌŸ” Ì£”$ Ì£”% Ì£”) Ì£!”* Ì£"”. Ì£&”3 Ì£+”7 Ì£/”8 Ì£0”9 Ì£1”: Ì£2”ÌC Ì£;”ÌD Ì£<”ÌE Ì£=”ÌF Ì£>”ÌO Ì£ÌG”ÌP Ì£ÌH”ÌW Ì£ÌOÜ ” ÌŸ” ÌŸ” Ì¤”* Ì¤"”+ Ì¤#”/ Ì¤'”0 Ì¤(”4 Ì¤,”9 Ì¤1”= Ì¤5”> Ì¤6”? Ì¤7”Ì@ Ì¤8”ÌI Ì¤ÌA”ÌJ Ì¤ÌB”ÌQ Ì¤ÌI”ÌR Ì¤ÌJ”ÌS Ì¤ÌK”ÌT Ì¤ÌL”Ì] Ì¤ÌU”Ì^ Ì¤ÌV”Ìf Ì¤Ì^–” ÌŸ” ÌŸ” Ì¥”' Ì¥”( Ì¥ ”) Ì¥!—” ÌŸ” ÌŸ” Ì¦”" Ì¦”# Ì¦”& Ì¦”( Ì¦ ˜” Ì§” Ì§” Ì§”' Ì§#”( Ì§$”, Ì§(”- Ì§)”. Ì§*’” Ì¨” Ì¨’” ÌŸ” ÌŸ›”/ Ì”3 Ì”4 Ì”9 Ì ”ÌS Ì©”ÌT Ì©”ÌX Ì© ”ÌZ Ì©"”Ì\ Ì©$”Ì] Ì©%”Ìa Ì©)’” Ì” Ì’” Ì” Ì’” Ì—
+” Ì—š” Ì®
+” Ì®” Ì®” Ì®”! Ì®”" Ì® ”( Ì®&”+ Ì®)”, Ì®*”. Ì®,–” Ì¯” Ì¯”$ Ì¯”( Ì¯”) Ì¯”5 Ì¯"–” Ì¯” Ì¯” Ì°”% Ì°”& Ì°”( Ì°˜” Ì¯” Ì¯” Ì±”& Ì±”' Ì±”0 Ì±"”1 Ì±#”7 Ì±)–” Ì¯” Ì¯” Ì²”" Ì²”# Ì²”) Ì²–” Ì¯” Ì¯” Ì³”$ Ì³”% Ì³”' Ì³˜” Ì¯” Ì¯” Ì´”, Ì´”- Ì´”6 Ì´(”7 Ì´)”ÌA Ì´3–” Ì¯” Ì¯” Ìµ”) Ìµ”* Ìµ”+ Ìµ’” Ì¯” Ì¯‘” Ì¶‘” Ì¶” Ì¸
+” Ì¸”# Ì¸”' Ì¸”( Ì¸”1 Ì¸”2 Ì¸ ”3 Ì¸!”4 Ì¸"”= Ì¸+”> Ì¸,”? Ì¸-”Ì@ Ì¸.”ÌL Ì¸:–” Ì¸
+” Ì¸” Ì¹” Ì¹” Ì¹” Ì¹–” Ì¸
+” Ì¸” Ìº” Ìº” Ìº” Ìº–” Ì¸
+” Ì¸” Ì»” Ì»” Ì»” Ì»˜” Ì¸
+” Ì¸” Ì¼” Ì¼” Ì¼”( Ì¼"”) Ì¼#”/ Ì¼)Ü ” Ì¸
+” Ì¸” Ì½”" Ì½”# Ì½”' Ì½!”( Ì½"”1 Ì½+”2 Ì½,”3 Ì½-”4 Ì½.”= Ì½7”> Ì½8”ÌJ Ì½ÌD”ÌK Ì½ÌE”ÌL Ì½ÌF”ÌM Ì½ÌG”ÌV Ì½ÌP”ÌW Ì½ÌQ”Ì^ Ì½ÌX–” Ì¸
+” Ì¸” Ì¾” Ì¾”  Ì¾”! Ì¾—” Ì¸
+” Ì¸” Ì¿” Ì¿” Ì¿” Ì¿”  Ì¿–” ÌÀ” ÌÀ” ÌÀ” ÌÀ” ÌÀ” ÌÀ’” ÌÁ” ÌÁ’” Ì¸
+” Ì¸”” ÌÃ
+” ÌÃ” ÌÃ”ÌM ÌÃÌD–” ÌÃ
+” ÌÃ” ÌÄ” ÌÄ” ÌÄ” ÌÄ˜” ÌÃ
+” ÌÃ” ÌÅ” ÌÅ” ÌÅ”$ ÌÅ ”% ÌÅ!”* ÌÅ&–” ÌÃ
+” ÌÃ” ÌÆ” ÌÆ” ÌÆ” ÌÆ–” ÌÃ
+” ÌÃ” ÌÇ” ÌÇ” ÌÇ” ÌÇ’” ÌÃ
+” ÌÃ’” Ìt” Ìt’” ÌB” ÌB’” ÌA” ÌA
+‘” ÌÕÔrH–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ¤‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ì ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ‘”  Ìµ ‘”  Ì¶ ‘”  Ì· ‘”  Ì¸ ‘”  Ì¹ ‘”  Ìº ‘”  Ì» ‘”  Ì¼ ‘”  Ì½ ‘”  Ì¾ ‘”  Ì¿ ‘”  ÌÀ ‘”  ÌÁ ‘”  ÌÂ ‘”  ÌÃ ‘”  ÌÄ ‘”  ÌÅ ‘”  ÌÆ ‘”  ÌÇ ‘”  ÌÈ ‘”  ÌÉ ‘”  ÌÊ ‘”  ÌË ‘”  ÌÌ ‘”  ÌÍ ‘”  ÌÎ ‘”  ÌÏ ‘”  ÌĞ ‘”  ÌÑ ‘”  ÌÒ ‘”  ÌÓ ‘”  ÌÔ ‘”  ÌÕ ‘”  ÌÖ ‘”  Ì× ‘”  ÌØ ‘”  ÌÙ ‘”  ÌÚ ‘”  ÌÛ ‘”  ÌÜ ‘”  Ìİ ‘”  ÌŞ ‘”  Ìß ‘”  Ìà ‘”  Ìá ‘”  Ìâ ‘”  Ìã ‘”  Ìä ‘”  Ìå ‘”  Ìæ ‘”  Ìç ‘”  Ìè ‘”  Ìé ‘”  Ìê ‘”  Ìë ‘”  Ìì ‘”  Ìí ‘”  Ìî ‘”  Ìï ‘”  Ìğ ‘”  Ìñ ‘”  Ìò ‘”  Ìó ‘”  Ìô ‘”  Ìõ ‘”  Ìö ‘”  Ì÷ ‘”  Ìø ‘”  Ìù ‘”  Ìú ‘”  Ìû ‘”  Ìü ‘”  Ìı ‘”  Ìş ‘”  Ìÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ‘”  Íx ‘”  Íy ‘”  Íz ‘”  Í{ ‘”  Í| ‘”  Í} ‘”  Í~ ‘”  Í ‘”  Í€ ‘”  Í ‘”  Í‚ ‘”  Íƒ ‘”  Í„ ‘”  Í… ‘”  Í† ‘”  Í‡ ‘”  Íˆ ‘”  Í‰ ‘”  ÍŠ ‘”  Í‹ ‘”  ÍŒ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í‘ ‘”  Í’ ‘”  Í“ ‘”  Í” ‘”  Í• ‘”  Í– ‘”  Í— ‘”  Í˜ ‘”  Í™ ‘”  Íš ‘”  Í› ‘”  Íœ ‘”  Í ‘”  Í ‘”  ÍŸ ‘”  Í  ‘”  Í¡ ‘”  Í¢ ‘”  Í£ ÔrI’§missing¦pluginÃ¦genAbcÂÔ  ÔrJ”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache—ÔrK•¤type¥start£endªspecifiers¦source±ImportDeclarationÌ€Ì¢‘ÔrL”¤type¥start£end¥local¶ImportDefaultSpecifierÌ‡ÌÔrM”¤type¥start£end¤nameªIdentifierÌ‡Ì¦routerÔrN•¤type¥start£end¥value£raw§LiteralÌ“Ì¡¬@ohos.router®'@ohos.router'K±ImportDeclarationÌ¤ÌÒ‘L¶ImportDefaultSpecifierÌ«Ì·MªIdentifierÌ«Ì·¬promptActionN§LiteralÌ½ÌÑ²@ohos.promptAction´'@ohos.promptAction'K±ImportDeclarationÌÔÍ‘ÔrO•¤type¥start£end¨imported¥local¯ImportSpecifierÌİÌèMªIdentifierÌİÌè«FeatureCardMªIdentifierÌİÌè«FeatureCardN§LiteralÌğÍ¹../components/FeatureCard»'../components/FeatureCard'K±ImportDeclarationÍÍD‘O¯ImportSpecifierÍÍ"MªIdentifierÍÍ"«AuthServiceMªIdentifierÍÍ"«AuthServiceN§LiteralÍ*ÍC·../services/AuthService¹'../services/AuthService'K±ImportDeclarationÍFÍŠ‘O¯ImportSpecifierÍOÍaMªIdentifierÍOÍa²AuthSessionServiceMªIdentifierÍOÍa²AuthSessionServiceN§LiteralÍiÍ‰¾../services/AuthSessionServiceÙ '../services/AuthSessionService'K±ImportDeclarationÍŒÍÑ“O¯ImportSpecifierÍ•ÍMªIdentifierÍ•Í©AppColorsMªIdentifierÍ•Í©AppColorsO¯ImportSpecifierÍ Í©MªIdentifierÍ Í©©AppLayoutMªIdentifierÍ Í©©AppLayoutO¯ImportSpecifierÍ«Í´MªIdentifierÍ«Í´©AppRoutesMªIdentifierÍ«Í´©AppRoutesN§LiteralÍ¼ÍĞ²../utils/Constants´'../utils/Constants'K±ImportDeclarationÍÓÍ‘O¯ImportSpecifierÍÜÍæMªIdentifierÍÜÍæªFormatUtilMªIdentifierÍÜÍæªFormatUtilN§LiteralÍîÍ³../utils/FormatUtilµ'../utils/FormatUtil'

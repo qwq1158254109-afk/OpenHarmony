@@ -1,0 +1,71 @@
+{
+  "HVIGOR_OHOS_PLUGIN": {
+    "MODULES": [
+      {
+        "MODULE_NAME": "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf",
+        "API_TYPE": "stageMode",
+        "INCLUDE_IN_BUILD": true,
+        "IS_COMMAND_LINE_ENTRY_MODULE": true,
+        "BUILD_OPTION": [
+          {
+            "path": "debuggable",
+            "traceValue": true,
+            "value": true
+          },
+          {
+            "path": "copyFrom",
+            "traceValue": false,
+            "value": ""
+          }
+        ],
+        "PACKAGE_JSON": [],
+        "MODULE_TYPE": "entry",
+        "IS_INCREMENTAL_MODULE": true
+      }
+    ],
+    "NATIVE_COMPILER": "Default",
+    "IS_FULL_BUILD": false,
+    "PACKAGE_JSON": [],
+    "BUILD_MODE": "debug"
+  },
+  "HVIGOR": {
+    "IS_INCREMENTAL": true,
+    "IS_DAEMON": true,
+    "IS_PARALLEL": true,
+    "IS_HVIGORFILE_TYPE_CHECK": false,
+    "IS_EXECUTION_OHPM_BY_HVIGOR": false,
+    "BUILD_ANALYSIS_MODE": "normal",
+    "TASK_TIME": {
+      "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf": {
+        "PreBuild": 107081500,
+        "CreateModuleInfo": 687500,
+        "ConfigureCmake": 325300,
+        "PreCheckSyscap": 313200,
+        "GeneratePkgContextInfo": 5695600,
+        "ProcessIntegratedHsp": 647700,
+        "BuildNativeWithCmake": 233200,
+        "SyscapTransform": 11140500,
+        "ProcessStartupConfig": 1552700,
+        "BuildNativeWithNinja": 436600,
+        "BuildJS": 2330700,
+        "ProcessCompiledResources": 647200,
+        "PackingCheck": 6234400,
+        "SignHap": 1808500,
+        "CollectDebugSymbol": 843500,
+        "assembleHap": 527700
+      }
+    },
+    "CUSTOM_TASK_TIME": {},
+    "CUSTOM_PLUGIN_TIME": {},
+    "APIS": [
+      "getProperty"
+    ],
+    "CONFIG_EXPERIMENT": {
+      "ENABLE_MODULE_SKIP": false,
+      "ENABLE_CPP_FUNCTION_LEVEL_INCREMENTAL": false
+    },
+    "CONFIG_PROPERTIES": {},
+    "BUILD_ID": "202605091624254070",
+    "TOTAL_TIME": 1750823200
+  }
+}

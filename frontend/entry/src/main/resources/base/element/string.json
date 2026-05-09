@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "校园分布式无感身份认证"
+    },
+    {
+      "name": "module_desc",
+      "value": "Campus distributed seamless authentication module"
+    },
+    {
+      "name": "entry_desc",
+      "value": "Main entry ability"
+    }
+  ]
+}

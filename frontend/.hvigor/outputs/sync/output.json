@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "ohos-module-entry": {
+    "SELECT_TARGET": "default",
+    "MODULE_BUILD_DIR": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build",
+    "TARGETS": {
+      "default": {
+        "SOURCE_ROOT": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main",
+        "RESOURCES_PATH": [
+          "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\src\\main\\resources"
+        ],
+        "BUILD_PATH": {
+          "OUTPUT_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\outputs\\default",
+          "INTERMEDIA_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates",
+          "JS_ASSETS_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\loader_out\\default",
+          "JS_LITE_ASSETS_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\loader_out_lite\\default",
+          "RES_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\res\\default",
+          "RES_PROFILE_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\res\\default\\resources\\base\\profile",
+          "ETS_SUPER_VISUAL_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\cache\\default\\default@CompileArkTS\\esmodule",
+          "JS_SUPER_VISUAL_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\cache\\default\\default@CompileJS\\jsbundle",
+          "WORKER_LOADER": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\loader\\default\\loader.json",
+          "MANIFEST_JSON": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\manifest\\default",
+          "OUTPUT_METADATA_JSON": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\hap_metadata\\default\\output_metadata.json",
+          "SOURCE_MAP_DIR": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry\\build\\default\\intermediates\\source_map\\default"
+        },
+        "BUILD_OPTION": {
+          "debuggable": true
+        }
+      }
+    },
+    "BUILD_OPTION": {
+      "default-default": {
+        "debuggable": true,
+        "copyFrom": "default"
+      }
+    },
+    "BUILD_PROFILE_OPT": {
+      "apiType": "stageMode",
+      "buildOption": {},
+      "targets": [
+        {
+          "name": "default"
+        }
+      ]
+    },
+    "BUILD_CACHE_DIR": ""
+  },
+  "ohos-project": {
+    "SELECT_PRODUCT_NAME": "default",
+    "MODULE_BUILD_DIR": "E:\\project\\My_project\\OpenHarmony\\frontend\\build",
+    "BUNDLE_NAME": "com.example.campusauth",
+    "VERSION_CODE": 1000000,
+    "VERSION_NAME": "1.0.0",
+    "BUILD_PATH": {
+      "OUTPUT_PATH": "E:\\project\\My_project\\OpenHarmony\\frontend\\build\\outputs\\default"
+    },
+    "MODULES": [
+      {
+        "name": "entry",
+        "srcPath": "E:\\project\\My_project\\OpenHarmony\\frontend\\entry",
+        "targets": [
+          {
+            "name": "default",
+            "applyToProducts": [
+              "default"
+            ]
+          }
+        ],
+        "belongProjectPath": "E:\\project\\My_project\\OpenHarmony\\frontend"
+      }
+    ],
+    "PROFILE_OPT": {
+      "app": {
+        "signingConfigs": [],
+        "products": [
+          {
+            "name": "default",
+            "compileSdkVersion": "6.1.1(24)",
+            "compatibleSdkVersion": "6.1.1(24)",
+            "targetSdkVersion": "6.1.1(24)",
+            "runtimeOS": "HarmonyOS",
+            "signingConfig": ""
+          }
+        ],
+        "buildModeSet": [
+          {
+            "name": "debug"
+          },
+          {
+            "name": "release"
+          }
+        ]
+      },
+      "modules": [
+        {
+          "name": "entry",
+          "srcPath": "./entry",
+          "targets": [
+            {
+              "name": "default",
+              "applyToProducts": [
+                "default"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "CONFIG_PROPERTIES": {
+      "enableSignTask": true,
+      "skipNativeIncremental": false,
+      "hvigor.keepDependency": true
+    },
+    "OVERALL_PROJECT_PATHS": [
+      "E:\\project\\My_project\\OpenHarmony\\frontend"
+    ],
+    "BUILD_CACHE_DIR": ""
+  }
+}

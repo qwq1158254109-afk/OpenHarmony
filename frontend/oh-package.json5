@@ -1,0 +1,11 @@
+{
+  "modelVersion": "5.0.0",
+  "name": "campus-distributed-auth",
+  "version": "1.0.0",
+  "description": "基于 OpenHarmony 的校园分布式无感身份认证系统",
+  "main": "",
+  "author": "OpenHarmony Contest Team",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {}
+}
