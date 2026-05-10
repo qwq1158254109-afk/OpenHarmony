@@ -50,6 +50,10 @@ pub struct User {
     pub role: UserRole,
     pub college: String,
     pub department: String,
+    pub user_code: String,
+    pub phone: Option<String>,
+    pub email: Option<String>,
+    pub created_at: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -64,6 +68,55 @@ pub struct LoginResponse {
     pub success: bool,
     pub message: String,
     pub user: Option<User>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct RegisterRequest {
+    pub username: String,
+    pub password: String,
+    #[serde(rename = "realName")]
+    pub real_name: String,
+    #[serde(rename = "userCode")]
+    pub user_code: String,
+    pub role: UserRole,
+    pub phone: Option<String>,
+    pub email: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct RegisteredUser {
+    pub id: String,
+    pub username: String,
+    #[serde(rename = "realName")]
+    pub real_name: String,
+    pub role: UserRole,
+    #[serde(rename = "userCode")]
+    pub user_code: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct RegisterResponse {
+    pub code: u16,
+    pub message: String,
+    pub data: Option<RegisteredUser>,
+}
+
+impl RegisterResponse {
+    pub fn ok(message: impl Into<String>, data: RegisteredUser) -> Self {
+        Self {
+            code: 200,
+            message: message.into(),
+            data: Some(data),
+        }
+    }
+
+    pub fn error(message: impl Into<String>) -> Self {
+        Self {
+            code: 400,
+            message: message.into(),
+            data: None,
+        }
+    }
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

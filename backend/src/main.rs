@@ -5,7 +5,7 @@ mod storage;
 
 use axum::routing::{get, post};
 use axum::{Json, Router};
-use routes::auth_routes::{get_records, login, verify_auth};
+use routes::auth_routes::{get_records, login, register, verify_auth};
 use routes::campus_routes::{
     access_rules, add_blacklist, admin_attendance, auth_permissions, blacklist, list_devices,
     passage_records, register_terminal, remove_blacklist, student_certifications,
@@ -37,6 +37,7 @@ async fn main() {
         .route("/", get(service_info))
         .route("/health", get(health))
         .route("/api/login", post(login))
+        .route("/api/auth/register", post(register))
         .route("/api/auth/verify", post(verify_auth))
         .route("/api/auth/records", get(get_records))
         .route("/api/device/bind", post(bind_device))
@@ -79,6 +80,7 @@ async fn service_info() -> Json<ServiceInfo> {
         status: "ok",
         endpoints: vec![
             "POST /api/login",
+            "POST /api/auth/register",
             "POST /api/auth/verify",
             "GET /api/auth/records",
             "POST /api/device/bind",

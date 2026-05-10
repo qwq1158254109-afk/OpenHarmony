@@ -1,6 +1,6 @@
 use crate::models::{
     ApiResponse, AuthRecord, AuthResult, AuthVerifyRequest, AuthVerifyResponse, LoginRequest,
-    LoginResponse, RecordQuery, RiskLevel,
+    LoginResponse, RecordQuery, RegisterRequest, RegisterResponse, RiskLevel,
 };
 use crate::services::auth_service;
 use crate::storage::SharedState;
@@ -21,6 +21,17 @@ pub async fn login(
     } else {
         Json(ApiResponse::error("LOGIN_FAILED", response.message))
     }
+}
+
+pub async fn register(
+    State(state): State<SharedState>,
+    Json(request): Json<RegisterRequest>,
+) -> Json<RegisterResponse> {
+    let Ok(mut store) = state.lock() else {
+        eprintln!("[api.auth.register] state lock failed");
+        return Json(RegisterResponse::error("服务状态暂不可用"));
+    };
+    Json(auth_service::register(&mut store, request))
 }
 
 pub async fn verify_auth(

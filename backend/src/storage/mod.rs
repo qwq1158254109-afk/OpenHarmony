@@ -39,6 +39,10 @@ fn seed_store() -> AppStore {
             role: UserRole::Student,
             college: "计算机与信息工程学院".to_string(),
             department: "软件工程 2301 班".to_string(),
+            user_code: "student001".to_string(),
+            phone: Some("13800138000".to_string()),
+            email: Some("student001@example.com".to_string()),
+            created_at: "2026-05-01 08:00".to_string(),
         },
         User {
             id: "u-teacher-001".to_string(),
@@ -47,6 +51,10 @@ fn seed_store() -> AppStore {
             role: UserRole::Teacher,
             college: "计算机与信息工程学院".to_string(),
             department: "智能软件实验室".to_string(),
+            user_code: "teacher001".to_string(),
+            phone: Some("13800138001".to_string()),
+            email: Some("teacher001@example.com".to_string()),
+            created_at: "2026-05-01 08:10".to_string(),
         },
         User {
             id: "u-admin-001".to_string(),
@@ -55,6 +63,10 @@ fn seed_store() -> AppStore {
             role: UserRole::Admin,
             college: "河南大学".to_string(),
             department: "智慧校园管理中心".to_string(),
+            user_code: "admin001".to_string(),
+            phone: None,
+            email: Some("admin001@example.com".to_string()),
+            created_at: "2026-05-01 08:20".to_string(),
         },
     ];
 
