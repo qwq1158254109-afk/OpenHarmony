@@ -18,7 +18,8 @@ import { SectionHeader } from "@bundle:com.example.campusauth/entry/ets/componen
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { DefenseDemoLog, DefenseDemoResult, DefenseDemoScenario, PageLoadState, PortalStatus } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class DefenseDemoPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -156,6 +157,9 @@ class DefenseDemoPage extends ViewPU {
         this.__logs.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.defenseDemo)) {
+            return;
+        }
         this.scenarios = PortalMockService.defenseDemoScenarios();
         this.state = this.scenarios.length === 0 ? 'empty' : 'ready';
     }
@@ -285,7 +289,7 @@ class DefenseDemoPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '答辩演示模式', subtitle: '一键模拟无感身份认证核心场景，适合现场演示' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 135, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '答辩演示模式', subtitle: '一键模拟无感身份认证核心场景，适合现场演示' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 139, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -347,7 +351,7 @@ class DefenseDemoPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无演示动作', errorText: '演示模式加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 163, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无演示动作', errorText: '演示模式加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 167, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -370,7 +374,7 @@ class DefenseDemoPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new SectionHeader(this, { title: '一键演示动作', subtitle: '建议从上到下按场景顺序演示' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 165, col: 11 });
+                                let componentCall = new SectionHeader(this, { title: '一键演示动作', subtitle: '建议从上到下按场景顺序演示' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 169, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -422,7 +426,7 @@ class DefenseDemoPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '演示日志', subtitle: '每次点击都会写入一条 Mock 日志，便于答辩追踪' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 179, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '演示日志', subtitle: '每次点击都会写入一条 Mock 日志，便于答辩追踪' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 183, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -444,7 +448,7 @@ class DefenseDemoPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: '尚未执行演示动作' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 181, col: 13 });
+                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: '尚未执行演示动作' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DefenseDemoPage.ets", line: 185, col: 13 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

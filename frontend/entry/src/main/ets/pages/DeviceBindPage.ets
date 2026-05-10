@@ -2,8 +2,11 @@ import promptAction from '@ohos.promptAction';
 import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { BoundDeviceInfo, PageLoadState } from '../models/CampusPortal';
+import { UserProfile } from '../models/User';
+import { AuthSessionService } from '../services/AuthSessionService';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -12,7 +15,11 @@ struct DeviceBindPage {
   @State devices: BoundDeviceInfo[] = [];
 
   aboutToAppear(): void {
-    this.devices = PortalMockService.boundDevices();
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.deviceBind)) {
+      return;
+    }
+    const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+    this.devices = PortalMockService.boundDevices(currentUser);
     this.state = this.devices.length === 0 ? 'empty' : 'ready';
   }
 
@@ -36,7 +43,7 @@ struct DeviceBindPage {
   build() {
     Scroll() {
       Column({ space: 16 }) {
-        PageTitleBar({ title: '设备绑定', subtitle: '绑定和管理参与无感认证的可信设备' })
+        PageTitleBar({ title: '我的设备管理', subtitle: '绑定和管理本人参与无感认证的可信设备' })
         if (this.state !== 'ready') {
           StatePanel({ state: this.state, emptyText: '暂无绑定设备', errorText: '设备列表加载失败' })
         } else {

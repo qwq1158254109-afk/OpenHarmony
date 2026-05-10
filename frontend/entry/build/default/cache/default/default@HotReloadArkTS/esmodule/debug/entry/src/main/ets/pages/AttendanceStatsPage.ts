@@ -4,12 +4,17 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 interface AttendanceStatsPage_Params {
     state?: PageLoadState;
     metrics?: AttendanceMetric[];
+    pageTitle?: string;
+    pageSubtitle?: string;
 }
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { AttendanceMetric, PageLoadState } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AttendanceStatsPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -18,6 +23,8 @@ class AttendanceStatsPage extends ViewPU {
         }
         this.__state = new ObservedPropertySimplePU('loading', this, "state");
         this.__metrics = new ObservedPropertyObjectPU([], this, "metrics");
+        this.__pageTitle = new ObservedPropertySimplePU('我的课堂考勤', this, "pageTitle");
+        this.__pageSubtitle = new ObservedPropertySimplePU('按课程展示本人到课率和最近签到时间', this, "pageSubtitle");
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
     }
@@ -28,16 +35,26 @@ class AttendanceStatsPage extends ViewPU {
         if (params.metrics !== undefined) {
             this.metrics = params.metrics;
         }
+        if (params.pageTitle !== undefined) {
+            this.pageTitle = params.pageTitle;
+        }
+        if (params.pageSubtitle !== undefined) {
+            this.pageSubtitle = params.pageSubtitle;
+        }
     }
     updateStateVars(params: AttendanceStatsPage_Params) {
     }
     purgeVariableDependenciesOnElmtId(rmElmtId) {
         this.__state.purgeDependencyOnElmtId(rmElmtId);
         this.__metrics.purgeDependencyOnElmtId(rmElmtId);
+        this.__pageTitle.purgeDependencyOnElmtId(rmElmtId);
+        this.__pageSubtitle.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__state.aboutToBeDeleted();
         this.__metrics.aboutToBeDeleted();
+        this.__pageTitle.aboutToBeDeleted();
+        this.__pageSubtitle.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -55,8 +72,34 @@ class AttendanceStatsPage extends ViewPU {
     set metrics(newValue: AttendanceMetric[]) {
         this.__metrics.set(newValue);
     }
+    private __pageTitle: ObservedPropertySimplePU<string>;
+    get pageTitle() {
+        return this.__pageTitle.get();
+    }
+    set pageTitle(newValue: string) {
+        this.__pageTitle.set(newValue);
+    }
+    private __pageSubtitle: ObservedPropertySimplePU<string>;
+    get pageSubtitle() {
+        return this.__pageSubtitle.get();
+    }
+    set pageSubtitle(newValue: string) {
+        this.__pageSubtitle.set(newValue);
+    }
     aboutToAppear(): void {
-        this.metrics = PortalMockService.attendanceMetrics();
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.attendanceStats)) {
+            return;
+        }
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        if (currentUser?.role === 'teacher') {
+            this.pageTitle = '班级认证概况';
+            this.pageSubtitle = '按课程展示任课班级认证完成率和最近签到时间';
+        }
+        else if (currentUser?.role === 'admin') {
+            this.pageTitle = '全局数据统计';
+            this.pageSubtitle = '按学院和课程汇总出勤与认证概况';
+        }
+        this.metrics = PortalMockService.attendanceMetrics(currentUser);
         this.state = this.metrics.length === 0 ? 'empty' : 'ready';
     }
     private rate(item: AttendanceMetric): number {
@@ -80,12 +123,12 @@ class AttendanceStatsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '考勤统计', subtitle: '按课程展示学生到课率和最近签到时间' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 28, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: this.pageTitle, subtitle: this.pageSubtitle }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 44, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '考勤统计',
-                            subtitle: '按课程展示学生到课率和最近签到时间'
+                            title: this.pageTitle,
+                            subtitle: this.pageSubtitle
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
@@ -102,7 +145,7 @@ class AttendanceStatsPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无考勤数据', errorText: '考勤数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 30, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无考勤数据', errorText: '考勤数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 46, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

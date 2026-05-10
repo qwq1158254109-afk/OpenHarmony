@@ -25,6 +25,7 @@ export class AppLayout {
 }
 export class AppRoutes {
     static readonly login: string = 'pages/LoginPage';
+    static readonly register: string = 'pages/RegisterPage';
     static readonly dashboard: string = 'pages/DashboardPage';
     static readonly overview: string = 'pages/OverviewPage';
     static readonly defenseDemo: string = 'pages/DefenseDemoPage';

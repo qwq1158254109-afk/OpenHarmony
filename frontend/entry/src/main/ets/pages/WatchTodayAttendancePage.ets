@@ -2,7 +2,8 @@ import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { PageLoadState, WatchAttendanceItem } from '../models/CampusPortal';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -11,6 +12,9 @@ struct WatchTodayAttendancePage {
   @State items: WatchAttendanceItem[] = [];
 
   aboutToAppear(): void {
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.watchTodayAttendance)) {
+      return;
+    }
     this.items = PortalMockService.watchAttendance();
     this.state = this.items.length === 0 ? 'empty' : 'ready';
   }

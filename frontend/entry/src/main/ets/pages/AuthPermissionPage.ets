@@ -2,8 +2,11 @@ import promptAction from '@ohos.promptAction';
 import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { AuthPermissionOption } from '../models/CampusPortal';
+import { UserProfile } from '../models/User';
+import { AuthSessionService } from '../services/AuthSessionService';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -12,7 +15,11 @@ struct AuthPermissionPage {
   @State refreshVersion: number = 0;
 
   aboutToAppear(): void {
-    this.permissionList = PortalMockService.authPermissions();
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.authPermission)) {
+      return;
+    }
+    const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+    this.permissionList = PortalMockService.authPermissions(currentUser);
   }
 
   private togglePermission(id: string | number): void {
@@ -50,9 +57,9 @@ struct AuthPermissionPage {
         Text(`${this.refreshVersion}`)
           .height(0)
           .opacity(0)
-        PageTitleBar({ title: '无感认证权限设置', subtitle: '按校园场景配置无感认证开关和风险策略' })
+        PageTitleBar({ title: '我的授权设置', subtitle: '管理本人校园身份认证授权场景' })
         if (this.permissionList.length === 0) {
-          StatePanel({ state: 'empty', emptyText: '暂无权限配置', errorText: '权限配置加载失败' })
+          StatePanel({ state: 'empty', emptyText: '暂无本人授权设置', errorText: '授权设置加载失败' })
         } else {
           ForEach(this.permissionList, (item: AuthPermissionOption) => {
             Row() {

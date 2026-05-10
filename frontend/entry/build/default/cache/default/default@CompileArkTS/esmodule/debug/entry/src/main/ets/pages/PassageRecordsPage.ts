@@ -4,14 +4,19 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 interface PassageRecordsPage_Params {
     state?: PageLoadState;
     records?: PassageRecordItem[];
+    pageTitle?: string;
+    pageSubtitle?: string;
 }
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components/StatusBadge";
 import type { PageLoadState, PassageRecordItem } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class PassageRecordsPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -20,6 +25,8 @@ class PassageRecordsPage extends ViewPU {
         }
         this.__state = new ObservedPropertySimplePU('loading', this, "state");
         this.__records = new ObservedPropertyObjectPU([], this, "records");
+        this.__pageTitle = new ObservedPropertySimplePU('我的认证记录', this, "pageTitle");
+        this.__pageSubtitle = new ObservedPropertySimplePU('查看本人近期认证、通行、设备登录记录', this, "pageSubtitle");
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
     }
@@ -30,16 +37,26 @@ class PassageRecordsPage extends ViewPU {
         if (params.records !== undefined) {
             this.records = params.records;
         }
+        if (params.pageTitle !== undefined) {
+            this.pageTitle = params.pageTitle;
+        }
+        if (params.pageSubtitle !== undefined) {
+            this.pageSubtitle = params.pageSubtitle;
+        }
     }
     updateStateVars(params: PassageRecordsPage_Params) {
     }
     purgeVariableDependenciesOnElmtId(rmElmtId) {
         this.__state.purgeDependencyOnElmtId(rmElmtId);
         this.__records.purgeDependencyOnElmtId(rmElmtId);
+        this.__pageTitle.purgeDependencyOnElmtId(rmElmtId);
+        this.__pageSubtitle.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__state.aboutToBeDeleted();
         this.__records.aboutToBeDeleted();
+        this.__pageTitle.aboutToBeDeleted();
+        this.__pageSubtitle.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -57,8 +74,34 @@ class PassageRecordsPage extends ViewPU {
     set records(newValue: PassageRecordItem[]) {
         this.__records.set(newValue);
     }
+    private __pageTitle: ObservedPropertySimplePU<string>;
+    get pageTitle() {
+        return this.__pageTitle.get();
+    }
+    set pageTitle(newValue: string) {
+        this.__pageTitle.set(newValue);
+    }
+    private __pageSubtitle: ObservedPropertySimplePU<string>;
+    get pageSubtitle() {
+        return this.__pageSubtitle.get();
+    }
+    set pageSubtitle(newValue: string) {
+        this.__pageSubtitle.set(newValue);
+    }
     aboutToAppear(): void {
-        this.records = PortalMockService.passageRecords();
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.passageRecords)) {
+            return;
+        }
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        if (currentUser?.role === 'teacher') {
+            this.pageTitle = '课堂签到记录';
+            this.pageSubtitle = '查看任课班级教学场景签到与认证记录';
+        }
+        else if (currentUser?.role === 'admin') {
+            this.pageTitle = '系统审计记录';
+            this.pageSubtitle = '查看全局认证、通行和风险处置记录';
+        }
+        this.records = PortalMockService.passageRecords(currentUser);
         this.state = this.records.length === 0 ? 'empty' : 'ready';
     }
     initialRender() {
@@ -76,12 +119,12 @@ class PassageRecordsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '通行记录', subtitle: '展示学号、设备 ID、认证结果和时间' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 23, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: this.pageTitle, subtitle: this.pageSubtitle }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 39, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '通行记录',
-                            subtitle: '展示学号、设备 ID、认证结果和时间'
+                            title: this.pageTitle,
+                            subtitle: this.pageSubtitle
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
@@ -98,7 +141,7 @@ class PassageRecordsPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无通行记录', errorText: '通行记录加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 25, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无通行记录', errorText: '通行记录加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 41, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -144,7 +187,7 @@ class PassageRecordsPage extends ViewPU {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new StatusBadge(this, { text: item.result, status: item.riskLevel === 'high' ? 'failed' : 'success' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 35, col: 17 });
+                                        let componentCall = new StatusBadge(this, { text: item.result, status: item.riskLevel === 'high' ? 'failed' : 'success' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 51, col: 17 });
                                         ViewPU.create(componentCall);
                                         let paramsLambda = () => {
                                             return {
@@ -191,7 +234,7 @@ class PassageRecordsPage extends ViewPU {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.riskLevel), status: item.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 52, col: 17 });
+                                        let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.riskLevel), status: item.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/PassageRecordsPage.ets", line: 68, col: 17 });
                                         ViewPU.create(componentCall);
                                         let paramsLambda = () => {
                                             return {

@@ -9,8 +9,11 @@ import promptAction from "@ohos:promptAction";
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { BoundDeviceInfo, PageLoadState } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class DeviceBindPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -57,7 +60,11 @@ class DeviceBindPage extends ViewPU {
         this.__devices.set(newValue);
     }
     aboutToAppear(): void {
-        this.devices = PortalMockService.boundDevices();
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.deviceBind)) {
+            return;
+        }
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        this.devices = PortalMockService.boundDevices(currentUser);
         this.state = this.devices.length === 0 ? 'empty' : 'ready';
     }
     private removeDevice(item: BoundDeviceInfo): void {
@@ -91,12 +98,12 @@ class DeviceBindPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '设备绑定', subtitle: '绑定和管理参与无感认证的可信设备' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DeviceBindPage.ets", line: 39, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '我的设备管理', subtitle: '绑定和管理本人参与无感认证的可信设备' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DeviceBindPage.ets", line: 46, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '设备绑定',
-                            subtitle: '绑定和管理参与无感认证的可信设备'
+                            title: '我的设备管理',
+                            subtitle: '绑定和管理本人参与无感认证的可信设备'
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
@@ -113,7 +120,7 @@ class DeviceBindPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无绑定设备', errorText: '设备列表加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DeviceBindPage.ets", line: 41, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无绑定设备', errorText: '设备列表加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DeviceBindPage.ets", line: 48, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

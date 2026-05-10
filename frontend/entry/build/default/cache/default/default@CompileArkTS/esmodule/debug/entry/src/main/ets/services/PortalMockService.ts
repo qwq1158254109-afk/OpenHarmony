@@ -1,7 +1,25 @@
 import type { AccessRuleItem, AdminPermissionItem, AttendanceMetric, AuthPermissionOption, BlacklistItem, BoundDeviceInfo, DefenseDemoResult, DefenseDemoScenario, DemoScenarioType, PassageRecordItem, PortalAction, PortalStat, RealNameProfile, RealtimeAuthEvent, TerminalDeviceRecord, WatchAttendanceItem } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
 import { AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 export class PortalMockService {
-    static overviewStats(): PortalStat[] {
+    static overviewStats(user?: UserProfile): PortalStat[] {
+        if (user?.role === 'student') {
+            return [
+                { title: '认证状态', value: '已认证', hint: '校园统一身份认证已同步', status: 'success' },
+                { title: '我的设备', value: `${PortalMockService.boundDevices(user).length}`, hint: '仅展示本人绑定设备', status: 'info' },
+                { title: '异常提醒', value: '0', hint: '本人账号暂无高风险异常', status: 'success' },
+                { title: '通行状态', value: '可通行', hint: '教学楼、图书馆授权有效', status: 'success' }
+            ];
+        }
+        if (user?.role === 'teacher') {
+            return [
+                { title: '班级认证', value: '48', hint: '移动应用开发课程学生', status: 'info' },
+                { title: '课堂签到', value: '45/48', hint: '今日 08:10 签到概况', status: 'success' },
+                { title: '学生异常', value: '2', hint: '仅课程范围内提醒', status: 'warning' },
+                { title: '教学场景', value: '4', hint: '课堂、实验、考勤、请假', status: 'info' }
+            ];
+        }
         return [
             { title: '今日认证', value: '286', hint: '无感认证成功率 98.6%', status: 'success' },
             { title: '在线设备', value: '42', hint: '手表、门禁、教学终端', status: 'info' },
@@ -10,38 +28,50 @@ export class PortalMockService {
         ];
     }
     static studentActions(): PortalAction[] {
-        return [
-            { title: '学生实名认证', subtitle: '核验学号、姓名、学院信息', marker: 'ID', route: AppRoutes.studentRealName, status: 'success' },
-            { title: '设备绑定', subtitle: '绑定手机、手表和平板', marker: 'DV', route: AppRoutes.deviceBind, status: 'info' },
-            { title: '无感认证权限设置', subtitle: '按场景启停无感认证', marker: 'AU', route: AppRoutes.authPermission, status: 'warning' },
-            { title: '通行记录', subtitle: '门禁、图书馆、教学楼记录', marker: 'RE', route: AppRoutes.passageRecords, status: 'info' },
-            { title: '考勤统计', subtitle: '课程签到与缺勤趋势', marker: 'AT', route: AppRoutes.attendanceStats, status: 'success' }
-        ];
+        return PermissionUtil.filterFeaturesByRole('student', [
+            { id: 'my-auth-status', title: '身份认证状态', subtitle: '查看本人实名身份和认证状态', marker: 'ID', route: AppRoutes.studentRealName, status: 'success', roles: ['student'] },
+            { id: 'my-devices', title: '我的设备', subtitle: '绑定手机、手表和平板', marker: 'DV', route: AppRoutes.deviceBind, status: 'info', roles: ['student'] },
+            { id: 'my-auth-settings', title: '我的授权设置', subtitle: '管理本人校园身份认证授权场景', marker: 'AU', route: AppRoutes.authPermission, status: 'warning', roles: ['student'] },
+            { id: 'my-auth-records', title: '我的认证记录', subtitle: '查看本人近期认证、通行和设备登录记录', marker: 'RE', route: AppRoutes.passageRecords, status: 'info', roles: ['student'] },
+            { id: 'my-risk-alerts', title: '个人风险提醒', subtitle: '查看本人账号、设备、登录环境异常', marker: 'RA', route: AppRoutes.records, status: 'warning', roles: ['student'] },
+            { id: 'campus-passage-status', title: '校园通行状态', subtitle: '查看本人门禁、图书馆和教学楼通行状态', marker: 'PS', route: AppRoutes.auth, status: 'success', roles: ['student'] }
+        ]);
+    }
+    static teacherActions(): PortalAction[] {
+        return PermissionUtil.filterFeaturesByRole('teacher', [
+            { id: 'class-auth-overview', title: '班级认证概况', subtitle: '查看课程范围内认证完成情况', marker: 'CL', route: AppRoutes.attendanceStats, status: 'success', roles: ['teacher'] },
+            { id: 'student-alerts', title: '学生异常提醒', subtitle: '仅展示任课班级认证异常', marker: 'AL', route: AppRoutes.records, status: 'warning', roles: ['teacher'] },
+            { id: 'class-checkin-records', title: '课堂签到记录', subtitle: '查看教学场景签到与认证记录', marker: 'CK', route: AppRoutes.passageRecords, status: 'info', roles: ['teacher'] },
+            { id: 'teaching-auth', title: '教学场景认证', subtitle: '课堂、实验室、课程考勤认证', marker: 'TA', route: AppRoutes.auth, status: 'success', roles: ['teacher'] }
+        ]);
     }
     static watchActions(): PortalAction[] {
-        return [
-            { title: '手表端今日考勤', subtitle: '轻量化考勤提醒', marker: 'WA', route: AppRoutes.watchTodayAttendance, status: 'success' },
-            { title: '手表端通行记录', subtitle: '查看近场通行反馈', marker: 'WR', route: AppRoutes.watchPassageRecords, status: 'info' }
-        ];
+        return PermissionUtil.filterFeaturesByRole('student', [
+            { id: 'watch-attendance', title: '手表端今日考勤', subtitle: '轻量化考勤提醒', marker: 'WA', route: AppRoutes.watchTodayAttendance, status: 'success', roles: ['student'] },
+            { id: 'watch-passage', title: '手表端通行记录', subtitle: '查看本人近场通行反馈', marker: 'WR', route: AppRoutes.watchPassageRecords, status: 'info', roles: ['student'] }
+        ]);
     }
     static terminalActions(): PortalAction[] {
-        return [
-            { title: '校园终端设备备案', subtitle: '登记门禁与签到终端', marker: 'TF', route: AppRoutes.terminalFiling, status: 'info' },
-            { title: '终端实时认证大屏', subtitle: '实时显示认证态势', marker: 'RT', route: AppRoutes.terminalRealtimeScreen, status: 'success' }
-        ];
+        return PermissionUtil.filterFeaturesByRole('admin', [
+            { id: 'terminal-filing', title: '设备接入管理', subtitle: '登记门禁、签到屏和认证终端', marker: 'TF', route: AppRoutes.terminalFiling, status: 'info', roles: ['admin'] },
+            { id: 'terminal-realtime', title: '全局认证大屏', subtitle: '实时显示全校认证态势', marker: 'RT', route: AppRoutes.terminalRealtimeScreen, status: 'success', roles: ['admin'] }
+        ]);
     }
     static adminActions(): PortalAction[] {
-        return [
-            { title: '管理员出勤统计', subtitle: '按学院和课程汇总出勤', marker: 'AS', route: AppRoutes.adminAttendanceStats, status: 'success' },
-            { title: '管理员权限管理', subtitle: '配置角色与操作范围', marker: 'PM', route: AppRoutes.adminPermission, status: 'warning' },
-            { title: '门禁规则配置', subtitle: '管理通行时间和风控策略', marker: 'AR', route: AppRoutes.accessRuleConfig, status: 'info' },
-            { title: '黑名单管理', subtitle: '高风险账号限制通行', marker: 'BL', route: AppRoutes.blacklist, status: 'danger' }
-        ];
+        return PermissionUtil.filterFeaturesByRole('admin', [
+            { id: 'global-risk', title: '全局风险评估', subtitle: '查看全校认证风险和异常行为', marker: 'RS', route: AppRoutes.admin, status: 'warning', roles: ['admin'] },
+            { id: 'user-permission', title: '用户权限管理', subtitle: '配置角色与操作范围', marker: 'PM', route: AppRoutes.adminPermission, status: 'warning', roles: ['admin'] },
+            { id: 'device-management', title: '设备管理', subtitle: '管理终端接入和设备备案', marker: 'DV', route: AppRoutes.terminalFiling, status: 'info', roles: ['admin'] },
+            { id: 'system-audit', title: '系统审计记录', subtitle: '审计认证、门禁和风险处置记录', marker: 'LG', route: AppRoutes.records, status: 'danger', roles: ['admin'] },
+            { id: 'data-statistics', title: '数据统计', subtitle: '按学院和课程汇总出勤', marker: 'AS', route: AppRoutes.adminAttendanceStats, status: 'success', roles: ['admin'] },
+            { id: 'risk-policy', title: '风险策略配置', subtitle: '管理通行时间和风控策略', marker: 'AR', route: AppRoutes.accessRuleConfig, status: 'info', roles: ['admin'] },
+            { id: 'blacklist', title: '黑名单管理', subtitle: '高风险账号限制通行', marker: 'BL', route: AppRoutes.blacklist, status: 'danger', roles: ['admin'] }
+        ]);
     }
     static demoActions(): PortalAction[] {
-        return [
-            { title: '答辩演示模式', subtitle: '一键模拟校门认证、黑名单拦截、晚归提醒、考勤导出和手表同步', marker: 'DE', route: AppRoutes.defenseDemo, status: 'success' }
-        ];
+        return PermissionUtil.filterFeaturesByRole('admin', [
+            { id: 'defense-demo', title: '答辩演示模式', subtitle: '一键模拟校门认证、黑名单拦截、晚归提醒、考勤导出和手表同步', marker: 'DE', route: AppRoutes.defenseDemo, status: 'success', roles: ['admin'] }
+        ]);
     }
     static defenseDemoScenarios(): DefenseDemoScenario[] {
         return [
@@ -140,38 +170,69 @@ export class PortalMockService {
         const second = `${date.getSeconds()}`.padStart(2, '0');
         return `${hour}:${minute}:${second}`;
     }
-    static realNameProfile(): RealNameProfile {
+    static realNameProfile(user?: UserProfile): RealNameProfile {
         return {
-            studentId: 'student001',
-            name: '李明',
-            college: '计算机与信息工程学院',
-            major: '软件工程 2301 班',
+            studentId: user?.account || 'student001',
+            name: user?.name || '李明',
+            college: '软件学院',
+            major: user?.department || '软件工程 2301 班',
             status: '已完成实名认证',
             credential: '校园统一身份认证 / 教务系统同步'
         };
     }
-    static boundDevices(): BoundDeviceInfo[] {
-        return [
+    static boundDevices(user?: UserProfile): BoundDeviceInfo[] {
+        const owner = user?.name || '李明';
+        const devices: BoundDeviceInfo[] = [
             { id: 'phone-001', name: 'OpenHarmony Phone', owner: '李明', type: '手机', trustLevel: '高可信', online: true },
             { id: 'watch-008', name: 'Campus Watch', owner: '李明', type: '手表', trustLevel: '中可信', online: true },
             { id: 'pad-102', name: 'OpenHarmony Tablet', owner: '李明', type: '平板', trustLevel: '高可信', online: false }
         ];
+        return devices.map((item: BoundDeviceInfo) => {
+            return {
+                id: item.id,
+                name: item.name,
+                owner: owner,
+                type: item.type,
+                trustLevel: item.trustLevel,
+                online: item.online
+            } as BoundDeviceInfo;
+        });
     }
-    static authPermissions(): AuthPermissionOption[] {
+    static authPermissions(user?: UserProfile): AuthPermissionOption[] {
+        if (user && user.role !== 'student') {
+            return [];
+        }
         return [
             { id: 'p1', name: '教学楼无感签到', scene: '综合教学楼 / 信息楼', enabled: true, riskLevel: 'low' },
             { id: 'p2', name: '图书馆入馆认证', scene: '图书馆闸机', enabled: true, riskLevel: 'low' },
             { id: 'p3', name: '实验室夜间门禁', scene: '重点实验室', enabled: false, riskLevel: 'high' }
         ];
     }
-    static passageRecords(): PassageRecordItem[] {
-        return [
+    static passageRecords(user?: UserProfile): PassageRecordItem[] {
+        const records: PassageRecordItem[] = [
             { id: 'pr-001', studentId: 'student001', deviceId: 'phone-001', place: '综合教学楼 A203', result: '成功', time: '2026-05-09 08:10', riskLevel: 'low' },
             { id: 'pr-002', studentId: 'student001', deviceId: 'watch-008', place: '图书馆北门', result: '成功', time: '2026-05-09 09:02', riskLevel: 'low' },
-            { id: 'pr-003', studentId: 'teacher001', deviceId: 'watch-017', place: '重点实验室 B102', result: '拦截', time: '2026-05-09 22:35', riskLevel: 'high' }
+            { id: 'pr-003', studentId: 'student018', deviceId: 'phone-018', place: '综合教学楼 A203', result: '异常提醒', time: '2026-05-09 08:16', riskLevel: 'medium' }
         ];
+        if (!user) {
+            return records;
+        }
+        if (PermissionUtil.isStudent(user.role)) {
+            return records.filter((item: PassageRecordItem) => item.studentId === user.account);
+        }
+        if (PermissionUtil.isTeacher(user.role)) {
+            return records.filter((item: PassageRecordItem) => item.place.includes('教学楼'));
+        }
+        return records;
     }
-    static attendanceMetrics(): AttendanceMetric[] {
+    static attendanceMetrics(user?: UserProfile): AttendanceMetric[] {
+        if (user?.role === 'teacher') {
+            return [
+                { id: 'tc1', course: '移动应用开发 2301 班', attended: 45, total: 48, latestTime: '今天 08:10' },
+                { id: 'tc2', course: '软件工程实践 2302 班', attended: 43, total: 46, latestTime: '昨天 14:00' },
+                { id: 'tc3', course: '实验室安全认证', attended: 28, total: 30, latestTime: '今天 16:00' }
+            ];
+        }
         return [
             { id: 'c1', course: '移动应用开发', attended: 15, total: 16, latestTime: '今天 08:10' },
             { id: 'c2', course: '操作系统', attended: 13, total: 16, latestTime: '昨天 10:00' },

@@ -11,8 +11,9 @@ import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/
 import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components/StatusBadge";
 import type { BlacklistItem, PageLoadState } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class BlacklistPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -59,6 +60,9 @@ class BlacklistPage extends ViewPU {
         this.__items.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.blacklist)) {
+            return;
+        }
         this.items = PortalMockService.blacklist();
         this.state = this.items.length === 0 ? 'empty' : 'ready';
     }
@@ -93,7 +97,7 @@ class BlacklistPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '黑名单管理', subtitle: '管理高风险账号和临时访问限制' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/BlacklistPage.ets", line: 41, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '黑名单管理', subtitle: '管理高风险账号和临时访问限制' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/BlacklistPage.ets", line: 45, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -115,7 +119,7 @@ class BlacklistPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '当前无黑名单记录', errorText: '黑名单加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/BlacklistPage.ets", line: 43, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '当前无黑名单记录', errorText: '黑名单加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/BlacklistPage.ets", line: 47, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -170,7 +174,7 @@ class BlacklistPage extends ViewPU {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.level), status: item.level }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/BlacklistPage.ets", line: 59, col: 15 });
+                                        let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.level), status: item.level }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/BlacklistPage.ets", line: 63, col: 15 });
                                         ViewPU.create(componentCall);
                                         let paramsLambda = () => {
                                             return {

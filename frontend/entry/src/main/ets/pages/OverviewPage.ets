@@ -1,28 +1,39 @@
 import router from '@ohos.router';
 import promptAction from '@ohos.promptAction';
-import { FeatureCard } from '../components/FeatureCard';
-import { SectionHeader } from '../components/SectionHeader';
+import { CategoryTabItem, CategoryTabs } from '../components/CategoryTabs';
+import { ServiceIconItem } from '../components/ServiceIconItem';
 import { StatePanel } from '../components/StatePanel';
-import { StatCard } from '../components/StatCard';
-import { PageLoadState, PortalAction, PortalStat } from '../models/CampusPortal';
+import { PageLoadState, PortalAction } from '../models/CampusPortal';
 import { UserProfile } from '../models/User';
 import { AuthSessionService } from '../services/AuthSessionService';
 import { MockData } from '../services/MockData';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
-import { FormatUtil } from '../utils/FormatUtil';
+import { AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
+
+interface ServiceGroup {
+  id: string;
+  title: string;
+  subtitle: string;
+  items: PortalAction[];
+}
 
 @Entry
 @Component
 struct OverviewPage {
   @State state: PageLoadState = 'loading';
   @State user: UserProfile = MockData.users[0];
-  @State stats: PortalStat[] = [];
   @State studentActions: PortalAction[] = [];
+  @State teacherActions: PortalAction[] = [];
   @State watchActions: PortalAction[] = [];
   @State terminalActions: PortalAction[] = [];
   @State adminActions: PortalAction[] = [];
   @State demoActions: PortalAction[] = [];
+  @State selectedCategory: string = '';
+  @State hoverServiceId: string = '';
+  @State selectedServiceId: string = '';
+  @State logoutHover: boolean = false;
+  private serviceScroller: Scroller = new Scroller();
 
   aboutToAppear(): void {
     const currentUser = AuthSessionService.currentUser();
@@ -31,30 +42,95 @@ struct OverviewPage {
       return;
     }
     this.user = currentUser;
-    this.stats = PortalMockService.overviewStats();
-    this.studentActions = PortalMockService.studentActions();
-    this.watchActions = PortalMockService.watchActions();
-    this.terminalActions = PortalMockService.terminalActions();
-    this.adminActions = PortalMockService.adminActions();
-    this.demoActions = PortalMockService.demoActions();
-    this.state = this.stats.length === 0 ? 'empty' : 'ready';
+    this.studentActions = this.user.role === 'student' ? PortalMockService.studentActions() : [];
+    this.teacherActions = this.user.role === 'teacher' ? PortalMockService.teacherActions() : [];
+    this.watchActions = this.user.role === 'student' ? PortalMockService.watchActions() : [];
+    this.terminalActions = this.user.role === 'admin' ? PortalMockService.terminalActions() : [];
+    this.adminActions = this.user.role === 'admin' ? PortalMockService.adminActions() : [];
+    this.demoActions = this.user.role === 'admin' ? PortalMockService.demoActions() : [];
+    const groups = this.visibleGroups();
+    this.selectedCategory = groups.length > 0 ? groups[0].id : '';
+    this.hoverServiceId = '';
+    this.selectedServiceId = '';
+    this.state = groups.length === 0 ? 'empty' : 'ready';
   }
 
-  private go(url: string): void {
-    router.pushUrl({ url });
+  private visibleGroups(): ServiceGroup[] {
+    return [
+      { id: 'student', title: '学生端', subtitle: '本人认证、设备、授权、记录和通行状态', items: this.studentActions } as ServiceGroup,
+      { id: 'teacher', title: '教师端', subtitle: '课程班级认证、学生异常提醒和课堂签到', items: this.teacherActions } as ServiceGroup,
+      { id: 'watch', title: '穿戴设备', subtitle: '面向本人手表的今日考勤和通行反馈', items: this.watchActions } as ServiceGroup,
+      { id: 'admin', title: '管理员端', subtitle: '风险评估、权限管理、系统审计和数据统计', items: this.adminActions } as ServiceGroup,
+      { id: 'terminal', title: '设备管理', subtitle: '终端备案、设备接入和实时认证大屏', items: this.terminalActions } as ServiceGroup,
+      { id: 'demo', title: '答辩演示', subtitle: '现场演示流程，不依赖真实设备', items: this.demoActions } as ServiceGroup
+    ].filter((group: ServiceGroup) => group.items.length > 0);
   }
 
-  private colorOf(status: string): string {
-    if (status === 'success') {
-      return AppColors.success;
+  private categoryTabs(): CategoryTabItem[] {
+    return this.visibleGroups().map((group: ServiceGroup) => {
+      return { id: group.id, title: group.title } as CategoryTabItem;
+    });
+  }
+
+  private orderedGroups(): ServiceGroup[] {
+    return this.visibleGroups();
+  }
+
+  private handleCategorySelect(id: string): void {
+    this.selectedCategory = id;
+    setTimeout(() => {
+      this.serviceScroller.scrollTo({
+        xOffset: 0,
+        yOffset: this.groupScrollOffset(id),
+        animation: { duration: 260, curve: Curve.EaseOut }
+      });
+    }, 30);
+  }
+
+  private groupScrollOffset(id: string): number {
+    const groups = this.visibleGroups();
+    let offset = 0;
+    for (let index = 0; index < groups.length; index++) {
+      if (groups[index].id === id) {
+        return offset;
+      }
+      offset += this.groupVisualHeight(groups[index]);
     }
-    if (status === 'warning') {
-      return AppColors.warning;
+    return 0;
+  }
+
+  private groupVisualHeight(group: ServiceGroup): number {
+    const rowCount = Math.ceil(group.items.length / 4);
+    const gridHeight = rowCount * 150 + Math.max(0, rowCount - 1) * 26;
+    return this.sectionTopMargin(group) + 34 + 22 + gridHeight;
+  }
+
+  private sectionTopMargin(group: ServiceGroup): number {
+    if (this.user.role === 'teacher' && group.id === 'teacher') {
+      return 14;
     }
-    if (status === 'danger') {
-      return AppColors.danger;
+    return 30;
+  }
+
+  private handleServiceHover(id: string, isHover: boolean): void {
+    if (isHover) {
+      this.hoverServiceId = id;
+      return;
     }
-    return AppColors.primary;
+    if (this.hoverServiceId === id) {
+      this.hoverServiceId = '';
+    }
+  }
+
+  private openService(item: PortalAction): void {
+    this.selectedServiceId = item.id;
+    if (!PermissionUtil.canViewFeature(this.user.role, item.route)) {
+      promptAction.showToast({ message: '当前角色无权访问该功能' });
+      return;
+    }
+    setTimeout(() => {
+      router.pushUrl({ url: item.route });
+    }, 160);
   }
 
   private logout(): void {
@@ -64,7 +140,7 @@ struct OverviewPage {
       primaryButton: { value: '取消', action: () => {} },
       secondaryButton: {
         value: '确认退出',
-        fontColor: AppColors.danger,
+        fontColor: '#C53030',
         action: () => {
           AuthSessionService.clearLogin();
           promptAction.showToast({ message: '已退出登录' });
@@ -75,89 +151,104 @@ struct OverviewPage {
   }
 
   @Builder
-  ActionGrid(title: string, subtitle: string, actions: PortalAction[]) {
-    Column({ space: 12 }) {
-      SectionHeader({ title: title, subtitle: subtitle })
-      if (actions.length === 0) {
-        StatePanel({ state: 'empty', emptyText: '暂无可用功能' })
-      } else {
-        Grid() {
-          ForEach(actions, (item: PortalAction) => {
-            GridItem() {
-              FeatureCard({
-                title: item.title,
-                subtitle: item.subtitle,
-                marker: item.marker,
-                active: item.status === 'success'
+  ServiceSection(group: ServiceGroup) {
+    Column() {
+      Text(group.title)
+        .fontSize(24)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#111827')
+        .width('100%')
+        .margin({ top: this.sectionTopMargin(group), bottom: 22 })
+      Grid() {
+        ForEach(group.items, (item: PortalAction) => {
+          GridItem() {
+            Column() {
+              ServiceIconItem({
+                item: item,
+                active: this.hoverServiceId === item.id || this.selectedServiceId === item.id
               })
-                .onClick(() => this.go(item.route))
             }
-          }, (item: PortalAction): string => item.title)
-        }
-        .columnsTemplate('1fr 1fr')
-        .columnsGap(12)
-        .rowsGap(12)
+            .width('100%')
+            .height(150)
+            .alignItems(HorizontalAlign.Center)
+            .justifyContent(FlexAlign.Start)
+            .onHover((isHover: boolean) => {
+              this.handleServiceHover(item.id, isHover);
+            })
+            .onClick(() => {
+              this.openService(item);
+            })
+          }
+        }, (item: PortalAction): string => item.id)
       }
+      .columnsTemplate('1fr 1fr 1fr 1fr')
+      .columnsGap(12)
+      .rowsGap(26)
+      .width('100%')
     }
     .width('100%')
   }
 
   build() {
-    Scroll() {
-      Column({ space: 18 }) {
-        Row() {
-          Column() {
-            Text('校园分布式无感身份认证系统')
-              .fontSize(24)
-              .fontWeight(FontWeight.Bold)
-              .fontColor('#FFFFFF')
-            Text(`${this.user.name} · ${this.user.account} · ${FormatUtil.roleLabel(this.user.role)}`)
-              .fontSize(13)
-              .fontColor('#D7EEF7')
-              .margin({ top: 8 })
-          }
-          .alignItems(HorizontalAlign.Start)
+    Column() {
+      Row() {
+        Blank()
+          .width(56)
+        Text('服务中心')
+          .fontSize(28)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#111827')
+          .textAlign(TextAlign.Center)
           .layoutWeight(1)
-          Button('退出登录')
-            .height(36)
-            .fontSize(13)
-            .fontColor('#FFFFFF')
-            .backgroundColor('#2D9CDB')
-            .borderRadius(8)
-            .onClick(() => this.logout())
-        }
-        .width('100%')
-        .padding(18)
-        .backgroundColor(AppColors.hero)
-        .borderRadius(8)
-
-        if (this.state !== 'ready') {
-          StatePanel({ state: this.state, emptyText: '暂无首页数据', errorText: '首页数据加载失败' })
-        } else {
-          Grid() {
-            ForEach(this.stats, (item: PortalStat) => {
-              GridItem() {
-                StatCard({ title: item.title, value: item.value, hint: item.hint, color: this.colorOf(item.status) })
-              }
-            }, (item: PortalStat): string => item.title)
-          }
-          .columnsTemplate('1fr 1fr')
-          .columnsGap(12)
-          .rowsGap(12)
-          .height(264)
-
-          this.ActionGrid('学生端', '实名认证、设备绑定、权限设置、通行与考勤', this.studentActions)
-          this.ActionGrid('答辩演示', '现场演示用一键模拟流程，不依赖真实设备', this.demoActions)
-          this.ActionGrid('手表端', '面向轻量设备的今日考勤和通行反馈', this.watchActions)
-          this.ActionGrid('校园终端端', '终端备案与实时认证大屏', this.terminalActions)
-          this.ActionGrid('管理员端', '出勤、权限、门禁规则与黑名单治理', this.adminActions)
-        }
+        Text('退出')
+          .fontSize(15)
+          .fontColor(this.logoutHover ? '#2D9CDB' : '#6B7280')
+          .textAlign(TextAlign.Center)
+          .width(56)
+          .height(36)
+          .backgroundColor(this.logoutHover ? '#EAF8FC' : Color.Transparent)
+          .borderRadius(18)
+          .onHover((isHover: boolean) => {
+            this.logoutHover = isHover;
+          })
+          .onClick(() => {
+            this.logout();
+          })
       }
       .width('100%')
-      .constraintSize({ maxWidth: AppLayout.pageMaxWidth })
-      .alignSelf(ItemAlign.Center)
-      .padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 })
+      .padding({ left: 20, right: 20, top: 28, bottom: 22 })
+
+      if (this.state === 'ready') {
+        CategoryTabs({
+          items: this.categoryTabs(),
+          selectedId: this.selectedCategory,
+          onSelect: (id: string) => {
+            this.handleCategorySelect(id);
+          }
+        })
+        Divider()
+          .color('#EEEEEE')
+          .margin({ top: 20 })
+      }
+
+      Scroll(this.serviceScroller) {
+        Column() {
+          if (this.state !== 'ready') {
+            StatePanel({ state: this.state, emptyText: '暂无可用服务', errorText: '服务数据加载失败' })
+          } else {
+            ForEach(this.orderedGroups(), (group: ServiceGroup) => {
+              this.ServiceSection(group)
+            }, (group: ServiceGroup): string => group.id)
+          }
+        }
+        .width('100%')
+        .padding({ left: 24, right: 24, bottom: 34 })
+      }
+      .layoutWeight(1)
+      .scrollBar(BarState.Off)
     }
-    .backgroundColor(AppColors.background)
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#FFFFFF')
   }
 }

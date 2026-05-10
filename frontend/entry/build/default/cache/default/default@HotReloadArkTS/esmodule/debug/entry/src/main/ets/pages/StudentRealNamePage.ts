@@ -8,8 +8,11 @@ interface StudentRealNamePage_Params {
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { PageLoadState, RealNameProfile } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class StudentRealNamePage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -56,7 +59,11 @@ class StudentRealNamePage extends ViewPU {
         this.__profile.set(newValue);
     }
     aboutToAppear(): void {
-        this.profile = PortalMockService.realNameProfile();
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.studentRealName)) {
+            return;
+        }
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        this.profile = PortalMockService.realNameProfile(currentUser);
         this.state = this.profile.studentId.length === 0 ? 'empty' : 'ready';
     }
     initialRender() {
@@ -74,12 +81,12 @@ class StudentRealNamePage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '学生实名认证', subtitle: '展示学生实名身份、学院、专业和认证来源' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/StudentRealNamePage.ets", line: 21, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '身份认证状态', subtitle: '展示本人实名身份、学院、专业和认证来源' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/StudentRealNamePage.ets", line: 28, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '学生实名认证',
-                            subtitle: '展示学生实名身份、学院、专业和认证来源'
+                            title: '身份认证状态',
+                            subtitle: '展示本人实名身份、学院、专业和认证来源'
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
@@ -96,7 +103,7 @@ class StudentRealNamePage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无实名信息', errorText: '实名信息加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/StudentRealNamePage.ets", line: 23, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无实名信息', errorText: '实名信息加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/StudentRealNamePage.ets", line: 30, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

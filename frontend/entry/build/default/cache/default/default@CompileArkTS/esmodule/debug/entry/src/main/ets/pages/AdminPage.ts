@@ -10,8 +10,9 @@ import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components
 import type { AuthRecord } from '../models/Auth';
 import { AuthService } from "@bundle:com.example.campusauth/entry/ets/services/AuthService";
 import { MockData } from "@bundle:com.example.campusauth/entry/ets/services/MockData";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AdminPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -30,6 +31,9 @@ class AdminPage extends ViewPU {
     aboutToBeDeleted() {
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
+    }
+    aboutToAppear(): void {
+        PermissionUtil.ensurePageAccess(AppRoutes.admin);
     }
     private records(): AuthRecord[] {
         return AuthService.recentRecords();
@@ -65,11 +69,11 @@ class AdminPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '管理员数据看板', subtitle: '认证态势、异常事件和设备规模汇总' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 40, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '全局风险评估', subtitle: '认证态势、异常事件和设备规模汇总' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 45, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '管理员数据看板',
+                            title: '全局风险评估',
                             subtitle: '认证态势、异常事件和设备规模汇总'
                         };
                     };
@@ -125,7 +129,7 @@ class AdminPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatCard(this, { title: '用户数量', value: `${MockData.users.length}`, hint: '学生 / 教师 / 管理员', color: AppColors.primary }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 63, col: 13 });
+                            let componentCall = new StatCard(this, { title: '用户数量', value: `${MockData.users.length}`, hint: '学生 / 教师 / 管理员', color: AppColors.primary }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 68, col: 13 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -155,7 +159,7 @@ class AdminPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatCard(this, { title: '认证次数', value: `${this.records().length}`, hint: '今日模拟记录', color: AppColors.success }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 66, col: 13 });
+                            let componentCall = new StatCard(this, { title: '认证次数', value: `${this.records().length}`, hint: '今日模拟记录', color: AppColors.success }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 71, col: 13 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -185,7 +189,7 @@ class AdminPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatCard(this, { title: '异常认证', value: `${this.abnormalRecords().length}`, hint: '失败或高风险', color: AppColors.danger }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 69, col: 13 });
+                            let componentCall = new StatCard(this, { title: '异常认证', value: `${this.abnormalRecords().length}`, hint: '失败或高风险', color: AppColors.danger }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 74, col: 13 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -215,7 +219,7 @@ class AdminPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatCard(this, { title: '绑定设备', value: `${MockData.devices.length}`, hint: '手机 / 平板 / 穿戴', color: AppColors.accent }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 72, col: 13 });
+                            let componentCall = new StatCard(this, { title: '绑定设备', value: `${MockData.devices.length}`, hint: '手机 / 平板 / 穿戴', color: AppColors.accent }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 77, col: 13 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -243,11 +247,11 @@ class AdminPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '风险评分', subtitle: '按低风险、中风险、高风险对认证行为分级' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 81, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '全局风险评分', subtitle: '按低风险、中风险、高风险对认证行为分级' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 86, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '风险评分',
+                            title: '全局风险评分',
                             subtitle: '按低风险、中风险、高风险对认证行为分级'
                         };
                     };
@@ -323,7 +327,7 @@ class AdminPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '风险日志', subtitle: '用于答辩展示管理员审计能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 122, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '风险日志', subtitle: '用于答辩展示管理员审计能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 127, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -389,7 +393,7 @@ class AdminPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.risk.riskLevel), status: item.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 148, col: 17 });
+                            let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.risk.riskLevel), status: item.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPage.ets", line: 153, col: 17 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {

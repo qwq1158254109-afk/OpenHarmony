@@ -9,8 +9,11 @@ import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/component
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components/StatusBadge";
 import type { PageLoadState, PassageRecordItem } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class WatchPassageRecordsPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -57,7 +60,11 @@ class WatchPassageRecordsPage extends ViewPU {
         this.__records.set(newValue);
     }
     aboutToAppear(): void {
-        this.records = PortalMockService.passageRecords().filter((item: PassageRecordItem) => item.deviceId.includes('watch'));
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.watchPassageRecords)) {
+            return;
+        }
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        this.records = PortalMockService.passageRecords(currentUser).filter((item: PassageRecordItem) => item.deviceId.includes('watch'));
         this.state = this.records.length === 0 ? 'empty' : 'ready';
     }
     initialRender() {
@@ -75,7 +82,7 @@ class WatchPassageRecordsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '手表端通行记录', subtitle: '查看手表近场认证反馈' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 22, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '手表端通行记录', subtitle: '查看手表近场认证反馈' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 29, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -97,7 +104,7 @@ class WatchPassageRecordsPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无手表通行记录', errorText: '通行记录加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 24, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无手表通行记录', errorText: '通行记录加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 31, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -143,7 +150,7 @@ class WatchPassageRecordsPage extends ViewPU {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new StatusBadge(this, { text: item.result, status: item.riskLevel === 'high' ? 'failed' : 'success' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 34, col: 17 });
+                                        let componentCall = new StatusBadge(this, { text: item.result, status: item.riskLevel === 'high' ? 'failed' : 'success' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchPassageRecordsPage.ets", line: 41, col: 17 });
                                         ViewPU.create(componentCall);
                                         let paramsLambda = () => {
                                             return {

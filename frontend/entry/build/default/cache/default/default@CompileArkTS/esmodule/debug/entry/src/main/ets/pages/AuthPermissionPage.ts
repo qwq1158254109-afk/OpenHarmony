@@ -9,8 +9,11 @@ import promptAction from "@ohos:promptAction";
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { AuthPermissionOption } from '../models/CampusPortal';
+import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AuthPermissionPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -57,7 +60,11 @@ class AuthPermissionPage extends ViewPU {
         this.__refreshVersion.set(newValue);
     }
     aboutToAppear(): void {
-        this.permissionList = PortalMockService.authPermissions();
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.authPermission)) {
+            return;
+        }
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        this.permissionList = PortalMockService.authPermissions(currentUser);
     }
     private togglePermission(id: string | number): void {
         let changed: boolean = false;
@@ -103,12 +110,12 @@ class AuthPermissionPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '无感认证权限设置', subtitle: '按校园场景配置无感认证开关和风险策略' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 53, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '我的授权设置', subtitle: '管理本人校园身份认证授权场景' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 60, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '无感认证权限设置',
-                            subtitle: '按校园场景配置无感认证开关和风险策略'
+                            title: '我的授权设置',
+                            subtitle: '管理本人校园身份认证授权场景'
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
@@ -125,13 +132,13 @@ class AuthPermissionPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: '暂无权限配置', errorText: '权限配置加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 55, col: 11 });
+                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: '暂无本人授权设置', errorText: '授权设置加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 62, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
                                         state: 'empty',
-                                        emptyText: '暂无权限配置',
-                                        errorText: '权限配置加载失败'
+                                        emptyText: '暂无本人授权设置',
+                                        errorText: '授权设置加载失败'
                                     };
                                 };
                                 componentCall.paramsGenerator_ = paramsLambda;

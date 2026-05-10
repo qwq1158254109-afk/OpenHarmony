@@ -1,8 +1,11 @@
 import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { PageLoadState, RealNameProfile } from '../models/CampusPortal';
+import { UserProfile } from '../models/User';
+import { AuthSessionService } from '../services/AuthSessionService';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -11,14 +14,18 @@ struct StudentRealNamePage {
   @State profile: RealNameProfile = PortalMockService.realNameProfile();
 
   aboutToAppear(): void {
-    this.profile = PortalMockService.realNameProfile();
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.studentRealName)) {
+      return;
+    }
+    const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+    this.profile = PortalMockService.realNameProfile(currentUser);
     this.state = this.profile.studentId.length === 0 ? 'empty' : 'ready';
   }
 
   build() {
     Scroll() {
       Column({ space: 16 }) {
-        PageTitleBar({ title: '学生实名认证', subtitle: '展示学生实名身份、学院、专业和认证来源' })
+        PageTitleBar({ title: '身份认证状态', subtitle: '展示本人实名身份、学院、专业和认证来源' })
         if (this.state !== 'ready') {
           StatePanel({ state: this.state, emptyText: '暂无实名信息', errorText: '实名信息加载失败' })
         } else {

@@ -13,11 +13,13 @@ import { SectionHeader } from "@bundle:com.example.campusauth/entry/ets/componen
 import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components/StatusBadge";
 import type { CampusDevice, DeviceType } from '../models/Device';
 import type { UserProfile } from '../models/User';
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { DeviceTrustManager } from "@bundle:com.example.campusauth/entry/ets/services/DeviceTrustManager";
 import { DeviceService } from "@bundle:com.example.campusauth/entry/ets/services/DeviceService";
 import { MockData } from "@bundle:com.example.campusauth/entry/ets/services/MockData";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class DevicePage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -82,7 +84,10 @@ class DevicePage extends ViewPU {
     }
     private types: DeviceType[];
     aboutToAppear(): void {
-        this.user = AppStorage.Get<UserProfile>('currentUser') || MockData.users[0];
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.devices)) {
+            return;
+        }
+        this.user = AuthSessionService.currentUser() || MockData.users[0];
         this.refresh();
     }
     private refresh(): void {
@@ -121,7 +126,7 @@ class DevicePage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '设备管理', subtitle: '绑定手机、平板和穿戴设备，配置可信认证能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 53, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '设备管理', subtitle: '绑定手机、平板和穿戴设备，配置可信认证能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 58, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -146,7 +151,7 @@ class DevicePage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '添加协同设备', subtitle: '模拟 OpenHarmony 分布式设备加入认证网络' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 56, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '添加协同设备', subtitle: '模拟 OpenHarmony 分布式设备加入认证网络' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 61, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -192,7 +197,7 @@ class DevicePage extends ViewPU {
                                         subtitle: DeviceService.nextDeviceName(item),
                                         marker: this.typeMarker(item),
                                         active: this.newType === item
-                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 60, col: 17 });
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 65, col: 17 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
@@ -232,7 +237,7 @@ class DevicePage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '已绑定设备', subtitle: '可信设备可参与无感认证和跨端同步' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 88, col: 9 });
+                    let componentCall = new SectionHeader(this, { title: '已绑定设备', subtitle: '可信设备可参与无感认证和跨端同步' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 93, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -317,7 +322,7 @@ class DevicePage extends ViewPU {
                         {
                             this.observeComponentCreation2((elmtId, isInitialRender) => {
                                 if (isInitialRender) {
-                                    let componentCall = new StatusBadge(this, { text: item.online ? '在线' : '离线', status: item.online ? 'success' : 'unauthenticated' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 120, col: 19 });
+                                    let componentCall = new StatusBadge(this, { text: item.online ? '在线' : '离线', status: item.online ? 'success' : 'unauthenticated' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 125, col: 19 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
@@ -339,7 +344,7 @@ class DevicePage extends ViewPU {
                         {
                             this.observeComponentCreation2((elmtId, isInitialRender) => {
                                 if (isInitialRender) {
-                                    let componentCall = new StatusBadge(this, { text: `${DeviceTrustManager.label(item.trust.level)} ${item.trust.score}`, status: DeviceTrustManager.badgeStatus(item.trust.level) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 123, col: 19 });
+                                    let componentCall = new StatusBadge(this, { text: `${DeviceTrustManager.label(item.trust.level)} ${item.trust.score}`, status: DeviceTrustManager.badgeStatus(item.trust.level) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/DevicePage.ets", line: 128, col: 19 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {

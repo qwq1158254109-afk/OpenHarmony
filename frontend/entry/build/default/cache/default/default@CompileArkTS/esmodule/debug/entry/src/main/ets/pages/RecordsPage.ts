@@ -4,6 +4,8 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 interface RecordsPage_Params {
     user?: UserProfile;
     filter?: RecordFilter;
+    pageTitle?: string;
+    pageSubtitle?: string;
     filters?: RecordFilter[];
 }
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
@@ -13,9 +15,11 @@ import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components
 import type { AuthRecord } from '../models/Auth';
 import type { UserProfile } from '../models/User';
 import { AuthService } from "@bundle:com.example.campusauth/entry/ets/services/AuthService";
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
 import { MockData } from "@bundle:com.example.campusauth/entry/ets/services/MockData";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 type RecordFilter = 'all' | 'success' | 'failed' | 'high';
 class RecordsPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
@@ -25,6 +29,8 @@ class RecordsPage extends ViewPU {
         }
         this.__user = new ObservedPropertyObjectPU(MockData.users[0], this, "user");
         this.__filter = new ObservedPropertySimplePU('all', this, "filter");
+        this.__pageTitle = new ObservedPropertySimplePU('个人风险提醒', this, "pageTitle");
+        this.__pageSubtitle = new ObservedPropertySimplePU('查看本人账号、设备、登录环境是否存在异常', this, "pageSubtitle");
         this.filters = ['all', 'success', 'failed', 'high'];
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
@@ -36,6 +42,12 @@ class RecordsPage extends ViewPU {
         if (params.filter !== undefined) {
             this.filter = params.filter;
         }
+        if (params.pageTitle !== undefined) {
+            this.pageTitle = params.pageTitle;
+        }
+        if (params.pageSubtitle !== undefined) {
+            this.pageSubtitle = params.pageSubtitle;
+        }
         if (params.filters !== undefined) {
             this.filters = params.filters;
         }
@@ -45,10 +57,14 @@ class RecordsPage extends ViewPU {
     purgeVariableDependenciesOnElmtId(rmElmtId) {
         this.__user.purgeDependencyOnElmtId(rmElmtId);
         this.__filter.purgeDependencyOnElmtId(rmElmtId);
+        this.__pageTitle.purgeDependencyOnElmtId(rmElmtId);
+        this.__pageSubtitle.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__user.aboutToBeDeleted();
         this.__filter.aboutToBeDeleted();
+        this.__pageTitle.aboutToBeDeleted();
+        this.__pageSubtitle.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -66,9 +82,34 @@ class RecordsPage extends ViewPU {
     set filter(newValue: RecordFilter) {
         this.__filter.set(newValue);
     }
+    private __pageTitle: ObservedPropertySimplePU<string>;
+    get pageTitle() {
+        return this.__pageTitle.get();
+    }
+    set pageTitle(newValue: string) {
+        this.__pageTitle.set(newValue);
+    }
+    private __pageSubtitle: ObservedPropertySimplePU<string>;
+    get pageSubtitle() {
+        return this.__pageSubtitle.get();
+    }
+    set pageSubtitle(newValue: string) {
+        this.__pageSubtitle.set(newValue);
+    }
     private filters: RecordFilter[];
     aboutToAppear(): void {
-        this.user = AppStorage.Get<UserProfile>('currentUser') || MockData.users[0];
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.records)) {
+            return;
+        }
+        this.user = AuthSessionService.currentUser() || MockData.users[0];
+        if (this.user.role === 'teacher') {
+            this.pageTitle = '学生异常提醒';
+            this.pageSubtitle = '仅查看任课班级范围内认证异常与课堂认证记录';
+        }
+        else if (this.user.role === 'admin') {
+            this.pageTitle = '系统审计记录';
+            this.pageSubtitle = '查看全局认证、通行、设备登录和风险处置记录';
+        }
     }
     private filterLabel(item: RecordFilter): string {
         if (item === 'all') {
@@ -83,7 +124,7 @@ class RecordsPage extends ViewPU {
         return '高风险';
     }
     private records(): AuthRecord[] {
-        const allRecords = this.user.role === 'admin' ? AuthService.recentRecords() : AuthService.recentRecords(this.user.id);
+        const allRecords = AuthService.recentRecordsByRole(this.user);
         if (this.filter === 'success' || this.filter === 'failed') {
             return allRecords.filter(item => item.result === this.filter);
         }
@@ -93,7 +134,7 @@ class RecordsPage extends ViewPU {
         return allRecords;
     }
     private allRecords(): AuthRecord[] {
-        return this.user.role === 'admin' ? AuthService.recentRecords() : AuthService.recentRecords(this.user.id);
+        return AuthService.recentRecordsByRole(this.user);
     }
     private accountFor(record: AuthRecord): string {
         const user = MockData.users.find((item: UserProfile) => item.id === record.userId);
@@ -118,12 +159,12 @@ class RecordsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '认证记录', subtitle: '追踪认证时间、地点、设备、结果和风险等级' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 66, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: this.pageTitle, subtitle: this.pageSubtitle }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 80, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
-                            title: '认证记录',
-                            subtitle: '追踪认证时间、地点、设备、结果和风险等级'
+                            title: this.pageTitle,
+                            subtitle: this.pageSubtitle
                         };
                     };
                     componentCall.paramsGenerator_ = paramsLambda;
@@ -148,7 +189,7 @@ class RecordsPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatCard(this, { title: '记录总数', value: `${this.allRecords().length}`, hint: '当前身份可见记录', color: AppColors.primary }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 70, col: 13 });
+                            let componentCall = new StatCard(this, { title: '记录总数', value: `${this.allRecords().length}`, hint: '当前身份可见记录', color: AppColors.primary }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 84, col: 13 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -178,13 +219,13 @@ class RecordsPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatCard(this, { title: '高风险', value: `${this.allRecords().filter(item => item.risk.riskLevel === 'high').length}`, hint: '需管理员重点关注', color: AppColors.danger }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 73, col: 13 });
+                            let componentCall = new StatCard(this, { title: '高风险', value: `${this.allRecords().filter(item => item.risk.riskLevel === 'high').length}`, hint: this.user.role === 'student' ? '仅本人异常提醒' : '需重点关注', color: AppColors.danger }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 87, col: 13 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
                                     title: '高风险',
                                     value: `${this.allRecords().filter(item => item.risk.riskLevel === 'high').length}`,
-                                    hint: '需管理员重点关注',
+                                    hint: this.user.role === 'student' ? '仅本人异常提醒' : '需重点关注',
                                     color: AppColors.danger
                                 };
                             };
@@ -210,7 +251,7 @@ class RecordsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '记录筛选', subtitle: '按认证结果和风险等级快速查看' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 81, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '记录筛选', subtitle: '按认证结果和风险等级快速查看' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 95, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -303,7 +344,7 @@ class RecordsPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatusBadge(this, { text: item.result === 'success' ? '成功' : '失败', status: item.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 128, col: 15 });
+                            let componentCall = new StatusBadge(this, { text: item.result === 'success' ? '成功' : '失败', status: item.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 142, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -358,7 +399,7 @@ class RecordsPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.risk.riskLevel), status: item.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 150, col: 15 });
+                            let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.risk.riskLevel), status: item.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/RecordsPage.ets", line: 164, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {

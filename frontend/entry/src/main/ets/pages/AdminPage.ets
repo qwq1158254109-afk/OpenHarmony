@@ -5,12 +5,17 @@ import { StatusBadge } from '../components/StatusBadge';
 import { AuthRecord } from '../models/Auth';
 import { AuthService } from '../services/AuthService';
 import { MockData } from '../services/MockData';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
 struct AdminPage {
+  aboutToAppear(): void {
+    PermissionUtil.ensurePageAccess(AppRoutes.admin);
+  }
+
   private records(): AuthRecord[] {
     return AuthService.recentRecords();
   }
@@ -37,7 +42,7 @@ struct AdminPage {
   build() {
     Scroll() {
       Column({ space: 16 }) {
-        PageTitleBar({ title: '管理员数据看板', subtitle: '认证态势、异常事件和设备规模汇总' })
+        PageTitleBar({ title: '全局风险评估', subtitle: '认证态势、异常事件和设备规模汇总' })
 
         Column({ space: 10 }) {
           Text('Campus Security Overview')
@@ -78,7 +83,7 @@ struct AdminPage {
         .height(264)
 
         Column({ space: 12 }) {
-          SectionHeader({ title: '风险评分', subtitle: '按低风险、中风险、高风险对认证行为分级' })
+          SectionHeader({ title: '全局风险评分', subtitle: '按低风险、中风险、高风险对认证行为分级' })
           Row() {
             Column() {
               Text(`${this.latestRiskRecord().risk.riskScore}`)

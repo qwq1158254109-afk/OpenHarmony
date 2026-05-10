@@ -8,11 +8,13 @@ interface LoginPage_Params {
     errorMessage?: string;
     loginMessage?: string;
     loggingIn?: boolean;
+    loginButtonHover?: boolean;
+    registerButtonHover?: boolean;
+    roleButtonHover?: string;
     roles?: UserRole[];
 }
 import router from "@ohos:router";
 import promptAction from "@ohos:promptAction";
-import { FeatureCard } from "@bundle:com.example.campusauth/entry/ets/components/FeatureCard";
 import type { LoginResult } from '../models/User';
 import { AuthService } from "@bundle:com.example.campusauth/entry/ets/services/AuthService";
 import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
@@ -31,6 +33,9 @@ class LoginPage extends ViewPU {
         this.__errorMessage = new ObservedPropertySimplePU('', this, "errorMessage");
         this.__loginMessage = new ObservedPropertySimplePU('等待登录', this, "loginMessage");
         this.__loggingIn = new ObservedPropertySimplePU(false, this, "loggingIn");
+        this.__loginButtonHover = new ObservedPropertySimplePU(false, this, "loginButtonHover");
+        this.__registerButtonHover = new ObservedPropertySimplePU(false, this, "registerButtonHover");
+        this.__roleButtonHover = new ObservedPropertySimplePU('', this, "roleButtonHover");
         this.roles = ['student', 'teacher', 'admin'];
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
@@ -54,6 +59,15 @@ class LoginPage extends ViewPU {
         if (params.loggingIn !== undefined) {
             this.loggingIn = params.loggingIn;
         }
+        if (params.loginButtonHover !== undefined) {
+            this.loginButtonHover = params.loginButtonHover;
+        }
+        if (params.registerButtonHover !== undefined) {
+            this.registerButtonHover = params.registerButtonHover;
+        }
+        if (params.roleButtonHover !== undefined) {
+            this.roleButtonHover = params.roleButtonHover;
+        }
         if (params.roles !== undefined) {
             this.roles = params.roles;
         }
@@ -67,6 +81,9 @@ class LoginPage extends ViewPU {
         this.__errorMessage.purgeDependencyOnElmtId(rmElmtId);
         this.__loginMessage.purgeDependencyOnElmtId(rmElmtId);
         this.__loggingIn.purgeDependencyOnElmtId(rmElmtId);
+        this.__loginButtonHover.purgeDependencyOnElmtId(rmElmtId);
+        this.__registerButtonHover.purgeDependencyOnElmtId(rmElmtId);
+        this.__roleButtonHover.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__account.aboutToBeDeleted();
@@ -75,6 +92,9 @@ class LoginPage extends ViewPU {
         this.__errorMessage.aboutToBeDeleted();
         this.__loginMessage.aboutToBeDeleted();
         this.__loggingIn.aboutToBeDeleted();
+        this.__loginButtonHover.aboutToBeDeleted();
+        this.__registerButtonHover.aboutToBeDeleted();
+        this.__roleButtonHover.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -120,6 +140,27 @@ class LoginPage extends ViewPU {
     set loggingIn(newValue: boolean) {
         this.__loggingIn.set(newValue);
     }
+    private __loginButtonHover: ObservedPropertySimplePU<boolean>;
+    get loginButtonHover() {
+        return this.__loginButtonHover.get();
+    }
+    set loginButtonHover(newValue: boolean) {
+        this.__loginButtonHover.set(newValue);
+    }
+    private __registerButtonHover: ObservedPropertySimplePU<boolean>;
+    get registerButtonHover() {
+        return this.__registerButtonHover.get();
+    }
+    set registerButtonHover(newValue: boolean) {
+        this.__registerButtonHover.set(newValue);
+    }
+    private __roleButtonHover: ObservedPropertySimplePU<string>;
+    get roleButtonHover() {
+        return this.__roleButtonHover.get();
+    }
+    set roleButtonHover(newValue: string) {
+        this.__roleButtonHover.set(newValue);
+    }
     private roles: UserRole[];
     aboutToAppear(): void {
         AuthSessionService.initialize();
@@ -162,29 +203,85 @@ class LoginPage extends ViewPU {
             this.account = 'admin001';
         }
     }
+    private goRegister(): void {
+        router.pushUrl({ url: AppRoutes.register });
+    }
+    CapabilityCard(index: string, title: string, desc: string, parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+            Row.height(54);
+            Row.alignItems(VerticalAlign.Center);
+            Row.padding(7);
+            Row.backgroundColor('#FFFFFF');
+            Row.borderRadius(12);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(index);
+            Text.fontSize(14);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#FFFFFF');
+            Text.textAlign(TextAlign.Center);
+            Text.width(34);
+            Text.height(34);
+            Text.backgroundColor(AppColors.accent);
+            Text.borderRadius(10);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.alignItems(HorizontalAlign.Start);
+            Column.layoutWeight(1);
+            Column.margin({ left: 8 });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(title);
+            Text.fontSize(13);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#0F766E');
+            Text.maxLines(1);
+            Text.textOverflow({ overflow: TextOverflow.None });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(desc);
+            Text.fontSize(10);
+            Text.fontColor('#64748B');
+            Text.lineHeight(14);
+            Text.margin({ top: 2 });
+            Text.maxLines(2);
+            Text.textOverflow({ overflow: TextOverflow.None });
+        }, Text);
+        Text.pop();
+        Column.pop();
+        Row.pop();
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Scroll.create();
             Scroll.backgroundColor(AppColors.background);
         }, Scroll);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 18 });
+            Column.create({ space: 12 });
             Column.width('100%');
             Column.constraintSize({ maxWidth: AppLayout.pageMaxWidth });
             Column.alignSelf(ItemAlign.Center);
             Column.padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 32 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 16 });
+            Column.create();
             Column.width('100%');
-            Column.padding(20);
+            Column.height(278);
+            Column.justifyContent(FlexAlign.Start);
+            Column.padding({ left: 18, right: 18, top: 16, bottom: 16 });
             Column.backgroundColor(AppColors.hero);
-            Column.borderRadius(8);
-            Column.margin({ top: 18 });
+            Column.borderRadius(14);
+            Column.margin({ top: 10 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create();
             Row.width('100%');
+            Row.alignItems(VerticalAlign.Top);
         }, Row);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create();
@@ -192,119 +289,75 @@ class LoginPage extends ViewPU {
             Column.layoutWeight(1);
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('Campus Distributed Authentication System');
-            Text.fontSize(13);
+            Text.create('Campus Distributed Authentication\nSystem');
+            Text.fontSize(11);
             Text.fontColor('#BDEBFF');
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('校园分布式无感身份认证系统');
-            Text.fontSize(30);
-            Text.fontWeight(FontWeight.Bold);
-            Text.fontColor('#FFFFFF');
-            Text.margin({ top: 6 });
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('面向智慧校园的多设备协同认证、设备绑定与 AI 风险评估平台');
-            Text.fontSize(14);
-            Text.fontColor('#D7EEF7');
-            Text.lineHeight(21);
-            Text.margin({ top: 10 });
+            Text.lineHeight(14);
         }, Text);
         Text.pop();
         Column.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create('OH');
-            Text.fontSize(18);
+            Text.fontSize(16);
             Text.fontWeight(FontWeight.Bold);
             Text.fontColor(AppColors.hero);
             Text.textAlign(TextAlign.Center);
-            Text.width(54);
-            Text.height(54);
-            Text.backgroundColor('#DFF6FF');
-            Text.borderRadius(8);
+            Text.width(42);
+            Text.height(42);
+            Text.backgroundColor('#DDF3FA');
+            Text.borderRadius(12);
         }, Text);
         Text.pop();
         Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Grid.create();
-            Grid.columnsTemplate('1fr 1fr');
-            Grid.columnsGap(12);
-            Grid.height(82);
-        }, Grid);
-        {
-            const itemCreation2 = (elmtId, isInitialRender) => {
-                GridItem.create(() => { }, false);
-            };
-            const observedDeepRender = () => {
-                this.observeComponentCreation2(itemCreation2, GridItem);
-                {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        if (isInitialRender) {
-                            let componentCall = new FeatureCard(this, { title: '无感认证', subtitle: '靠近设备后自动识别身份', marker: '01', active: true }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/LoginPage.ets", line: 101, col: 15 });
-                            ViewPU.create(componentCall);
-                            let paramsLambda = () => {
-                                return {
-                                    title: '无感认证',
-                                    subtitle: '靠近设备后自动识别身份',
-                                    marker: '01',
-                                    active: true
-                                };
-                            };
-                            componentCall.paramsGenerator_ = paramsLambda;
-                        }
-                        else {
-                            this.updateStateVarsOfChildByElmtId(elmtId, {});
-                        }
-                    }, { name: "FeatureCard" });
-                }
-                GridItem.pop();
-            };
-            observedDeepRender();
-        }
-        {
-            const itemCreation2 = (elmtId, isInitialRender) => {
-                GridItem.create(() => { }, false);
-            };
-            const observedDeepRender = () => {
-                this.observeComponentCreation2(itemCreation2, GridItem);
-                {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        if (isInitialRender) {
-                            let componentCall = new FeatureCard(this, { title: '多端协同', subtitle: '手机发起，平板同步结果', marker: '02' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/LoginPage.ets", line: 104, col: 15 });
-                            ViewPU.create(componentCall);
-                            let paramsLambda = () => {
-                                return {
-                                    title: '多端协同',
-                                    subtitle: '手机发起，平板同步结果',
-                                    marker: '02'
-                                };
-                            };
-                            componentCall.paramsGenerator_ = paramsLambda;
-                        }
-                        else {
-                            this.updateStateVarsOfChildByElmtId(elmtId, {});
-                        }
-                    }, { name: "FeatureCard" });
-                }
-                GridItem.pop();
-            };
-            observedDeepRender();
-        }
-        Grid.pop();
+            Text.create('校园分布式无感\n身份认证系统');
+            Text.fontSize(23);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#FFFFFF');
+            Text.lineHeight(30);
+            Text.width('100%');
+            Text.margin({ top: 12 });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('面向智慧校园的多设备协同认证、设备绑定与 AI 风险评估平台');
+            Text.fontSize(12);
+            Text.fontColor('#CDE7EF');
+            Text.lineHeight(18);
+            Text.margin({ top: 8 });
+            Text.width('100%');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create({ space: 10 });
+            Row.width('100%');
+            Row.margin({ top: 14 });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.layoutWeight(1);
+        }, Column);
+        this.CapabilityCard.bind(this)('01', '无感认证', '靠近设备自动识别');
         Column.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 16 });
+            Column.create();
+            Column.layoutWeight(1);
+        }, Column);
+        this.CapabilityCard.bind(this)('02', '多端协同', '手机发起设备联动');
+        Column.pop();
+        Row.pop();
+        Column.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create({ space: 12 });
             Column.width('100%');
-            Column.padding(20);
+            Column.padding(16);
             Column.backgroundColor(AppColors.surface);
             Column.borderRadius(8);
             Column.border({ width: 1, color: AppColors.border });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create('登录系统');
-            Text.fontSize(22);
+            Text.fontSize(20);
             Text.fontWeight(FontWeight.Bold);
             Text.fontColor(AppColors.text);
             Text.width('100%');
@@ -312,7 +365,7 @@ class LoginPage extends ViewPU {
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             TextInput.create({ placeholder: '学号 / 工号', text: this.account });
-            TextInput.height(50);
+            TextInput.height(46);
             TextInput.fontSize(15);
             TextInput.backgroundColor(AppColors.surfaceSoft);
             TextInput.borderRadius(8);
@@ -324,7 +377,7 @@ class LoginPage extends ViewPU {
         }, TextInput);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             TextInput.create({ placeholder: '密码', text: this.password });
-            TextInput.height(50);
+            TextInput.height(46);
             TextInput.fontSize(15);
             TextInput.type(InputType.Password);
             TextInput.backgroundColor(AppColors.surfaceSoft);
@@ -363,12 +416,25 @@ class LoginPage extends ViewPU {
                 const item = _item;
                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                     Button.createWithLabel(FormatUtil.roleLabel(item));
+                    globalThis.Context.animation({ duration: 150, curve: Curve.EaseOut });
                     Button.layoutWeight(1);
-                    Button.height(42);
+                    Button.height(38);
                     Button.fontSize(14);
-                    Button.fontColor(this.role === item ? '#FFFFFF' : AppColors.primary);
-                    Button.backgroundColor(this.role === item ? AppColors.primary : AppColors.cyanSoft);
+                    Button.fontColor((this.role === item || this.roleButtonHover === item) ? '#FFFFFF' : AppColors.primary);
+                    Button.backgroundColor((this.role === item || this.roleButtonHover === item) ? AppColors.accent : AppColors.cyanSoft);
                     Button.borderRadius(8);
+                    Button.shadow({
+                        radius: this.roleButtonHover === item ? 10 : 2,
+                        color: this.roleButtonHover === item ? '#22000000' : '#08000000',
+                        offsetX: 0,
+                        offsetY: this.roleButtonHover === item ? 4 : 1
+                    });
+                    Button.scale({ x: this.roleButtonHover === item ? 1.03 : 1, y: this.roleButtonHover === item ? 1.03 : 1 });
+                    globalThis.Context.animation(null);
+                    Button.hoverEffect(HoverEffect.Highlight);
+                    Button.onHover((isHover: boolean) => {
+                        this.roleButtonHover = isHover ? item : '';
+                    });
                     Button.onClick(() => {
                         this.switchRole(item);
                     });
@@ -404,14 +470,54 @@ class LoginPage extends ViewPU {
         If.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Button.createWithLabel(this.loggingIn ? '正在登录...' : '进入智慧校园认证平台');
+            globalThis.Context.animation({ duration: 150, curve: Curve.EaseOut });
             Button.width('100%');
-            Button.height(50);
-            Button.fontSize(16);
+            Button.height(46);
+            Button.fontSize(15);
             Button.fontWeight(FontWeight.Medium);
-            Button.backgroundColor(this.loggingIn ? AppColors.borderStrong : AppColors.primary);
+            Button.fontColor('#FFFFFF');
+            Button.backgroundColor(this.loggingIn ? AppColors.borderStrong : (this.loginButtonHover ? AppColors.accent : AppColors.primary));
             Button.borderRadius(8);
+            Button.shadow({
+                radius: this.loginButtonHover ? 14 : 4,
+                color: this.loginButtonHover ? '#26000000' : '#10000000',
+                offsetX: 0,
+                offsetY: this.loginButtonHover ? 5 : 2
+            });
+            Button.scale({ x: this.loginButtonHover ? 1.02 : 1, y: this.loginButtonHover ? 1.02 : 1 });
+            globalThis.Context.animation(null);
+            Button.hoverEffect(HoverEffect.Highlight);
+            Button.onHover((isHover: boolean) => {
+                this.loginButtonHover = isHover && !this.loggingIn;
+            });
             Button.onClick(() => {
                 this.submit();
+            });
+        }, Button);
+        Button.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Button.createWithLabel('立即注册');
+            globalThis.Context.animation({ duration: 150, curve: Curve.EaseOut });
+            Button.width('100%');
+            Button.height(40);
+            Button.fontSize(14);
+            Button.fontColor(this.registerButtonHover ? '#FFFFFF' : AppColors.primary);
+            Button.backgroundColor(this.registerButtonHover ? AppColors.accent : AppColors.cyanSoft);
+            Button.borderRadius(8);
+            Button.shadow({
+                radius: this.registerButtonHover ? 12 : 3,
+                color: this.registerButtonHover ? '#22000000' : '#0A000000',
+                offsetX: 0,
+                offsetY: this.registerButtonHover ? 4 : 1
+            });
+            Button.scale({ x: this.registerButtonHover ? 1.02 : 1, y: this.registerButtonHover ? 1.02 : 1 });
+            globalThis.Context.animation(null);
+            Button.hoverEffect(HoverEffect.Highlight);
+            Button.onHover((isHover: boolean) => {
+                this.registerButtonHover = isHover;
+            });
+            Button.onClick(() => {
+                this.goRegister();
             });
         }, Button);
         Button.pop();

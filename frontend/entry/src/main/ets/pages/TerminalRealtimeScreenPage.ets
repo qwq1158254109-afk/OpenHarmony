@@ -3,8 +3,9 @@ import { StatePanel } from '../components/StatePanel';
 import { StatusBadge } from '../components/StatusBadge';
 import { PageLoadState, RealtimeAuthEvent } from '../models/CampusPortal';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -13,6 +14,9 @@ struct TerminalRealtimeScreenPage {
   @State events: RealtimeAuthEvent[] = [];
 
   aboutToAppear(): void {
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.terminalRealtimeScreen)) {
+      return;
+    }
     this.events = PortalMockService.realtimeEvents();
     this.state = this.events.length === 0 ? 'empty' : 'ready';
   }

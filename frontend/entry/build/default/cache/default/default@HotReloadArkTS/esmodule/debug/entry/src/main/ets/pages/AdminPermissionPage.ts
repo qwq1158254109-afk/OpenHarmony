@@ -10,7 +10,8 @@ import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/component
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { AdminPermissionItem, PageLoadState } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AdminPermissionPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -57,6 +58,9 @@ class AdminPermissionPage extends ViewPU {
         this.__permissions.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.adminPermission)) {
+            return;
+        }
         this.permissions = PortalMockService.adminPermissions();
         this.state = this.permissions.length === 0 ? 'empty' : 'ready';
     }
@@ -91,7 +95,7 @@ class AdminPermissionPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '管理员权限管理', subtitle: '管理不同角色的数据访问和配置权限' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPermissionPage.ets", line: 39, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '管理员权限管理', subtitle: '管理不同角色的数据访问和配置权限' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPermissionPage.ets", line: 43, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -113,7 +117,7 @@ class AdminPermissionPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无权限项', errorText: '权限数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPermissionPage.ets", line: 41, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无权限项', errorText: '权限数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminPermissionPage.ets", line: 45, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

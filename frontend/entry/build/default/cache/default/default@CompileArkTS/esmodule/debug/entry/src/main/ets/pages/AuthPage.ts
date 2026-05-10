@@ -32,6 +32,8 @@ import { MockData } from "@bundle:com.example.campusauth/entry/ets/services/Mock
 import { RemoteAuthService } from "@bundle:com.example.campusauth/entry/ets/services/RemoteAuthService";
 import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AuthPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -205,7 +207,10 @@ class AuthPage extends ViewPU {
     private methods: AuthMethod[];
     private scenes: CampusScene[];
     aboutToAppear(): void {
-        this.user = AppStorage.Get<UserProfile>('currentUser') || MockData.users[0];
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.auth)) {
+            return;
+        }
+        this.user = AuthSessionService.currentUser() || MockData.users[0];
         this.devices = DeviceService.listDevices(this.user.id);
         this.remoteSessionText = RemoteAuthService.createSession(this.user.id).message;
     }
@@ -294,7 +299,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '无感认证', subtitle: '设备靠近、身份核验、风险评估、跨端同步' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 119, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '无感认证', subtitle: '设备靠近、身份核验、风险评估、跨端同步' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 124, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -343,7 +348,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new StatusBadge(this, { text: this.status === 'unauthenticated' ? '未认证' : this.status === 'authenticating' ? '认证中' : this.status === 'success' ? '成功' : '失败', status: this.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 136, col: 13 });
+                    let componentCall = new StatusBadge(this, { text: this.status === 'unauthenticated' ? '未认证' : this.status === 'authenticating' ? '认证中' : this.status === 'success' ? '成功' : '失败', status: this.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 141, col: 13 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -406,7 +411,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new StatusBadge(this, { text: this.collaboration.channel, status: this.collaboration.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 168, col: 11 });
+                    let componentCall = new StatusBadge(this, { text: this.collaboration.channel, status: this.collaboration.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 173, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -444,7 +449,7 @@ class AuthPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new SectionHeader(this, { title: '认证方式', subtitle: '选择本次无感认证能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 179, col: 15 });
+                            let componentCall = new SectionHeader(this, { title: '认证方式', subtitle: '选择本次无感认证能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 184, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -477,7 +482,7 @@ class AuthPage extends ViewPU {
                                         subtitle: item === 'trusted_device' ? '可信设备自动通过' : item === 'qrcode' ? '扫码完成身份核验' : '蓝牙/近场模拟识别',
                                         marker: this.methodMarker(item),
                                         active: this.method === item
-                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 181, col: 17 });
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 186, col: 17 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
@@ -520,7 +525,7 @@ class AuthPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new SectionHeader(this, { title: '校园场景', subtitle: this.locationForScene(this.scene) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 199, col: 15 });
+                            let componentCall = new SectionHeader(this, { title: '校园场景', subtitle: this.locationForScene(this.scene) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 204, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -553,7 +558,7 @@ class AuthPage extends ViewPU {
                                         subtitle: this.locationForScene(item),
                                         marker: this.sceneMarker(item),
                                         active: this.scene === item
-                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 201, col: 17 });
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 206, col: 17 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
@@ -591,7 +596,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '协同设备', subtitle: this.collaboration.message }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 223, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '协同设备', subtitle: this.collaboration.message }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 228, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -660,7 +665,7 @@ class AuthPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatusBadge(this, { text: DeviceTrustManager.label(item.trust.level), status: DeviceTrustManager.badgeStatus(item.trust.level) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 252, col: 15 });
+                            let componentCall = new StatusBadge(this, { text: DeviceTrustManager.label(item.trust.level), status: DeviceTrustManager.badgeStatus(item.trust.level) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 257, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -696,7 +701,7 @@ class AuthPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new SectionHeader(this, { title: '认证结果', subtitle: `${this.latestRecord.location} · ${FormatUtil.sceneLabel(this.latestRecord.scene)}` }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 267, col: 13 });
+                                let componentCall = new SectionHeader(this, { title: '认证结果', subtitle: `${this.latestRecord.location} · ${FormatUtil.sceneLabel(this.latestRecord.scene)}` }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 272, col: 13 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -725,7 +730,7 @@ class AuthPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(this.latestRecord.risk.riskLevel), status: this.latestRecord.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 274, col: 15 });
+                                let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(this.latestRecord.risk.riskLevel), status: this.latestRecord.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 279, col: 15 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

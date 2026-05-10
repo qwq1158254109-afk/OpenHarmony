@@ -4,11 +4,13 @@ import { SectionHeader } from '../components/SectionHeader';
 import { StatusBadge } from '../components/StatusBadge';
 import { CampusDevice, DeviceType } from '../models/Device';
 import { UserProfile } from '../models/User';
+import { AuthSessionService } from '../services/AuthSessionService';
 import { DeviceTrustManager } from '../services/DeviceTrustManager';
 import { DeviceService } from '../services/DeviceService';
 import { MockData } from '../services/MockData';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -19,7 +21,10 @@ struct DevicePage {
   private types: DeviceType[] = ['phone', 'tablet', 'wearable'];
 
   aboutToAppear(): void {
-    this.user = AppStorage.Get<UserProfile>('currentUser') || MockData.users[0];
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.devices)) {
+      return;
+    }
+    this.user = AuthSessionService.currentUser() || MockData.users[0];
     this.refresh();
   }
 

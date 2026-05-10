@@ -13,6 +13,8 @@ import { MockData } from '../services/MockData';
 import { RemoteAuthService } from '../services/RemoteAuthService';
 import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { AuthSessionService } from '../services/AuthSessionService';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -32,7 +34,10 @@ struct AuthPage {
   private scenes: CampusScene[] = ['attendance', 'lab_access', 'library_entry', 'classroom_checkin'];
 
   aboutToAppear(): void {
-    this.user = AppStorage.Get<UserProfile>('currentUser') || MockData.users[0];
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.auth)) {
+      return;
+    }
+    this.user = AuthSessionService.currentUser() || MockData.users[0];
     this.devices = DeviceService.listDevices(this.user.id);
     this.remoteSessionText = RemoteAuthService.createSession(this.user.id).message;
   }

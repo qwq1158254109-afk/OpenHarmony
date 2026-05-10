@@ -4,8 +4,9 @@ import { StatePanel } from '../components/StatePanel';
 import { StatusBadge } from '../components/StatusBadge';
 import { BlacklistItem, PageLoadState } from '../models/CampusPortal';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -14,6 +15,9 @@ struct BlacklistPage {
   @State items: BlacklistItem[] = [];
 
   aboutToAppear(): void {
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.blacklist)) {
+      return;
+    }
     this.items = PortalMockService.blacklist();
     this.state = this.items.length === 0 ? 'empty' : 'ready';
   }

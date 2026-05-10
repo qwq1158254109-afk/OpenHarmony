@@ -1,4 +1,5 @@
 import { RiskLevel } from './Risk';
+import { UserRole } from './User';
 
 export type PageLoadState = 'loading' | 'ready' | 'empty' | 'error';
 export type PortalStatus = 'success' | 'warning' | 'danger' | 'info';
@@ -11,11 +12,13 @@ export interface PortalStat {
 }
 
 export interface PortalAction {
+  id: string;
   title: string;
   subtitle: string;
   marker: string;
   route: string;
   status: PortalStatus;
+  roles: UserRole[];
 }
 
 export interface RealNameProfile {

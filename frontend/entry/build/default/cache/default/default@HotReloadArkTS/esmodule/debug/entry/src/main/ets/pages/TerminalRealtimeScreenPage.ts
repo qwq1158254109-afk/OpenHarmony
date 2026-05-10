@@ -10,8 +10,9 @@ import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/
 import { StatusBadge } from "@bundle:com.example.campusauth/entry/ets/components/StatusBadge";
 import type { PageLoadState, RealtimeAuthEvent } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { FormatUtil } from "@bundle:com.example.campusauth/entry/ets/utils/FormatUtil";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class TerminalRealtimeScreenPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -58,6 +59,9 @@ class TerminalRealtimeScreenPage extends ViewPU {
         this.__events.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.terminalRealtimeScreen)) {
+            return;
+        }
         this.events = PortalMockService.realtimeEvents();
         this.state = this.events.length === 0 ? 'empty' : 'ready';
     }
@@ -76,7 +80,7 @@ class TerminalRealtimeScreenPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '终端实时认证大屏', subtitle: '实时展示终端认证结果、延迟和风险等级' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalRealtimeScreenPage.ets", line: 23, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '终端实时认证大屏', subtitle: '实时展示终端认证结果、延迟和风险等级' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalRealtimeScreenPage.ets", line: 27, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -98,7 +102,7 @@ class TerminalRealtimeScreenPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无实时认证事件', errorText: '实时大屏加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalRealtimeScreenPage.ets", line: 25, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无实时认证事件', errorText: '实时大屏加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalRealtimeScreenPage.ets", line: 29, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -184,7 +188,7 @@ class TerminalRealtimeScreenPage extends ViewPU {
                             {
                                 this.observeComponentCreation2((elmtId, isInitialRender) => {
                                     if (isInitialRender) {
-                                        let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.riskLevel), status: item.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalRealtimeScreenPage.ets", line: 61, col: 15 });
+                                        let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(item.riskLevel), status: item.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalRealtimeScreenPage.ets", line: 65, col: 15 });
                                         ViewPU.create(componentCall);
                                         let paramsLambda = () => {
                                             return {

@@ -3,7 +3,8 @@ import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { AdminPermissionItem, PageLoadState } from '../models/CampusPortal';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -12,6 +13,9 @@ struct AdminPermissionPage {
   @State permissions: AdminPermissionItem[] = [];
 
   aboutToAppear(): void {
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.adminPermission)) {
+      return;
+    }
     this.permissions = PortalMockService.adminPermissions();
     this.state = this.permissions.length === 0 ? 'empty' : 'ready';
   }

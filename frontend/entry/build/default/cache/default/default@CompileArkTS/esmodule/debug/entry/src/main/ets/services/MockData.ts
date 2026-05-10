@@ -15,7 +15,20 @@ export class MockData {
             role: 'student',
             college: '计算机与信息工程学院',
             department: '软件工程 2301 班',
-            avatarText: '学'
+            avatarText: '学',
+            userCode: '20230101',
+            distributedId: 'DID-202301-001'
+        },
+        {
+            id: 'u-student-018',
+            account: 'student018',
+            name: '赵同学',
+            role: 'student',
+            college: '计算机与信息工程学院',
+            department: '软件工程 2301 班',
+            avatarText: '学',
+            userCode: '20230118',
+            distributedId: 'DID-202301-018'
         },
         {
             id: 'u-teacher-001',
@@ -135,6 +148,25 @@ export class MockData {
                 riskReason: '二维码认证通过，位置风险较低',
                 suggestion: '允许认证通过，可在记录页留存二维码认证来源。',
                 abnormalTypes: []
+            }
+        },
+        {
+            id: 'rec-004',
+            userId: 'u-student-018',
+            userName: '赵同学',
+            time: '2026-05-09 08:16',
+            location: '综合教学楼 A203',
+            scene: 'classroom_checkin',
+            method: 'nearby_bluetooth',
+            deviceName: 'OpenHarmony Phone',
+            result: 'failed',
+            status: 'failed',
+            risk: {
+                riskScore: 64,
+                riskLevel: 'medium',
+                riskReason: '课堂签到设备近场信号不稳定，需学生重新确认。',
+                suggestion: '提醒任课教师人工复核该学生签到状态。',
+                abnormalTypes: ['unknown_device']
             }
         },
         {

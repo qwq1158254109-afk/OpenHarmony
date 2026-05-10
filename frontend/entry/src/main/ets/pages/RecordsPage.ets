@@ -5,9 +5,11 @@ import { StatusBadge } from '../components/StatusBadge';
 import { AuthRecord } from '../models/Auth';
 import { UserProfile } from '../models/User';
 import { AuthService } from '../services/AuthService';
+import { AuthSessionService } from '../services/AuthSessionService';
 import { MockData } from '../services/MockData';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 type RecordFilter = 'all' | 'success' | 'failed' | 'high';
 
@@ -16,10 +18,22 @@ type RecordFilter = 'all' | 'success' | 'failed' | 'high';
 struct RecordsPage {
   @State user: UserProfile = MockData.users[0];
   @State filter: RecordFilter = 'all';
+  @State pageTitle: string = '个人风险提醒';
+  @State pageSubtitle: string = '查看本人账号、设备、登录环境是否存在异常';
   private filters: RecordFilter[] = ['all', 'success', 'failed', 'high'];
 
   aboutToAppear(): void {
-    this.user = AppStorage.Get<UserProfile>('currentUser') || MockData.users[0];
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.records)) {
+      return;
+    }
+    this.user = AuthSessionService.currentUser() || MockData.users[0];
+    if (this.user.role === 'teacher') {
+      this.pageTitle = '学生异常提醒';
+      this.pageSubtitle = '仅查看任课班级范围内认证异常与课堂认证记录';
+    } else if (this.user.role === 'admin') {
+      this.pageTitle = '系统审计记录';
+      this.pageSubtitle = '查看全局认证、通行、设备登录和风险处置记录';
+    }
   }
 
   private filterLabel(item: RecordFilter): string {
@@ -36,7 +50,7 @@ struct RecordsPage {
   }
 
   private records(): AuthRecord[] {
-    const allRecords = this.user.role === 'admin' ? AuthService.recentRecords() : AuthService.recentRecords(this.user.id);
+    const allRecords = AuthService.recentRecordsByRole(this.user);
     if (this.filter === 'success' || this.filter === 'failed') {
       return allRecords.filter(item => item.result === this.filter);
     }
@@ -47,7 +61,7 @@ struct RecordsPage {
   }
 
   private allRecords(): AuthRecord[] {
-    return this.user.role === 'admin' ? AuthService.recentRecords() : AuthService.recentRecords(this.user.id);
+    return AuthService.recentRecordsByRole(this.user);
   }
 
   private accountFor(record: AuthRecord): string {
@@ -63,14 +77,14 @@ struct RecordsPage {
   build() {
     Scroll() {
       Column({ space: 16 }) {
-        PageTitleBar({ title: '认证记录', subtitle: '追踪认证时间、地点、设备、结果和风险等级' })
+        PageTitleBar({ title: this.pageTitle, subtitle: this.pageSubtitle })
 
         Grid() {
           GridItem() {
             StatCard({ title: '记录总数', value: `${this.allRecords().length}`, hint: '当前身份可见记录', color: AppColors.primary })
           }
           GridItem() {
-            StatCard({ title: '高风险', value: `${this.allRecords().filter(item => item.risk.riskLevel === 'high').length}`, hint: '需管理员重点关注', color: AppColors.danger })
+            StatCard({ title: '高风险', value: `${this.allRecords().filter(item => item.risk.riskLevel === 'high').length}`, hint: this.user.role === 'student' ? '仅本人异常提醒' : '需重点关注', color: AppColors.danger })
           }
         }
         .columnsTemplate('1fr 1fr')

@@ -10,7 +10,8 @@ import {
   PortalStatus
 } from '../models/CampusPortal';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -26,6 +27,9 @@ struct DefenseDemoPage {
   @State logs: DefenseDemoLog[] = [];
 
   aboutToAppear(): void {
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.defenseDemo)) {
+      return;
+    }
     this.scenarios = PortalMockService.defenseDemoScenarios();
     this.state = this.scenarios.length === 0 ? 'empty' : 'ready';
   }

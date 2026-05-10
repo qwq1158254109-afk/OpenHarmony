@@ -2,8 +2,11 @@ import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { StatusBadge } from '../components/StatusBadge';
 import { PageLoadState, PassageRecordItem } from '../models/CampusPortal';
+import { UserProfile } from '../models/User';
+import { AuthSessionService } from '../services/AuthSessionService';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -12,7 +15,11 @@ struct WatchPassageRecordsPage {
   @State records: PassageRecordItem[] = [];
 
   aboutToAppear(): void {
-    this.records = PortalMockService.passageRecords().filter((item: PassageRecordItem) => item.deviceId.includes('watch'));
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.watchPassageRecords)) {
+      return;
+    }
+    const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+    this.records = PortalMockService.passageRecords(currentUser).filter((item: PassageRecordItem) => item.deviceId.includes('watch'));
     this.state = this.records.length === 0 ? 'empty' : 'ready';
   }
 

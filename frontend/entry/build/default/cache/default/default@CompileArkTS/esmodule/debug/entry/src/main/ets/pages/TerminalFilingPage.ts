@@ -10,7 +10,8 @@ import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/component
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { PageLoadState, TerminalDeviceRecord } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class TerminalFilingPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -57,6 +58,9 @@ class TerminalFilingPage extends ViewPU {
         this.__terminals.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.terminalFiling)) {
+            return;
+        }
         this.terminals = PortalMockService.terminalDevices();
         this.state = this.terminals.length === 0 ? 'empty' : 'ready';
     }
@@ -91,7 +95,7 @@ class TerminalFilingPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '校园终端设备备案', subtitle: '备案门禁闸机、签到屏和实验室认证终端' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalFilingPage.ets", line: 39, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '校园终端设备备案', subtitle: '备案门禁闸机、签到屏和实验室认证终端' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalFilingPage.ets", line: 43, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -113,7 +117,7 @@ class TerminalFilingPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无备案终端', errorText: '终端备案加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalFilingPage.ets", line: 41, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无备案终端', errorText: '终端备案加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/TerminalFilingPage.ets", line: 45, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

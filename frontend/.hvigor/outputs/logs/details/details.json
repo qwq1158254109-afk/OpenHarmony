@@ -37,31 +37,31 @@
     "BUILD_ANALYSIS_MODE": "normal",
     "TASK_TIME": {
       "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf": {
-        "init": 573900,
-        "PreBuild": 139412000,
-        "CreateModuleInfo": 888700,
-        "ConfigureCmake": 290600,
-        "PreCheckSyscap": 382500,
-        "GeneratePkgContextInfo": 5580500,
-        "ProcessIntegratedHsp": 692000,
-        "BuildNativeWithCmake": 366000,
-        "SyscapTransform": 9883600,
-        "ProcessStartupConfig": 950300,
-        "BuildNativeWithNinja": 564300,
-        "GenerateLoaderJson": 16595700,
-        "buildHotReloadResource": 272100,
-        "BuildJS": 2627200,
-        "CacheNativeLibs": 844435700,
-        "HotReloadArkTS": 7893732900,
-        "ProcessCompiledResources": 601800,
-        "PackageHap": 454133000,
-        "PackingCheck": 5849900,
-        "SignHap": 1476300,
-        "CollectDebugSymbol": 766200,
+        "init": 627300,
+        "PreBuild": 88499500,
+        "CreateModuleInfo": 698800,
+        "ConfigureCmake": 218000,
+        "PreCheckSyscap": 497800,
+        "GeneratePkgContextInfo": 5138400,
+        "ProcessIntegratedHsp": 620800,
+        "BuildNativeWithCmake": 299800,
+        "SyscapTransform": 9009900,
+        "ProcessStartupConfig": 1152800,
+        "BuildNativeWithNinja": 602500,
+        "GenerateLoaderJson": 10823400,
+        "buildHotReloadResource": 317500,
+        "BuildJS": 2578800,
+        "CacheNativeLibs": 578512100,
+        "HotReloadArkTS": 4295550800,
+        "ProcessCompiledResources": 489800,
+        "PackageHap": 325962600,
+        "PackingCheck": 4297200,
+        "SignHap": 1437300,
+        "CollectDebugSymbol": 780600,
         "assembleHap": 165000
       },
       "APP": {
-        "init": 170000
+        "init": 270400
       }
     },
     "CUSTOM_TASK_TIME": {},
@@ -74,7 +74,7 @@
       "ENABLE_CPP_FUNCTION_LEVEL_INCREMENTAL": false
     },
     "CONFIG_PROPERTIES": {},
-    "BUILD_ID": "202605091909334450",
-    "TOTAL_TIME": 8683168700
+    "BUILD_ID": "202605101241196510",
+    "TOTAL_TIME": 4874792800
   }
 }

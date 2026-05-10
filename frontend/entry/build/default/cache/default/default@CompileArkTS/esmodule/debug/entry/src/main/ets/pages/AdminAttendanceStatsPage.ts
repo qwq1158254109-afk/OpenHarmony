@@ -9,7 +9,8 @@ import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/component
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { AttendanceMetric, PageLoadState } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AdminAttendanceStatsPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -56,6 +57,9 @@ class AdminAttendanceStatsPage extends ViewPU {
         this.__metrics.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.adminAttendanceStats)) {
+            return;
+        }
         this.metrics = PortalMockService.attendanceMetrics();
         this.state = this.metrics.length === 0 ? 'empty' : 'ready';
     }
@@ -77,7 +81,7 @@ class AdminAttendanceStatsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '管理员出勤统计', subtitle: '管理员视角汇总课程出勤和异常缺勤' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminAttendanceStatsPage.ets", line: 25, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '管理员出勤统计', subtitle: '管理员视角汇总课程出勤和异常缺勤' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminAttendanceStatsPage.ets", line: 29, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -99,7 +103,7 @@ class AdminAttendanceStatsPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无出勤统计', errorText: '出勤统计加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminAttendanceStatsPage.ets", line: 27, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无出勤统计', errorText: '出勤统计加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AdminAttendanceStatsPage.ets", line: 31, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

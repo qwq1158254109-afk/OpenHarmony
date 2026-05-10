@@ -3,7 +3,8 @@ import { PageTitleBar } from '../components/PageTitleBar';
 import { StatePanel } from '../components/StatePanel';
 import { PageLoadState, TerminalDeviceRecord } from '../models/CampusPortal';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout } from '../utils/Constants';
+import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -12,6 +13,9 @@ struct TerminalFilingPage {
   @State terminals: TerminalDeviceRecord[] = [];
 
   aboutToAppear(): void {
+    if (!PermissionUtil.ensurePageAccess(AppRoutes.terminalFiling)) {
+      return;
+    }
     this.terminals = PortalMockService.terminalDevices();
     this.state = this.terminals.length === 0 ? 'empty' : 'ready';
   }

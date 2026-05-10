@@ -10,7 +10,8 @@ import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/component
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { AccessRuleItem, PageLoadState } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class AccessRuleConfigPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -57,6 +58,9 @@ class AccessRuleConfigPage extends ViewPU {
         this.__rules.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.accessRuleConfig)) {
+            return;
+        }
         this.rules = PortalMockService.accessRules();
         this.state = this.rules.length === 0 ? 'empty' : 'ready';
     }
@@ -91,7 +95,7 @@ class AccessRuleConfigPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '门禁规则配置', subtitle: '配置通行时间、区域和风险处置策略' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AccessRuleConfigPage.ets", line: 39, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '门禁规则配置', subtitle: '配置通行时间、区域和风险处置策略' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AccessRuleConfigPage.ets", line: 43, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -113,7 +117,7 @@ class AccessRuleConfigPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无门禁规则', errorText: '门禁规则加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AccessRuleConfigPage.ets", line: 41, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无门禁规则', errorText: '门禁规则加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AccessRuleConfigPage.ets", line: 45, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

@@ -1,17 +1,16 @@
-Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚRbif (!("finalizeConstruction" in ViewPU.prototype)) {
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚY®if (!("finalizeConstruction" in ViewPU.prototype)) {
     Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
 }
 import router from '@ohos.router';
 import promptAction from '@ohos.promptAction';
-import { FeatureCard } from '../components/FeatureCard';
-import { SectionHeader } from '../components/SectionHeader';
+import { CategoryTabs } from '../components/CategoryTabs';
+import { ServiceIconItem } from '../components/ServiceIconItem';
 import { StatePanel } from '../components/StatePanel';
-import { StatCard } from '../components/StatCard';
 import { AuthSessionService } from '../services/AuthSessionService';
 import { MockData } from '../services/MockData';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
-import { FormatUtil } from '../utils/FormatUtil';
+import { AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
 class OverviewPage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -20,12 +19,17 @@ class OverviewPage extends ViewPU {
         }
         this.__state = new ObservedPropertySimplePU('loading', this, "state");
         this.__user = new ObservedPropertyObjectPU(MockData.users[0], this, "user");
-        this.__stats = new ObservedPropertyObjectPU([], this, "stats");
         this.__studentActions = new ObservedPropertyObjectPU([], this, "studentActions");
+        this.__teacherActions = new ObservedPropertyObjectPU([], this, "teacherActions");
         this.__watchActions = new ObservedPropertyObjectPU([], this, "watchActions");
         this.__terminalActions = new ObservedPropertyObjectPU([], this, "terminalActions");
         this.__adminActions = new ObservedPropertyObjectPU([], this, "adminActions");
         this.__demoActions = new ObservedPropertyObjectPU([], this, "demoActions");
+        this.__selectedCategory = new ObservedPropertySimplePU('', this, "selectedCategory");
+        this.__hoverServiceId = new ObservedPropertySimplePU('', this, "hoverServiceId");
+        this.__selectedServiceId = new ObservedPropertySimplePU('', this, "selectedServiceId");
+        this.__logoutHover = new ObservedPropertySimplePU(false, this, "logoutHover");
+        this.serviceScroller = new Scroller();
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
     }
@@ -36,11 +40,11 @@ class OverviewPage extends ViewPU {
         if (params.user !== undefined) {
             this.user = params.user;
         }
-        if (params.stats !== undefined) {
-            this.stats = params.stats;
-        }
         if (params.studentActions !== undefined) {
             this.studentActions = params.studentActions;
+        }
+        if (params.teacherActions !== undefined) {
+            this.teacherActions = params.teacherActions;
         }
         if (params.watchActions !== undefined) {
             this.watchActions = params.watchActions;
@@ -54,28 +58,51 @@ class OverviewPage extends ViewPU {
         if (params.demoActions !== undefined) {
             this.demoActions = params.demoActions;
         }
+        if (params.selectedCategory !== undefined) {
+            this.selectedCategory = params.selectedCategory;
+        }
+        if (params.hoverServiceId !== undefined) {
+            this.hoverServiceId = params.hoverServiceId;
+        }
+        if (params.selectedServiceId !== undefined) {
+            this.selectedServiceId = params.selectedServiceId;
+        }
+        if (params.logoutHover !== undefined) {
+            this.logoutHover = params.logoutHover;
+        }
+        if (params.serviceScroller !== undefined) {
+            this.serviceScroller = params.serviceScroller;
+        }
     }
     updateStateVars(params) {
     }
     purgeVariableDependenciesOnElmtId(rmElmtId) {
         this.__state.purgeDependencyOnElmtId(rmElmtId);
         this.__user.purgeDependencyOnElmtId(rmElmtId);
-        this.__stats.purgeDependencyOnElmtId(rmElmtId);
         this.__studentActions.purgeDependencyOnElmtId(rmElmtId);
+        this.__teacherActions.purgeDependencyOnElmtId(rmElmtId);
         this.__watchActions.purgeDependencyOnElmtId(rmElmtId);
         this.__terminalActions.purgeDependencyOnElmtId(rmElmtId);
         this.__adminActions.purgeDependencyOnElmtId(rmElmtId);
         this.__demoActions.purgeDependencyOnElmtId(rmElmtId);
+        this.__selectedCategory.purgeDependencyOnElmtId(rmElmtId);
+        this.__hoverServiceId.purgeDependencyOnElmtId(rmElmtId);
+        this.__selectedServiceId.purgeDependencyOnElmtId(rmElmtId);
+        this.__logoutHover.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__state.aboutToBeDeleted();
         this.__user.aboutToBeDeleted();
-        this.__stats.aboutToBeDeleted();
         this.__studentActions.aboutToBeDeleted();
+        this.__teacherActions.aboutToBeDeleted();
         this.__watchActions.aboutToBeDeleted();
         this.__terminalActions.aboutToBeDeleted();
         this.__adminActions.aboutToBeDeleted();
         this.__demoActions.aboutToBeDeleted();
+        this.__selectedCategory.aboutToBeDeleted();
+        this.__hoverServiceId.aboutToBeDeleted();
+        this.__selectedServiceId.aboutToBeDeleted();
+        this.__logoutHover.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -91,17 +118,17 @@ class OverviewPage extends ViewPU {
     set user(newValue) {
         this.__user.set(newValue);
     }
-    get stats() {
-        return this.__stats.get();
-    }
-    set stats(newValue) {
-        this.__stats.set(newValue);
-    }
     get studentActions() {
         return this.__studentActions.get();
     }
     set studentActions(newValue) {
         this.__studentActions.set(newValue);
+    }
+    get teacherActions() {
+        return this.__teacherActions.get();
+    }
+    set teacherActions(newValue) {
+        this.__teacherActions.set(newValue);
     }
     get watchActions() {
         return this.__watchActions.get();
@@ -127,6 +154,30 @@ class OverviewPage extends ViewPU {
     set demoActions(newValue) {
         this.__demoActions.set(newValue);
     }
+    get selectedCategory() {
+        return this.__selectedCategory.get();
+    }
+    set selectedCategory(newValue) {
+        this.__selectedCategory.set(newValue);
+    }
+    get hoverServiceId() {
+        return this.__hoverServiceId.get();
+    }
+    set hoverServiceId(newValue) {
+        this.__hoverServiceId.set(newValue);
+    }
+    get selectedServiceId() {
+        return this.__selectedServiceId.get();
+    }
+    set selectedServiceId(newValue) {
+        this.__selectedServiceId.set(newValue);
+    }
+    get logoutHover() {
+        return this.__logoutHover.get();
+    }
+    set logoutHover(newValue) {
+        this.__logoutHover.set(newValue);
+    }
     aboutToAppear() {
         const currentUser = AuthSessionService.currentUser();
         if (!AuthSessionService.isLoggedIn() || !currentUser) {
@@ -134,28 +185,86 @@ class OverviewPage extends ViewPU {
             return;
         }
         this.user = currentUser;
-        this.stats = PortalMockService.overviewStats();
-        this.studentActions = PortalMockService.studentActions();
-        this.watchActions = PortalMockService.watchActions();
-        this.terminalActions = PortalMockService.terminalActions();
-        this.adminActions = PortalMockService.adminActions();
-        this.demoActions = PortalMockService.demoActions();
-        this.state = this.stats.length === 0 ? 'empty' : 'ready';
+        this.studentActions = this.user.role === 'student' ? PortalMockService.studentActions() : [];
+        this.teacherActions = this.user.role === 'teacher' ? PortalMockService.teacherActions() : [];
+        this.watchActions = this.user.role === 'student' ? PortalMockService.watchActions() : [];
+        this.terminalActions = this.user.role === 'admin' ? PortalMockService.terminalActions() : [];
+        this.adminActions = this.user.role === 'admin' ? PortalMockService.adminActions() : [];
+        this.demoActions = this.user.role === 'admin' ? PortalMockService.demoActions() : [];
+        const groups = this.visibleGroups();
+        this.selectedCategory = groups.length > 0 ? groups[0].id : '';
+        this.hoverServiceId = '';
+        this.selectedServiceId = '';
+        this.state = groups.length === 0 ? 'empty' : 'ready';
     }
-    go(url) {
-        router.pushUrl({ url });
+    visibleGroups() {
+        return [
+            { id: 'student', title: 'å­¦ç”Ÿç«¯', subtitle: 'æœ¬äººè®¤è¯ã€è®¾å¤‡ã€æˆæƒã€è®°å½•å’Œé€šè¡ŒçŠ¶æ€', items: this.studentActions },
+            { id: 'teacher', title: 'æ•™å¸ˆç«¯', subtitle: 'è¯¾ç¨‹ç­çº§è®¤è¯ã€å­¦ç”Ÿå¼‚å¸¸æé†’å’Œè¯¾å ‚ç­¾åˆ°', items: this.teacherActions },
+            { id: 'watch', title: 'ç©¿æˆ´è®¾å¤‡', subtitle: 'é¢å‘æœ¬äººæ‰‹è¡¨çš„ä»Šæ—¥è€ƒå‹¤å’Œé€šè¡Œåé¦ˆ', items: this.watchActions },
+            { id: 'admin', title: 'ç®¡ç†å‘˜ç«¯', subtitle: 'é£é™©è¯„ä¼°ã€æƒé™ç®¡ç†ã€ç³»ç»Ÿå®¡è®¡å’Œæ•°æ®ç»Ÿè®¡', items: this.adminActions },
+            { id: 'terminal', title: 'è®¾å¤‡ç®¡ç†', subtitle: 'ç»ˆç«¯å¤‡æ¡ˆã€è®¾å¤‡æ¥å…¥å’Œå®æ—¶è®¤è¯å¤§å±', items: this.terminalActions },
+            { id: 'demo', title: 'ç­”è¾©æ¼”ç¤º', subtitle: 'ç°åœºæ¼”ç¤ºæµç¨‹ï¼Œä¸ä¾èµ–çœŸå®è®¾å¤‡', items: this.demoActions }
+        ].filter((group) => group.items.length > 0);
     }
-    colorOf(status) {
-        if (status === 'success') {
-            return AppColors.success;
+    categoryTabs() {
+        return this.visibleGroups().map((group) => {
+            return { id: group.id, title: group.title };
+        });
+    }
+    orderedGroups() {
+        return this.visibleGroups();
+    }
+    handleCategorySelect(id) {
+        this.selectedCategory = id;
+        setTimeout(() => {
+            this.serviceScroller.scrollTo({
+                xOffset: 0,
+                yOffset: this.groupScrollOffset(id),
+                animation: { duration: 260, curve: Curve.EaseOut }
+            });
+        }, 30);
+    }
+    groupScrollOffset(id) {
+        const groups = this.visibleGroups();
+        let offset = 0;
+        for (let index = 0; index < groups.length; index++) {
+            if (groups[index].id === id) {
+                return offset;
+            }
+            offset += this.groupVisualHeight(groups[index]);
         }
-        if (status === 'warning') {
-            return AppColors.warning;
+        return 0;
+    }
+    groupVisualHeight(group) {
+        const rowCount = Math.ceil(group.items.length / 4);
+        const gridHeight = rowCount * 150 + Math.max(0, rowCount - 1) * 26;
+        return this.sectionTopMargin(group) + 34 + 22 + gridHeight;
+    }
+    sectionTopMargin(group) {
+        if (this.user.role === 'teacher' && group.id === 'teacher') {
+            return 14;
         }
-        if (status === 'danger') {
-            return AppColors.danger;
+        return 30;
+    }
+    handleServiceHover(id, isHover) {
+        if (isHover) {
+            this.hoverServiceId = id;
+            return;
         }
-        return AppColors.primary;
+        if (this.hoverServiceId === id) {
+            this.hoverServiceId = '';
+        }
+    }
+    openService(item) {
+        this.selectedServiceId = item.id;
+        if (!PermissionUtil.canViewFeature(this.user.role, item.route)) {
+            promptAction.showToast({ message: 'å½“å‰è§’è‰²æ— æƒè®¿é—®è¯¥åŠŸèƒ½' });
+            return;
+        }
+        setTimeout(() => {
+            router.pushUrl({ url: item.route });
+        }, 160);
     }
     logout() {
         AlertDialog.show({
@@ -164,7 +273,7 @@ class OverviewPage extends ViewPU {
             primaryButton: { value: 'å–æ¶ˆ', action: () => { } },
             secondaryButton: {
                 value: 'ç¡®è®¤é€€å‡º',
-                fontColor: AppColors.danger,
+                fontColor: '#C53030',
                 action: () => {
                     AuthSessionService.clearLogin();
                     promptAction.showToast({ message: 'å·²é€€å‡ºç™»å½•' });
@@ -173,166 +282,183 @@ class OverviewPage extends ViewPU {
             }
         });
     }
-    ActionGrid(title, subtitle, actions, parent = null) {
+    ServiceSection(group, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 12 });
+            Column.create();
             Column.width('100%');
         }, Column);
-        {
-            this.observeComponentCreation2((elmtId, isInitialRender) => {
-                if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: title, subtitle: subtitle }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 80, col: 7 });
-                    ViewPU.create(componentCall);
-                    let paramsLambda = () => {
-                        return {
-                            title: title,
-                            subtitle: subtitle
-                        };
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(group.title);
+            Text.fontSize(24);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#111827');
+            Text.width('100%');
+            Text.margin({ top: this.sectionTopMargin(group), bottom: 22 });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Grid.create();
+            Grid.columnsTemplate('1fr 1fr 1fr 1fr');
+            Grid.columnsGap(12);
+            Grid.rowsGap(26);
+            Grid.width('100%');
+        }, Grid);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            ForEach.create();
+            const forEachItemGenFunction = _item => {
+                const item = _item;
+                {
+                    const itemCreation2 = (elmtId, isInitialRender) => {
+                        GridItem.create(() => { }, false);
                     };
-                    componentCall.paramsGenerator_ = paramsLambda;
+                    const observedDeepRender = () => {
+                        this.observeComponentCreation2(itemCreation2, GridItem);
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            Column.create();
+                            Column.width('100%');
+                            Column.height(150);
+                            Column.alignItems(HorizontalAlign.Center);
+                            Column.justifyContent(FlexAlign.Start);
+                            Column.onHover((isHover) => {
+                                this.handleServiceHover(item.id, isHover);
+                            });
+                            Column.onClick(() => {
+                                this.openService(item);
+                            });
+                        }, Column);
+                        {
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                if (isInitialRender) {
+                                    let componentCall = new ServiceIconItem(this, {
+                                        item: item,
+                                        active: this.hoverServiceId === item.id || this.selectedServiceId === item.id
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 166, col: 15 });
+                                    ViewPU.create(componentCall);
+                                    let paramsLambda = () => {
+                                        return {
+                                            item: item,
+                                            active: this.hoverServiceId === item.id || this.selectedServiceId === item.id
+                                        };
+                                    };
+                                    componentCall.paramsGenerator_ = paramsLambda;
+                                }
+                                else {
+                                    this.updateStateVarsOfChildByElmtId(elmtId, {});
+                                }
+                            }, { name: "ServiceIconItem" });
+                        }
+                        Column.pop();
+                        GridItem.pop();
+                    };
+                    observedDeepRender();
                 }
-                else {
-                    this.updateStateVarsOfChildByElmtId(elmtId, {});
-                }
-            }, { name: "SectionHeader" });
-        }
+            };
+            this.forEachUpdateFunction(elmtId, group.items, forEachItemGenFunction, (item) => item.id, false, false);
+        }, ForEach);
+        ForEach.pop();
+        Grid.pop();
+        Column.pop();
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.height('100%');
+            Column.backgroundColor('#FFFFFF');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+            Row.padding({ left: 20, right: 20, top: 28, bottom: 22 });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Blank.create();
+            Blank.width(56);
+        }, Blank);
+        Blank.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('æœåŠ¡ä¸­å¿ƒ');
+            Text.fontSize(28);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#111827');
+            Text.textAlign(TextAlign.Center);
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('é€€å‡º');
+            Text.fontSize(15);
+            Text.fontColor(this.logoutHover ? '#2D9CDB' : '#6B7280');
+            Text.textAlign(TextAlign.Center);
+            Text.width(56);
+            Text.height(36);
+            Text.backgroundColor(this.logoutHover ? '#EAF8FC' : Color.Transparent);
+            Text.borderRadius(18);
+            Text.onHover((isHover) => {
+                this.logoutHover = isHover;
+            });
+            Text.onClick(() => {
+                this.logout();
+            });
+        }, Text);
+        Text.pop();
+        Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
-            if (actions.length === 0) {
+            if (this.state === 'ready') {
                 this.ifElseBranchUpdateFunction(0, () => {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: 'æš‚æ— å¯ç”¨åŠŸèƒ½' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 82, col: 9 });
+                                let componentCall = new CategoryTabs(this, {
+                                    items: this.categoryTabs(),
+                                    selectedId: this.selectedCategory,
+                                    onSelect: (id) => {
+                                        this.handleCategorySelect(id);
+                                    }
+                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 222, col: 9 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
-                                        state: 'empty',
-                                        emptyText: 'æš‚æ— å¯ç”¨åŠŸèƒ½'
+                                        items: this.categoryTabs(),
+                                        selectedId: this.selectedCategory,
+                                        onSelect: (id) => {
+                                            this.handleCategorySelect(id);
+                                        }
                                     };
                                 };
                                 componentCall.paramsGenerator_ = paramsLambda;
                             }
                             else {
-                                this.updateStateVarsOfChildByElmtId(elmtId, {});
+                                this.updateStateVarsOfChildByElmtId(elmtId, {
+                                    selectedId: this.selectedCategory
+                                });
                             }
-                        }, { name: "StatePanel" });
+                        }, { name: "CategoryTabs" });
                     }
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Divider.create();
+                        Divider.color('#EEEEEE');
+                        Divider.margin({ top: 20 });
+                    }, Divider);
                 });
             }
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Grid.create();
-                        Grid.columnsTemplate('1fr 1fr');
-                        Grid.columnsGap(12);
-                        Grid.rowsGap(12);
-                    }, Grid);
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        ForEach.create();
-                        const forEachItemGenFunction = _item => {
-                            const item = _item;
-                            {
-                                const itemCreation2 = (elmtId, isInitialRender) => {
-                                    GridItem.create(() => { }, false);
-                                };
-                                const observedDeepRender = () => {
-                                    this.observeComponentCreation2(itemCreation2, GridItem);
-                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                                        __Common__.create();
-                                        __Common__.onClick(() => this.go(item.route));
-                                    }, __Common__);
-                                    {
-                                        this.observeComponentCreation2((elmtId, isInitialRender) => {
-                                            if (isInitialRender) {
-                                                let componentCall = new FeatureCard(this, {
-                                                    title: item.title,
-                                                    subtitle: item.subtitle,
-                                                    marker: item.marker,
-                                                    active: item.status === 'success'
-                                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 87, col: 15 });
-                                                ViewPU.create(componentCall);
-                                                let paramsLambda = () => {
-                                                    return {
-                                                        title: item.title,
-                                                        subtitle: item.subtitle,
-                                                        marker: item.marker,
-                                                        active: item.status === 'success'
-                                                    };
-                                                };
-                                                componentCall.paramsGenerator_ = paramsLambda;
-                                            }
-                                            else {
-                                                this.updateStateVarsOfChildByElmtId(elmtId, {});
-                                            }
-                                        }, { name: "FeatureCard" });
-                                    }
-                                    __Common__.pop();
-                                    GridItem.pop();
-                                };
-                                observedDeepRender();
-                            }
-                        };
-                        this.forEachUpdateFunction(elmtId, actions, forEachItemGenFunction, (item) => item.title, false, false);
-                    }, ForEach);
-                    ForEach.pop();
-                    Grid.pop();
                 });
             }
         }, If);
         If.pop();
-        Column.pop();
-    }
-    initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Scroll.create();
-            Scroll.backgroundColor(AppColors.background);
+            Scroll.create(this.serviceScroller);
+            Scroll.layoutWeight(1);
+            Scroll.scrollBar(BarState.Off);
         }, Scroll);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create({ space: 18 });
-            Column.width('100%');
-            Column.constraintSize({ maxWidth: AppLayout.pageMaxWidth });
-            Column.alignSelf(ItemAlign.Center);
-            Column.padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 });
-        }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.width('100%');
-            Row.padding(18);
-            Row.backgroundColor(AppColors.hero);
-            Row.borderRadius(8);
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create();
-            Column.alignItems(HorizontalAlign.Start);
-            Column.layoutWeight(1);
+            Column.width('100%');
+            Column.padding({ left: 24, right: 24, bottom: 34 });
         }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('æ ¡å›­åˆ†å¸ƒå¼æ— æ„Ÿèº«ä»½è®¤è¯ç³»ç»Ÿ');
-            Text.fontSize(24);
-            Text.fontWeight(FontWeight.Bold);
-            Text.fontColor('#FFFFFF');
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(`${this.user.name} Â· ${this.user.account} Â· ${FormatUtil.roleLabel(this.user.role)}`);
-            Text.fontSize(13);
-            Text.fontColor('#D7EEF7');
-            Text.margin({ top: 8 });
-        }, Text);
-        Text.pop();
-        Column.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Button.createWithLabel('é€€å‡ºç™»å½•');
-            Button.height(36);
-            Button.fontSize(13);
-            Button.fontColor('#FFFFFF');
-            Button.backgroundColor('#2D9CDB');
-            Button.borderRadius(8);
-            Button.onClick(() => this.logout());
-        }, Button);
-        Button.pop();
-        Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
             if (this.state !== 'ready') {
@@ -340,13 +466,13 @@ class OverviewPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: 'æš‚æ— é¦–é¡µæ•°æ®', errorText: 'é¦–é¡µæ•°æ®åŠ è½½å¤±è´¥' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 135, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: 'æš‚æ— å¯ç”¨æœåŠ¡', errorText: 'æœåŠ¡æ•°æ®åŠ è½½å¤±è´¥' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 237, col: 13 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
                                         state: this.state,
-                                        emptyText: 'æš‚æ— é¦–é¡µæ•°æ®',
-                                        errorText: 'é¦–é¡µæ•°æ®åŠ è½½å¤±è´¥'
+                                        emptyText: 'æš‚æ— å¯ç”¨æœåŠ¡',
+                                        errorText: 'æœåŠ¡æ•°æ®åŠ è½½å¤±è´¥'
                                     };
                                 };
                                 componentCall.paramsGenerator_ = paramsLambda;
@@ -361,62 +487,21 @@ class OverviewPage extends ViewPU {
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Grid.create();
-                        Grid.columnsTemplate('1fr 1fr');
-                        Grid.columnsGap(12);
-                        Grid.rowsGap(12);
-                        Grid.height(264);
-                    }, Grid);
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
                         ForEach.create();
                         const forEachItemGenFunction = _item => {
-                            const item = _item;
-                            {
-                                const itemCreation2 = (elmtId, isInitialRender) => {
-                                    GridItem.create(() => { }, false);
-                                };
-                                const observedDeepRender = () => {
-                                    this.observeComponentCreation2(itemCreation2, GridItem);
-                                    {
-                                        this.observeComponentCreation2((elmtId, isInitialRender) => {
-                                            if (isInitialRender) {
-                                                let componentCall = new StatCard(this, { title: item.title, value: item.value, hint: item.hint, color: this.colorOf(item.status) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 140, col: 17 });
-                                                ViewPU.create(componentCall);
-                                                let paramsLambda = () => {
-                                                    return {
-                                                        title: item.title,
-                                                        value: item.value,
-                                                        hint: item.hint,
-                                                        color: this.colorOf(item.status)
-                                                    };
-                                                };
-                                                componentCall.paramsGenerator_ = paramsLambda;
-                                            }
-                                            else {
-                                                this.updateStateVarsOfChildByElmtId(elmtId, {});
-                                            }
-                                        }, { name: "StatCard" });
-                                    }
-                                    GridItem.pop();
-                                };
-                                observedDeepRender();
-                            }
+                            const group = _item;
+                            this.ServiceSection.bind(this)(group);
                         };
-                        this.forEachUpdateFunction(elmtId, this.stats, forEachItemGenFunction, (item) => item.title, false, false);
+                        this.forEachUpdateFunction(elmtId, this.orderedGroups(), forEachItemGenFunction, (group) => group.id, false, false);
                     }, ForEach);
                     ForEach.pop();
-                    Grid.pop();
-                    this.ActionGrid.bind(this)('å­¦ç”Ÿç«¯', 'å®åè®¤è¯ã€è®¾å¤‡ç»‘å®šã€æƒé™è®¾ç½®ã€é€šè¡Œä¸è€ƒå‹¤', ObservedObject.GetRawObject(this.studentActions));
-                    this.ActionGrid.bind(this)('ç­”è¾©æ¼”ç¤º', 'ç°åœºæ¼”ç¤ºç”¨ä¸€é”®æ¨¡æ‹Ÿæµç¨‹ï¼Œä¸ä¾èµ–çœŸå®è®¾å¤‡', ObservedObject.GetRawObject(this.demoActions));
-                    this.ActionGrid.bind(this)('æ‰‹è¡¨ç«¯', 'é¢å‘è½»é‡è®¾å¤‡çš„ä»Šæ—¥è€ƒå‹¤å’Œé€šè¡Œåé¦ˆ', ObservedObject.GetRawObject(this.watchActions));
-                    this.ActionGrid.bind(this)('æ ¡å›­ç»ˆç«¯ç«¯', 'ç»ˆç«¯å¤‡æ¡ˆä¸å®æ—¶è®¤è¯å¤§å±', ObservedObject.GetRawObject(this.terminalActions));
-                    this.ActionGrid.bind(this)('ç®¡ç†å‘˜ç«¯', 'å‡ºå‹¤ã€æƒé™ã€é—¨ç¦è§„åˆ™ä¸é»‘åå•æ²»ç†', ObservedObject.GetRawObject(this.adminActions));
                 });
             }
         }, If);
         If.pop();
         Column.pop();
         Scroll.pop();
+        Column.pop();
     }
     rerender() {
         this.updateDirtyElements();
@@ -426,31 +511,42 @@ class OverviewPage extends ViewPU {
     }
 }
 registerNamedRoute(() => new OverviewPage(undefined, {}), "", { bundleName: "com.example.campusauth", moduleName: "entry", pagePath: "pages/OverviewPage", pageFullPath: "entry/src/main/ets/pages/OverviewPage", integratedHsp: "false", moduleType: "followWithHap" });
-//# sourceMappingURL=OverviewPage.js.mapÂ›Ùf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsÙZE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\SectionHeader.etsÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsÙUE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatCard.etsÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsÙSE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\MockData.etsÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsÙTE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\OverviewPage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚÇimport router from '@ohos.router';
+//# sourceMappingURL=OverviewPage.js.mapÂšÙf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsÙYE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\CategoryTabs.etsÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\ServiceIconItem.etsÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsÙSE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\MockData.etsÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\PermissionUtil.etsÙTE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\pages\OverviewPage.etsÔrBšªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath¬shouldEmitJs¥entryÃÂÙ0E:\project\My_project\OpenHarmony\frontend\entryÙ*E:\project\My_project\OpenHarmony\frontend¥entry¥1.0.0Ô  Ù0E:\project\My_project\OpenHarmony\frontend\entryÃÃÚ"Kimport router from '@ohos.router';
 import promptAction from '@ohos.promptAction';
-import { FeatureCard } from '../components/FeatureCard';
-import { SectionHeader } from '../components/SectionHeader';
+import { CategoryTabItem, CategoryTabs } from '../components/CategoryTabs';
+import { ServiceIconItem } from '../components/ServiceIconItem';
 import { StatePanel } from '../components/StatePanel';
-import { StatCard } from '../components/StatCard';
-import { PageLoadState, PortalAction, PortalStat } from '../models/CampusPortal';
+import { PageLoadState, PortalAction } from '../models/CampusPortal';
 import { UserProfile } from '../models/User';
 import { AuthSessionService } from '../services/AuthSessionService';
 import { MockData } from '../services/MockData';
 import { PortalMockService } from '../services/PortalMockService';
-import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
-import { FormatUtil } from '../utils/FormatUtil';
+import { AppRoutes } from '../utils/Constants';
+import { PermissionUtil } from '../utils/PermissionUtil';
+
+interface ServiceGroup {
+  id: string;
+  title: string;
+  subtitle: string;
+  items: PortalAction[];
+}
 
 @Entry
 @Component
 struct OverviewPage {
   @State state: PageLoadState = 'loading';
   @State user: UserProfile = MockData.users[0];
-  @State stats: PortalStat[] = [];
   @State studentActions: PortalAction[] = [];
+  @State teacherActions: PortalAction[] = [];
   @State watchActions: PortalAction[] = [];
   @State terminalActions: PortalAction[] = [];
   @State adminActions: PortalAction[] = [];
   @State demoActions: PortalAction[] = [];
+  @State selectedCategory: string = '';
+  @State hoverServiceId: string = '';
+  @State selectedServiceId: string = '';
+  @State logoutHover: boolean = false;
+  private serviceScroller: Scroller = new Scroller();
 
   aboutToAppear(): void {
     const currentUser = AuthSessionService.currentUser();
@@ -459,30 +555,95 @@ struct OverviewPage {
       return;
     }
     this.user = currentUser;
-    this.stats = PortalMockService.overviewStats();
-    this.studentActions = PortalMockService.studentActions();
-    this.watchActions = PortalMockService.watchActions();
-    this.terminalActions = PortalMockService.terminalActions();
-    this.adminActions = PortalMockService.adminActions();
-    this.demoActions = PortalMockService.demoActions();
-    this.state = this.stats.length === 0 ? 'empty' : 'ready';
+    this.studentActions = this.user.role === 'student' ? PortalMockService.studentActions() : [];
+    this.teacherActions = this.user.role === 'teacher' ? PortalMockService.teacherActions() : [];
+    this.watchActions = this.user.role === 'student' ? PortalMockService.watchActions() : [];
+    this.terminalActions = this.user.role === 'admin' ? PortalMockService.terminalActions() : [];
+    this.adminActions = this.user.role === 'admin' ? PortalMockService.adminActions() : [];
+    this.demoActions = this.user.role === 'admin' ? PortalMockService.demoActions() : [];
+    const groups = this.visibleGroups();
+    this.selectedCategory = groups.length > 0 ? groups[0].id : '';
+    this.hoverServiceId = '';
+    this.selectedServiceId = '';
+    this.state = groups.length === 0 ? 'empty' : 'ready';
   }
 
-  private go(url: string): void {
-    router.pushUrl({ url });
+  private visibleGroups(): ServiceGroup[] {
+    return [
+      { id: 'student', title: 'å­¦ç”Ÿç«¯', subtitle: 'æœ¬äººè®¤è¯ã€è®¾å¤‡ã€æˆæƒã€è®°å½•å’Œé€šè¡ŒçŠ¶æ€', items: this.studentActions } as ServiceGroup,
+      { id: 'teacher', title: 'æ•™å¸ˆç«¯', subtitle: 'è¯¾ç¨‹ç­çº§è®¤è¯ã€å­¦ç”Ÿå¼‚å¸¸æé†’å’Œè¯¾å ‚ç­¾åˆ°', items: this.teacherActions } as ServiceGroup,
+      { id: 'watch', title: 'ç©¿æˆ´è®¾å¤‡', subtitle: 'é¢å‘æœ¬äººæ‰‹è¡¨çš„ä»Šæ—¥è€ƒå‹¤å’Œé€šè¡Œåé¦ˆ', items: this.watchActions } as ServiceGroup,
+      { id: 'admin', title: 'ç®¡ç†å‘˜ç«¯', subtitle: 'é£é™©è¯„ä¼°ã€æƒé™ç®¡ç†ã€ç³»ç»Ÿå®¡è®¡å’Œæ•°æ®ç»Ÿè®¡', items: this.adminActions } as ServiceGroup,
+      { id: 'terminal', title: 'è®¾å¤‡ç®¡ç†', subtitle: 'ç»ˆç«¯å¤‡æ¡ˆã€è®¾å¤‡æ¥å…¥å’Œå®æ—¶è®¤è¯å¤§å±', items: this.terminalActions } as ServiceGroup,
+      { id: 'demo', title: 'ç­”è¾©æ¼”ç¤º', subtitle: 'ç°åœºæ¼”ç¤ºæµç¨‹ï¼Œä¸ä¾èµ–çœŸå®è®¾å¤‡', items: this.demoActions } as ServiceGroup
+    ].filter((group: ServiceGroup) => group.items.length > 0);
   }
 
-  private colorOf(status: string): string {
-    if (status === 'success') {
-      return AppColors.success;
+  private categoryTabs(): CategoryTabItem[] {
+    return this.visibleGroups().map((group: ServiceGroup) => {
+      return { id: group.id, title: group.title } as CategoryTabItem;
+    });
+  }
+
+  private orderedGroups(): ServiceGroup[] {
+    return this.visibleGroups();
+  }
+
+  private handleCategorySelect(id: string): void {
+    this.selectedCategory = id;
+    setTimeout(() => {
+      this.serviceScroller.scrollTo({
+        xOffset: 0,
+        yOffset: this.groupScrollOffset(id),
+        animation: { duration: 260, curve: Curve.EaseOut }
+      });
+    }, 30);
+  }
+
+  private groupScrollOffset(id: string): number {
+    const groups = this.visibleGroups();
+    let offset = 0;
+    for (let index = 0; index < groups.length; index++) {
+      if (groups[index].id === id) {
+        return offset;
+      }
+      offset += this.groupVisualHeight(groups[index]);
     }
-    if (status === 'warning') {
-      return AppColors.warning;
+    return 0;
+  }
+
+  private groupVisualHeight(group: ServiceGroup): number {
+    const rowCount = Math.ceil(group.items.length / 4);
+    const gridHeight = rowCount * 150 + Math.max(0, rowCount - 1) * 26;
+    return this.sectionTopMargin(group) + 34 + 22 + gridHeight;
+  }
+
+  private sectionTopMargin(group: ServiceGroup): number {
+    if (this.user.role === 'teacher' && group.id === 'teacher') {
+      return 14;
     }
-    if (status === 'danger') {
-      return AppColors.danger;
+    return 30;
+  }
+
+  private handleServiceHover(id: string, isHover: boolean): void {
+    if (isHover) {
+      this.hoverServiceId = id;
+      return;
     }
-    return AppColors.primary;
+    if (this.hoverServiceId === id) {
+      this.hoverServiceId = '';
+    }
+  }
+
+  private openService(item: PortalAction): void {
+    this.selectedServiceId = item.id;
+    if (!PermissionUtil.canViewFeature(this.user.role, item.route)) {
+      promptAction.showToast({ message: 'å½“å‰è§’è‰²æ— æƒè®¿é—®è¯¥åŠŸèƒ½' });
+      return;
+    }
+    setTimeout(() => {
+      router.pushUrl({ url: item.route });
+    }, 160);
   }
 
   private logout(): void {
@@ -492,7 +653,7 @@ struct OverviewPage {
       primaryButton: { value: 'å–æ¶ˆ', action: () => {} },
       secondaryButton: {
         value: 'ç¡®è®¤é€€å‡º',
-        fontColor: AppColors.danger,
+        fontColor: '#C53030',
         action: () => {
           AuthSessionService.clearLogin();
           promptAction.showToast({ message: 'å·²é€€å‡ºç™»å½•' });
@@ -503,145 +664,186 @@ struct OverviewPage {
   }
 
   @Builder
-  ActionGrid(title: string, subtitle: string, actions: PortalAction[]) {
-    Column({ space: 12 }) {
-      SectionHeader({ title: title, subtitle: subtitle })
-      if (actions.length === 0) {
-        StatePanel({ state: 'empty', emptyText: 'æš‚æ— å¯ç”¨åŠŸèƒ½' })
-      } else {
-        Grid() {
-          ForEach(actions, (item: PortalAction) => {
-            GridItem() {
-              FeatureCard({
-                title: item.title,
-                subtitle: item.subtitle,
-                marker: item.marker,
-                active: item.status === 'success'
+  ServiceSection(group: ServiceGroup) {
+    Column() {
+      Text(group.title)
+        .fontSize(24)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#111827')
+        .width('100%')
+        .margin({ top: this.sectionTopMargin(group), bottom: 22 })
+      Grid() {
+        ForEach(group.items, (item: PortalAction) => {
+          GridItem() {
+            Column() {
+              ServiceIconItem({
+                item: item,
+                active: this.hoverServiceId === item.id || this.selectedServiceId === item.id
               })
-                .onClick(() => this.go(item.route))
             }
-          }, (item: PortalAction): string => item.title)
-        }
-        .columnsTemplate('1fr 1fr')
-        .columnsGap(12)
-        .rowsGap(12)
+            .width('100%')
+            .height(150)
+            .alignItems(HorizontalAlign.Center)
+            .justifyContent(FlexAlign.Start)
+            .onHover((isHover: boolean) => {
+              this.handleServiceHover(item.id, isHover);
+            })
+            .onClick(() => {
+              this.openService(item);
+            })
+          }
+        }, (item: PortalAction): string => item.id)
       }
+      .columnsTemplate('1fr 1fr 1fr 1fr')
+      .columnsGap(12)
+      .rowsGap(26)
+      .width('100%')
     }
     .width('100%')
   }
 
   build() {
-    Scroll() {
-      Column({ space: 18 }) {
-        Row() {
-          Column() {
-            Text('æ ¡å›­åˆ†å¸ƒå¼æ— æ„Ÿèº«ä»½è®¤è¯ç³»ç»Ÿ')
-              .fontSize(24)
-              .fontWeight(FontWeight.Bold)
-              .fontColor('#FFFFFF')
-            Text(`${this.user.name} Â· ${this.user.account} Â· ${FormatUtil.roleLabel(this.user.role)}`)
-              .fontSize(13)
-              .fontColor('#D7EEF7')
-              .margin({ top: 8 })
-          }
-          .alignItems(HorizontalAlign.Start)
+    Column() {
+      Row() {
+        Blank()
+          .width(56)
+        Text('æœåŠ¡ä¸­å¿ƒ')
+          .fontSize(28)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#111827')
+          .textAlign(TextAlign.Center)
           .layoutWeight(1)
-          Button('é€€å‡ºç™»å½•')
-            .height(36)
-            .fontSize(13)
-            .fontColor('#FFFFFF')
-            .backgroundColor('#2D9CDB')
-            .borderRadius(8)
-            .onClick(() => this.logout())
-        }
-        .width('100%')
-        .padding(18)
-        .backgroundColor(AppColors.hero)
-        .borderRadius(8)
-
-        if (this.state !== 'ready') {
-          StatePanel({ state: this.state, emptyText: 'æš‚æ— é¦–é¡µæ•°æ®', errorText: 'é¦–é¡µæ•°æ®åŠ è½½å¤±è´¥' })
-        } else {
-          Grid() {
-            ForEach(this.stats, (item: PortalStat) => {
-              GridItem() {
-                StatCard({ title: item.title, value: item.value, hint: item.hint, color: this.colorOf(item.status) })
-              }
-            }, (item: PortalStat): string => item.title)
-          }
-          .columnsTemplate('1fr 1fr')
-          .columnsGap(12)
-          .rowsGap(12)
-          .height(264)
-
-          this.ActionGrid('å­¦ç”Ÿç«¯', 'å®åè®¤è¯ã€è®¾å¤‡ç»‘å®šã€æƒé™è®¾ç½®ã€é€šè¡Œä¸è€ƒå‹¤', this.studentActions)
-          this.ActionGrid('ç­”è¾©æ¼”ç¤º', 'ç°åœºæ¼”ç¤ºç”¨ä¸€é”®æ¨¡æ‹Ÿæµç¨‹ï¼Œä¸ä¾èµ–çœŸå®è®¾å¤‡', this.demoActions)
-          this.ActionGrid('æ‰‹è¡¨ç«¯', 'é¢å‘è½»é‡è®¾å¤‡çš„ä»Šæ—¥è€ƒå‹¤å’Œé€šè¡Œåé¦ˆ', this.watchActions)
-          this.ActionGrid('æ ¡å›­ç»ˆç«¯ç«¯', 'ç»ˆç«¯å¤‡æ¡ˆä¸å®æ—¶è®¤è¯å¤§å±', this.terminalActions)
-          this.ActionGrid('ç®¡ç†å‘˜ç«¯', 'å‡ºå‹¤ã€æƒé™ã€é—¨ç¦è§„åˆ™ä¸é»‘åå•æ²»ç†', this.adminActions)
-        }
+        Text('é€€å‡º')
+          .fontSize(15)
+          .fontColor(this.logoutHover ? '#2D9CDB' : '#6B7280')
+          .textAlign(TextAlign.Center)
+          .width(56)
+          .height(36)
+          .backgroundColor(this.logoutHover ? '#EAF8FC' : Color.Transparent)
+          .borderRadius(18)
+          .onHover((isHover: boolean) => {
+            this.logoutHover = isHover;
+          })
+          .onClick(() => {
+            this.logout();
+          })
       }
       .width('100%')
-      .constraintSize({ maxWidth: AppLayout.pageMaxWidth })
-      .alignSelf(ItemAlign.Center)
-      .padding({ left: AppLayout.pagePadding, right: AppLayout.pagePadding, bottom: 30 })
+      .padding({ left: 20, right: 20, top: 28, bottom: 22 })
+
+      if (this.state === 'ready') {
+        CategoryTabs({
+          items: this.categoryTabs(),
+          selectedId: this.selectedCategory,
+          onSelect: (id: string) => {
+            this.handleCategorySelect(id);
+          }
+        })
+        Divider()
+          .color('#EEEEEE')
+          .margin({ top: 20 })
+      }
+
+      Scroll(this.serviceScroller) {
+        Column() {
+          if (this.state !== 'ready') {
+            StatePanel({ state: this.state, emptyText: 'æš‚æ— å¯ç”¨æœåŠ¡', errorText: 'æœåŠ¡æ•°æ®åŠ è½½å¤±è´¥' })
+          } else {
+            ForEach(this.orderedGroups(), (group: ServiceGroup) => {
+              this.ServiceSection(group)
+            }, (group: ServiceGroup): string => group.id)
+          }
+        }
+        .width('100%')
+        .padding({ left: 24, right: 24, bottom: 34 })
+      }
+      .layoutWeight(1)
+      .scrollBar(BarState.Off)
     }
-    .backgroundColor(AppColors.background)
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#FFFFFF')
   }
 }
-ÀÔrC›¬@ohos.router²@ohos.promptAction¹../components/FeatureCard¾../services/AuthSessionService¶../components/StatCard¸../components/StatePanel²../utils/Constants³../utils/FormatUtil´../services/MockData»../components/SectionHeader½../services/PortalMockServiceÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsAÃªoh-resolveÂDAÃÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsAÃªoh-resolveÂDAÂÙXE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\FeatureCard.etsAÃªoh-resolveÂDAÂÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsAÃªoh-resolveÂDAÂÙUE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatCard.etsAÃªoh-resolveÂDAÂÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂDAÂÙRE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\FormatUtil.etsAÃªoh-resolveÂDAÂÙSE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\MockData.etsAÃªoh-resolveÂDAÂÙZE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\SectionHeader.etsAÃªoh-resolveÂDAÂÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsAÃªoh-resolveÂ“ÔrE–§version¤fileªsourceRoot§sources¥names¨mappings¯OverviewPage.js ‘°OverviewPage.etsÜ¤–”    ”  ”  ”  ”!  !”"  "–”   ” ” ” ”- -”. .˜”   ” ”	 	” ” ” ”7 7”8 8˜”   ” ”	 	” ” ” ”; ;”< <˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ” ”1 1”2 2˜”   ” ”	 	” ” ”# #”ÌC ÌC”ÌD ÌD˜”  	 ” 	”	 		” 	” 	” 	”/ 	/”0 	0˜”  
+ÀÔrCš¬@ohos.router²@ohos.promptAction¾../services/AuthSessionService½../components/ServiceIconItemº../components/CategoryTabs¸../components/StatePanel²../utils/Constants´../services/MockData½../services/PortalMockService·../utils/PermissionUtilÔrD—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙf hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.router.d.tsAÃªoh-resolveÂDAÃÙl hvigor_ignore_E:_Program Files_Huawei_DevEco Studio_sdk_default_openharmony_ets_api_@ohos.promptAction.d.tsAÃªoh-resolveÂDAÂÙ]E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\AuthSessionService.etsAÃªoh-resolveÂDAÂÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\ServiceIconItem.etsAÃªoh-resolveÂDAÂÙYE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\CategoryTabs.etsAÃªoh-resolveÂDAÂÙWE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\components\StatePanel.etsAÃªoh-resolveÂDAÂÙQE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\Constants.etsAÃªoh-resolveÂDAÂÙSE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\MockData.etsAÃªoh-resolveÂDAÂÙ\E:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\services\PortalMockService.etsAÃªoh-resolveÂDAÂÙVE:\project\My_project\OpenHarmony\frontend\entry\src\main\ets\utils\PermissionUtil.etsAÃªoh-resolveÂ“ÔrE–§version¤fileªsourceRoot§sources¥names¨mappings¯OverviewPage.js ‘°OverviewPage.etsÜù–”    ”  ”  ”  ”!  !”"  "–”   ” ” ” ”- -”. .˜”   ” ”	 ” &” (” .”9 ÌJ”: ÌK˜”   ” ”	 	” ” ”   ”? ?”Ì@ Ì@˜”   ” ”	 	” ” ” ”5 5”6 6˜”   ” ”	 	” ” ”# #”ÌC ÌC”ÌD ÌD˜”   ” ”	 	” ” ” ”/ /”0 0˜”  	 ” 	”	 		” 	” 	”" 	"”ÌA 	ÌA”ÌB 	ÌB˜”  
  ” 
 ”	 
-	” 
-” 
-”" 
-"”ÌA 
-ÌA”ÌB 
-ÌBœ”   ” ”	 	” ” ” ” ”( (”* *”0 0”ÌD ÌD”ÌE ÌE˜”   ” ”	 	” ” ” ”0 0”1 1’” ” ‘”  ’”4  ”= )—”3 ”; %”< &”ÌA +”ÌB ,”ÌC -”ÌD .’”4 ”6 !’”= *”? ,’”; (”= *’”> +”Ì@ -’”; (”= *’”: '”< )‘” 1’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” ” ™” ” 
-” ” ”. *”/ +”: 6”< 8”= 9›” ” ” 	” ”  ”* &”, (”0 ,”1 -”< 8”> :” ” ” ” ” ”  ”# ”% ”. (”/ )”4 .”6 0”7 1”8 2’” ” ‘”	 —”  ”  ”  	”  ”  ”  ”   š” !” !” !	” !” !”& !"”' !#”4 !0”6 !2”7 !3š” "” "” "	” "” "”/ "+”0 ",”> ":”Ì@ "<”ÌA "=š” #” #” #	” #” #”- #)”. #*”: #6”< #8”= #9š” $” $” $	” $” $”0 $,”1 $-”Ì@ $<”ÌB $>”ÌC $?š” %” %” %	” %” %”- %)”. %*”: %6”< %8”= %9š” &” &” &	” &” &”, &(”- &)”8 &4”: &6”; &7Ü ” '” '” '	” '” '” '” '” '”  '”& '"”+ ''”, '(”- ')”. '*”/ '+”6 '2”7 '3”8 '4”9 '5”Ì@ '<”ÌA '=’” (” (”” *
-” *” *”
- *š” +” +
-” +” +” +” +” +” +” +”  +’” ,” ,”” .
-” .” .” . –” /” /” /” /”  /”" /–” 0” 0” 0” 0”$ 0”% 0‘”	 1–” 2” 2” 2” 2”  2”" 2–” 3” 3” 3” 3”$ 3”% 3‘”	 4–” 5” 5” 5” 5” 5”! 5–” 6” 6” 6” 6”# 6”$ 6‘”	 7–” 8” 8” 8” 8”  8”! 8’” 9” 9’” ;
+	” 
+” 
+” 
+”. 
+.”/ 
+/˜”   ” ”	 	” ” ” ”8 8”9 9’” ” ‘”  ’”4  ”= )—”3 ”; %”< &”ÌA +”ÌB ,”ÌC -”ÌD .’”= *”? ,’”= *”? ,’”; (”= *’”> +”Ì@ -’”; (”= *’”: '”< )’”? $”ÌA &’”=  "”?  $’”Ì@ !%”ÌB !'’”: " ”? "%”” #&”# #*”+ #2”- #4‘” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’”  	”  ’”  	”  ’” !	” !’” !	” !’” "	” "’” "	” "’” %” %™” &” &
+” &” &”. &*”/ &+”: &6”< &8”= &9›” '” '” '	” '”  '”* '&”, '(”0 ',”1 '-”< '8”> ':” (” (” (” (” (”  (”# (”% (”. ((”/ ()”4 (.”6 (0”7 (1”8 (2’” )” )‘”	 *—” +” +” +	” +” +” +”  +Ü ” ,” ,” ,	” ,” ,”" ,”# ,”' ,#”( ,$”, ,(”1 ,-”: ,6”; ,7”< ,8”= ,9”ÌN ,ÌJ”ÌO ,ÌK”Ì] ,ÌY”Ì_ ,Ì[”Ì` ,Ì\”Ìa ,Ì]”Ìb ,Ì^”Ìd ,Ì`”Ìe ,ÌaÜ ” -” -” -	” -” -”" -”# -”' -#”( -$”, -(”1 --”: -6”; -7”< -8”= -9”ÌN -ÌJ”ÌO -ÌK”Ì] -ÌY”Ì_ -Ì[”Ì` -Ì\”Ìa -Ì]”Ìb -Ì^”Ìd -Ì`”Ìe -ÌaÜ ” .” .” .	” .” .”  .”! .”% .!”& ."”* .&”/ .+”8 .4”9 .5”: .6”; .7”ÌL .ÌH”ÌM .ÌI”ÌY .ÌU”Ì[ .ÌW”Ì\ .ÌX”Ì] .ÌY”Ì^ .ÌZ”Ì` .Ì\”Ìa .Ì]Ü ” /” /” /	” /” /”# /”$ / ”( /$”) /%”- /)”2 /.”9 /5”: /6”; /7”< /8”ÌM /ÌI”ÌN /ÌJ”Ì] /ÌY”Ì_ /Ì[”Ì` /Ì\”Ìa /Ì]”Ìb /Ì^”Ìd /Ì`”Ìe /ÌaÜ ” 0” 0” 0	” 0” 0”  0”! 0”% 0!”& 0"”* 0&”/ 0+”6 02”7 03”8 04”9 05”ÌJ 0ÌF”ÌK 0ÌG”ÌW 0ÌS”ÌY 0ÌU”ÌZ 0ÌV”Ì[ 0ÌW”Ì\ 0ÌX”Ì^ 0ÌZ”Ì_ 0Ì[Ü ” 1” 1” 1	” 1” 1” 1”  1”$ 1 ”% 1!”) 1%”. 1*”5 11”6 12”7 13”8 14”ÌI 1ÌE”ÌJ 1ÌF”ÌU 1ÌQ”ÌW 1ÌS”ÌX 1ÌT”ÌY 1ÌU”ÌZ 1ÌV”Ì\ 1ÌX”Ì] 1ÌY™” 2” 2
+” 2” 2” 2” 2”) 2%”+ 2'”, 2(Ü ” 3” 3” 3	” 3”  3”& 3"”' 3#”- 3)”0 3,”1 3-”2 3.”3 3/”4 30”: 36”; 37”< 38”= 39”> 3:”Ì@ 3<”ÌA 3=”ÌB 3>”ÌC 3?”ÌE 3ÌA”ÌF 3ÌB—” 4” 4” 4	” 4” 4”  4”! 4—” 5” 5” 5	” 5”! 5”# 5”$ 5 Ü ” 6” 6” 6	” 6” 6” 6” 6”" 6”' 6#”( 6$”) 6%”* 6&”+ 6'”2 6.”3 6/”4 60”5 61”< 68”= 69’” 7” 7’” 9
+” 9’” :” :Ü ” ;” ;” ;
+” ;” ;” ;”" ;”$ ;”) ;#”+ ;%”3 ;-”5 ;/”ÌI ;ÌC”ÌK ;ÌE”ÌP ;ÌJ”ÌR ;ÌL”ÌV ;ÌP”ÌW ;ÌQ”Ìe ;Ì_”Ìg ;ÌqÜ ” <” <” <
+” <” <” <”" <”$ <”) <#”+ <%”3 <-”5 </”ÌI <ÌC”ÌK <ÌE”ÌP <ÌJ”ÌR <ÌL”ÌV <ÌP”ÌW <ÌQ”Ìe <Ì_”Ìg <ÌqÜ ” =” =” =
+” =” =” =”  =”" =”( ="”* =$”2 =,”4 =.”ÌF =Ì@”ÌH =ÌB”ÌM =ÌG”ÌO =ÌI”ÌS =ÌM”ÌT =ÌN”Ì` =ÌZ”Ìb =ÌlÜ ” >” >” >
+” >” >” >”  >”" >”( >"”* >$”2 >,”4 >.”ÌI >ÌC”ÌK >ÌE”ÌP >ÌJ”ÌR >ÌL”ÌV >ÌP”ÌW >ÌQ”Ìc >Ì]”Ìe >ÌoÜ ” ?” ?” ?
+” ?” ?” ?”# ?”% ?”+ ?%”- ?'”5 ?/”7 ?1”ÌI ?ÌC”ÌK ?ÌE”ÌP ?ÌJ”ÌR ?ÌL”ÌV ?ÌP”ÌW ?ÌQ”Ìf ?Ì`”Ìh ?ÌrÜ ” Ì@” Ì@” Ì@
+” Ì@” Ì@” Ì@” Ì@”! Ì@”' Ì@!”) Ì@#”1 Ì@+”3 Ì@-”ÌC Ì@=”ÌE Ì@?”ÌJ Ì@ÌD”ÌL Ì@ÌF”ÌP Ì@ÌJ”ÌQ Ì@ÌK”Ì\ Ì@ÌV”Ì^ Ì@ÌhÜ ”	 ÌA”
+ ÌA” ÌA” ÌA” ÌA” ÌA!” ÌA#” ÌA%” ÌA&”! ÌA+”" ÌA,”' ÌA1”( ÌA2”. ÌA8”1 ÌA;”2 ÌA<”3 ÌA=”4 ÌA>’” ÌB” ÌB’” ÌD
+” ÌD” ÌE” ÌE” ÌE” ÌE”! ÌE”# ÌE”$ ÌE ”' ÌE#”( ÌE$”) ÌE%”. ÌE8”0 ÌE:”2 ÌE<Ü ” ÌF” ÌF” ÌF” ÌF” ÌF” ÌF” ÌF”! ÌF”# ÌF”( ÌF"”* ÌF$”/ ÌF)”0 ÌF*”5 ÌF/”7 ÌFÌD”8 ÌFÌE”” ÌG”	 ÌG”
+ ÌG” ÌG’” ÌH” ÌH’” ÌJ
+” ÌJ—” ÌK” ÌK” ÌK” ÌK”! ÌK”# ÌK”$ ÌK ’” ÌL” ÌL”” ÌN
+” ÌN” ÌN” ÌN)—” ÌO” ÌO” ÌO	” ÌO”  ÌO”" ÌO”# ÌO•” ÌP” ÌP” ÌP” ÌP” ÌP—” ÌQ” ÌQ
+” ÌQ”  ÌQ”! ÌQ”) ÌQ#”* ÌQ$”” ÌR” ÌR” ÌR” ÌR™” ÌS” ÌS” ÌS” ÌS” ÌS”/ ÌS'”0 ÌS(”2 ÌS*”3 ÌS+” ÌT” ÌT” ÌT” ÌT”% ÌT”' ÌT”* ÌT"”, ÌT$”1 ÌT)”3 ÌT+”8 ÌT0”9 ÌT1”Ì@ ÌT8”ÌB ÌT:“” ÌU” ÌU” ÌU	–” ÌV”	 ÌV” ÌV” ÌV	” ÌV
+” ÌV’” ÌW” ÌW”” ÌY
+” ÌY” ÌY” ÌY&™” ÌZ” ÌZ
+” ÌZ” ÌZ” ÌZ” ÌZ”) ÌZ%”+ ÌZ'”, ÌZ(–” Ì[” Ì[” Ì[” Ì[” Ì[” Ì[Ü ” Ì\” Ì\	” Ì\” Ì\” Ì\” Ì\” Ì\”! Ì\”$ Ì\ ”* Ì\&”+ Ì\'”1 Ì\-”3 Ì\/”8 Ì\4”: Ì\6”< Ì\8›” Ì]” Ì]
+” Ì]” Ì]” Ì]” Ì]” Ì]”  Ì]”% Ì]”' Ì]!”) Ì]#”” Ì^” Ì^” Ì^” Ì^‘” Ì_” Ì`” Ì`” Ì`” Ì`” Ì`”, Ì`&”- Ì`'”3 Ì`-”4 Ì`.”9 Ì`3”: Ì`4”; Ì`5”< Ì`6‘”	 Ìa”” Ìb” Ìb” Ìb” Ìb’” Ìc” Ìc”” Ìe
+” Ìe” Ìe” Ìe/Ü ” Ìf” Ìf
+” Ìf” Ìf” Ìf” Ìf”" Ìf”# Ìf”( Ìf$”) Ìf%”. Ìf*”/ Ìf+”5 Ìf1”8 Ìf4”9 Ìf5”: Ìf6”; Ìf7Ü ” Ìg” Ìg
+” Ìg” Ìg”# Ìg”& Ìg"”) Ìg%”, Ìg(”0 Ìg,”1 Ìg-”4 Ìg0”5 Ìg1”6 Ìg2”8 Ìg4”Ì@ Ìg<”ÌC Ìg?”ÌD ÌgÌ@”ÌE ÌgÌA”ÌH ÌgÌD”ÌJ ÌgÌF”ÌK ÌgÌGŸ” Ìh” Ìh” Ìh” Ìh”$ Ìh ”% Ìh!”* Ìh&”+ Ìh'”. Ìh*”0 Ìh,”3 Ìh/”5 Ìh1”8 Ìh4”ÌB Ìh>”ÌC Ìh?’” Ìi” Ìi”” Ìk
+” Ìk” Ìk” Ìk.Ü ” Ìl” Ìl” Ìl” Ìl” Ìl” Ìl” Ìl” Ìl”( Ìl$”, Ìl(”1 Ìl-”2 Ìl.”4 Ìl0”9 Ìl5”ÌB Ìl>”ÌD ÌlÌ@”” Ìm” Ìm” Ìm” Ìm‘”	 Ìn”” Ìo” Ìo” Ìo” Ìo’” Ìp” Ìp–” Ìr
+” Ìr” Ìr” Ìr'” Ìr)”" Ìr9”” Ìs” Ìs” Ìs” Ìs—” Ìt” Ìt
+” Ìt” Ìt”" Ìt”$ Ìt”% Ìt’” Ìu” Ìu‘”	 Ìv˜” Ìw” Ìw” Ìw” Ìw” Ìw”$ Ìw ”& Ìw"”( Ìw$—” Ìx” Ìx
+” Ìx” Ìx”" Ìx”$ Ìx”% Ìx‘”	 Ìy’” Ìz” Ìz”” Ì|
+” Ì|” Ì|” Ì|(™” Ì}” Ì}” Ì}	” Ì}”! Ì}”% Ì}!”& Ì}"”( Ì}$”) Ì}%Ü ” Ì~” Ì~” Ì~	” Ì~” Ì~”* Ì~&”+ Ì~'”/ Ì~+”0 Ì~,”4 Ì~0”5 Ì~1”9 Ì~5”; Ì~7”? Ì~;”Ì@ Ì~<”ÌE Ì~ÌA”ÌF Ì~ÌB”ÌH Ì~ÌDœ” Ì” Ì” Ì”" Ì”# Ì”% Ì”, Ì&”. Ì(”; Ì5”= Ì7”> Ì8”? Ì9’” Ì€” Ì€‘”	 Ì•” Ì‚” Ì‚” Ì‚” Ì‚” Ì‚” Ìƒ” Ìƒ” Ìƒ” Ìƒ” Ìƒ” Ìƒ”  Ìƒ”" Ìƒ”& Ìƒ ”' Ìƒ!”, Ìƒ&”. Ìƒ(”/ Ìƒ)”0 Ìƒ*–” Ì„”	 Ì„” Ì„” Ì„
+” Ì„” Ì„’” Ì…” Ì…’” Ì‡
 ”
- ;•” <” <” <” <” <”” =” =” =” =”” >” >” >”" >Ÿ” ?” ?” ?” ?”" ?”$ ?”( ?"”* ?$”0 ?*”2 ?,”5 ?/”7 ?1”: ?3”; ?4”= ?6“” Ì@” Ì@” Ì@”” ÌA” ÌA” ÌA” ÌA–” ÌB” ÌB” ÌB”$ ÌB”% ÌB”+ ÌB#•” ÌC” ÌC” ÌC” ÌC” ÌC–” ÌD
-”& ÌD”' ÌD”1 ÌD'”3 ÌD)”4 ÌD*œ” ÌE
-”  ÌE”! ÌE”* ÌE ”+ ÌE!”- ÌE#”4 ÌE*”6 ÌE,”= ÌE3”? ÌE5”Ì@ ÌE6”ÌA ÌE7” ÌF
-” ÌF” ÌF”% ÌF”& ÌF”( ÌF”+ ÌF!”- ÌF#”6 ÌF,”7 ÌF-”< ÌF2”> ÌF4”? ÌF5”Ì@ ÌF6’” ÌG” ÌG	‘” ÌH“”	 ÌI”
- ÌI” ÌI’” ÌJ” ÌJ˜” ÌM” ÌM” ÌM” ÌM” ÌM” ÌM,”  ÌM.”' ÌMÌE˜” ÌN” ÌN
-” ÌN” ÌN”! ÌN”# ÌN”% ÌN”' ÌN–” ÌN” ÌN
-” Ìe” Ìe
-” Ìe” Ìeœ”, ÌO”9 ÌO”Ì@ ÌO”ÌB ÌO”ÌG ÌO”ÌI ÌO”ÌN ÌO"”ÌP ÌO$”ÌX ÌO,”ÌZ ÌO.”Ìb ÌO6”Ìd ÌO8”” ÌO”! ÌO”# ÌO”( ÌO"”” ÌO$”$ ÌO,”& ÌO.”. ÌO6˜” ÌP” ÌP
-” ÌP” ÌP” ÌP”# ÌP”$ ÌP”& ÌP œ”8 ÌQ”ÌB ÌQ”ÌI ÌQ”ÌK ÌQ”ÌP ÌQ”ÌR ÌQ”ÌY ÌQ#”Ì[ ÌQ%”Ìd ÌQ.”Ìf ÌQ0”Ìn ÌQ8”Ìp ÌQ:””( ÌQ”- ÌQ”/ ÌQ”6 ÌQ#””( ÌQ%”1 ÌQ.”3 ÌQ0”; ÌQ8‘” ÌR‘” ÌR’” ÌS” ÌS–” ÌS” ÌS” Ì`	”, Ì`”- Ì`”6 Ì`"–” ÌS” ÌS” Ìa	”' Ìa”( Ìa”* Ìa–” ÌS” ÌS” Ìb	”$ Ìb”% Ìb”' Ìb’” ÌT
-” ÌT”3 Ì\”: Ì\”; Ì\”> Ì\”Ì@ Ì\”ÌA Ì\”ÌE Ì\#”ÌF Ì\$”ÌH Ì\&”ÌI Ì\'”ÌM Ì\+”ÌN Ì\,”ÌS Ì\1”ÌT Ì\2“”ÌH ÌV”ÌS ÌV”ÌZ ÌV–”4 ÌW”9 ÌW”; ÌW”? ÌW”Ì@ ÌW”ÌE ÌW!–”4 ÌX”< ÌX”> ÌX”ÌB ÌX”ÌC ÌX”ÌK ÌX'–”4 ÌY”: ÌY”< ÌY”Ì@ ÌY”ÌA ÌY”ÌG ÌY#˜”4 ÌZ”: ÌZ”< ÌZ”Ì@ ÌZ”ÌA ÌZ”ÌG ÌZ#”ÌL ÌZ(”ÌU ÌZ1‘”1 Ì[–”8 ÌW”= ÌW”? ÌW”ÌC ÌW”ÌD ÌW”ÌI ÌW!–”8 ÌX”Ì@ ÌX”ÌB ÌX”ÌF ÌX”ÌG ÌX”ÌO ÌX'–”8 ÌY”> ÌY”Ì@ ÌY”ÌD ÌY”ÌE ÌY”ÌK ÌY#˜”8 ÌZ”> ÌZ”Ì@ ÌZ”ÌD ÌZ”ÌE ÌZ”ÌK ÌZ#”ÌP ÌZ(”ÌY ÌZ1’”$ ÌU”, ÌU›”; ÌT”ÌB ÌT”Ì\ Ì^”Ì] Ì^”Ìa Ì^ ”Ìc Ì^*”Ìe Ì^,”Ìf Ì^-”Ìj Ì^1”Ìk Ì^2”Ìp Ì^7’” ÌT
-” ÌT’” ÌS” ÌS‘” Ìc’” ÌN” ÌN
-‘” Ìf‘” Ìh’” Ìi” Ìi
-˜” Ìi” Ìi
-” Ì ”" Ì ”# Ì ”, Ì ”- Ì ”7 Ì )˜” Ìj” Ìj” Ìj” Ìj”! Ìj”# Ìj”% Ìj”' Ìj–” Ìj” Ìj” Ì›” Ì›” Ì›” Ì›œ” Ìj” Ìj” Ìœ”! Ìœ”" Ìœ”$ Ìœ”, Ìœ ”. Ìœ"”7 Ìœ+”8 Ìœ,”ÌD Ìœ8”ÌF Ìœ:˜” Ìj” Ìj” Ì” Ì” Ì”& Ì”' Ì”- Ì!Ü ” Ìj” Ìj” Ì” Ì” Ì” Ì”! Ì”# Ì”, Ì ”- Ì!”8 Ì,”: Ì.”? Ì3”ÌA Ì5”ÌJ Ì>”ÌK Ì?”ÌV ÌÌJ”ÌX ÌÌL”Ì^ ÌÌR”Ì` ÌÌT”Ìb ÌÌV”Ìd ÌÌX’” Ìk” Ìk–” Ìk” Ìk” Ì€	” Ì€” Ì€” Ì€–” Ìk” Ìk” Ì	” Ì” Ì” Ì˜” Ìk” Ìk” Ì‚	” Ì‚”  Ì‚”) Ì‚"”* Ì‚#”. Ì‚'–” Ìk” Ìk” Ìƒ	” Ìƒ” Ìƒ” Ìƒ’” Ìl
-” Ìl˜” Ìl
-” Ìl” Ìv” Ìv” Ìv”- Ìv%”. Ìv&”3 Ìv+–” Ìl
-” Ìl” Ìw” Ìw”  Ìw”! Ìw”” Ìm” Ìm” Ìm”' Ìm –” Ìm” Ìm” Ìn” Ìn” Ìn” Ìn˜” Ìm” Ìm” Ìo” Ìo” Ìo”& Ìo$”' Ìo%”+ Ìo)–” Ìm” Ìm” Ìp” Ìp” Ìp”$ Ìp"’” Ìm” ÌmÜ ” Ìq” Ìq” Ìq” Ìq” Ìq”  Ìq”$ Ìq”% Ìq”) Ìq"”/ Ìq(”3 Ìq,”4 Ìq-”8 Ìq1”9 Ìq2”Ì@ Ìq9”ÌF Ìq?”ÌP ÌqÌI”ÌQ ÌqÌJ”ÌZ ÌqÌS”Ì[ ÌqÌT”Ì_ ÌqÌX”Ì` ÌqÌY”Ìd ÌqÌ]”Ìe ÌqÌ^”Ìi ÌqÌb”Ìj ÌqÌc”Ìl ÌqÌe–” Ìq” Ìq” Ìr” Ìr” Ìr” Ìr–” Ìq” Ìq” Ìs” Ìs” Ìs”$ Ìs"š” Ìq” Ìq” Ìt” Ìt” Ìt” Ìt” Ìt” Ìt”  Ìt”" Ìt ’” Ìq” Ìq’” Ìl
-” Ìl”” Ìx
-” Ìx”# Ìx”) Ìx–” Ìx
-” Ìx” Ìy” Ìy” Ìy” Ìy–” Ìx
-” Ìx” Ìz” Ìz” Ìz” Ìz–” Ìx
-” Ìx” Ì{” Ì{” Ì{”& Ì{ –” Ìx
-” Ìx” Ì|”" Ì|”# Ì|”, Ì|&–” Ìx
-” Ìx” Ì}” Ì}”  Ì}”! Ì}œ” Ìx
-” Ìx” Ì~” Ì~” Ì~” Ì~”  Ì~”! Ì~”% Ì~”& Ì~ ”, Ì~&”. Ì~(’” Ìx
-” Ìx’” Ìk” Ìk˜” Ì…” Ì…” Ì…” Ì…” Ì…” Ì…”& Ì…"”( Ì…$Ü ”8 Ì†
-”ÌB Ì†”ÌI Ì†”ÌK Ì†”ÌP Ì†”ÌR Ì†”ÌV Ì†"”ÌW Ì†#”Ì\ Ì†(”Ì^ Ì†*”Ìg Ì†3”Ìi Ì†5”Ìq Ì†=”Ìs Ì†?”Ì| Ì†ÌH”Ì~ Ì†ÌJ”Ìˆ Ì†ÌT”ÌŠ Ì†ÌV–”( Ì†”- Ì†”/ Ì†”3 Ì†"”4 Ì†#”9 Ì†(””( Ì†*”1 Ì†3”3 Ì†5”; Ì†=””( Ì†?”1 Ì†ÌH”3 Ì†ÌJ”= Ì†ÌT‘” Ì‡	‘” Ì‡’” Ìˆ
-” Ìˆ–” Ìˆ
-” Ìˆ” Ì”, Ì”- Ì”6 Ì$–” Ìˆ
-” Ìˆ” Ì”' Ì”( Ì”* Ì–” Ìˆ
-” Ìˆ” Ì‘”$ Ì‘”% Ì‘”' Ì‘–” Ìˆ
-” Ìˆ” Ì’”# Ì’”$ Ì’”' Ì’’” Ì‰” Ì‰Ü !”ÌH Ì‹”ÌP Ì‹”ÌW Ì‹”ÌY Ì‹”Ì^ Ì‹ ”Ì` Ì‹"”Ìd Ì‹&”Ìe Ì‹'”Ìj Ì‹,”Ìl Ì‹.”Ìq Ì‹3”Ìs Ì‹5”Ìw Ì‹9”Ìx Ì‹:”Ì} Ì‹?”Ì Ì‹ÌA”Ìƒ Ì‹ÌE”Ì… Ì‹ÌG”Ì‰ Ì‹ÌK”ÌŠ Ì‹ÌL”Ì Ì‹ÌP”Ì Ì‹ÌR”Ì• Ì‹ÌW”Ì— Ì‹ÌY”Ì› Ì‹Ì]”Ìœ Ì‹Ì^”Ì£ Ì‹Ìe”Ì¤ Ì‹Ìf”Ì¨ Ì‹Ìj”Ì© Ì‹Ìk”Ì¯ Ì‹Ìq”Ì° Ì‹Ìr”Ì² Ì‹Ìt–”8 Ì‹”= Ì‹ ”? Ì‹"”ÌC Ì‹&”ÌD Ì‹'”ÌI Ì‹,–”8 Ì‹.”= Ì‹3”? Ì‹5”ÌC Ì‹9”ÌD Ì‹:”ÌI Ì‹?–”8 Ì‹ÌA”< Ì‹ÌE”> Ì‹ÌG”ÌB Ì‹ÌK”ÌC Ì‹ÌL”ÌG Ì‹ÌP›”8 Ì‹ÌR”= Ì‹ÌW”? Ì‹ÌY”ÌC Ì‹Ì]”ÌD Ì‹Ì^”ÌK Ì‹Ìe”ÌL Ì‹Ìf”ÌP Ì‹Ìj”ÌQ Ì‹Ìk”ÌW Ì‹Ìq”ÌX Ì‹Ìr’”$ ÌŠ”, ÌŠ”; Ì‰”? Ì‰”Ì@ Ì‰”ÌE Ì‰”Ì_ Ì”Ì` Ì”Ìd Ì ”Ìf Ì*”Ìh Ì,”Ìi Ì-”Ìm Ì1”Ìn Ì2”Ìs Ì7’” Ì‰” Ì‰’” Ìˆ
-” Ìˆ” Ì”
-” Ì”” Ì””# Ì””/ Ì””4 Ì””6 Ì”!”ÌL Ì”7”Ìj Ì”9”Ìn Ì”=”Ìo Ì”>”Ì} Ì”ÌL”Ì Ì”ÌM” Ì•
-” Ì•” Ì•”# Ì•”/ Ì•”5 Ì• ”7 Ì•"”ÌL Ì•7”Ìj Ì•9”Ìn Ì•=”Ìo Ì•>”Ìz Ì•ÌI”Ì| Ì•ÌJ” Ì–
-” Ì–” Ì–”# Ì–”/ Ì–”4 Ì–”6 Ì–!”ÌH Ì–3”Ìf Ì–5”Ìj Ì–9”Ìk Ì–:”Ìw Ì–ÌF”Ìy Ì–ÌG” Ì—
-” Ì—” Ì—”# Ì—”/ Ì—”6 Ì—!”8 Ì—#”ÌE Ì—0”Ìc Ì—2”Ìg Ì—6”Ìh Ì—7”Ìw Ì—ÌF”Ìy Ì—ÌG” Ì˜
-” Ì˜” Ì˜”# Ì˜”/ Ì˜”5 Ì˜ ”7 Ì˜"”ÌI Ì˜4”Ìg Ì˜6”Ìk Ì˜:”Ìl Ì˜;”Ìx Ì˜ÌG”Ìz Ì˜ÌH‘” Ì™	’” Ìj” Ìj’” Ìi” Ìi
-‘” Ì¡ÔrF–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ­‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ Ì‡•” Ìˆ” Ìˆ” Ìˆ” Ìˆ” Ìˆ”” Ì‰” Ì‰” Ì‰” Ì‰”” ÌŠ” ÌŠ” ÌŠ”" ÌŠŸ” Ì‹” Ì‹” Ì‹” Ì‹”" Ì‹”$ Ì‹”( Ì‹"”* Ì‹$”0 Ì‹*”2 Ì‹,”5 Ì‹/”7 Ì‹1”: Ì‹3”; Ì‹4”= Ì‹6“” ÌŒ” ÌŒ” ÌŒ”” Ì” Ì” Ì” Ì”” Ì” Ì” Ì”$ Ì•” Ì” Ì” Ì” Ì” Ì–” Ì
+”& Ì”' Ì”1 Ì'”3 Ì)”4 Ì*œ” Ì‘
+”  Ì‘”! Ì‘”* Ì‘ ”+ Ì‘!”- Ì‘#”4 Ì‘*”6 Ì‘,”= Ì‘3”? Ì‘5”Ì@ Ì‘6”ÌA Ì‘7” Ì’
+” Ì’” Ì’”% Ì’”& Ì’”( Ì’”+ Ì’!”- Ì’#”6 Ì’,”7 Ì’-”< Ì’2”> Ì’4”? Ì’5”Ì@ Ì’6’” Ì“” Ì“	‘” Ì”“”	 Ì•”
+ Ì•” Ì•’” Ì–” Ì–”” Ì™” Ì™” Ì™” Ì™$’” Ìš” Ìš
+–” Ìš” Ìš
+” Ì¼” Ì¼
+” Ì¼” Ì¼–” Ì›” Ì›
+” Ì›” Ì›” Ì›”# Ì›–” Ì›” Ì›
+” Ìœ	” Ìœ” Ìœ” Ìœ˜” Ì›” Ì›
+” Ì	” Ì” Ì”& Ì”' Ì”+ Ì#–” Ì›” Ì›
+” Ì	” Ì” Ì”$ Ì–” Ì›” Ì›
+” ÌŸ	” ÌŸ” ÌŸ” ÌŸÜ ” Ì›” Ì›
+” Ì 	” Ì ” Ì ” Ì ” Ì ” Ì ”# Ì ”$ Ì ”4 Ì ,”5 Ì -”: Ì 2”; Ì 3”= Ì 5”ÌC Ì ;”ÌE Ì =”ÌG Ì ?”ÌI Ì ÌA’” Ì›” Ì›
+’” Ì¡” Ì¡
+–” Ì¡” Ì¡
+” Ì·”  Ì·”! Ì·”2 Ì·(–” Ì¡” Ì¡
+” Ì¸” Ì¸” Ì¸” Ì¸–” Ì¡” Ì¡
+” Ì¹” Ì¹” Ì¹” Ì¹–” Ì¡” Ì¡
+” Ìº” Ìº” Ìº” Ìº’” Ì¢” Ì¢’” Ì¤”" Ì¤–” Ì¤”" Ì¤”# Ìª”( Ìª”) Ìª”/ Ìª–” Ì¤”" Ì¤”# Ì«”) Ì«”* Ì«”- Ì«˜” Ì¤”" Ì¤”# Ì¬”- Ì¬”. Ì¬”= Ì¬'”> Ì¬(”ÌD Ì¬.˜” Ì¤”" Ì¤”# Ì­”1 Ì­”2 Ì­”; Ì­%”< Ì­&”ÌA Ì­+™” Ì¤”" Ì¤”# Ì®”* Ì®”+ Ì®”, Ì®”3 Ì®&”5 Ì®(”7 Ì®*œ”  Ì¯”$ Ì¯”% Ì¯”7 Ì¯%”8 Ì¯&”< Ì¯*”= Ì¯+”? Ì¯-”ÌA Ì¯/”ÌH Ì¯6”ÌI Ì¯7”ÌJ Ì¯8’” Ì°” Ì°—” Ì¤”" Ì¤”# Ì±”* Ì±”+ Ì±”. Ì±”0 Ì±˜”  Ì²”$ Ì²”% Ì²”0 Ì²”1 Ì²”5 Ì²#”6 Ì²$”7 Ì²%’” Ì³” Ì³“”< Ì¥”ÌK Ì¥”ÌR Ì¥””( Ì¦”, Ì¦”. Ì¦”2 Ì¦Ü ”( Ì§”. Ì§”0 Ì§”4 Ì§”5 Ì§”ÌC Ì§+”ÌH Ì§0”ÌL Ì§4”ÌM Ì§5”ÌO Ì§7”ÌS Ì§;”ÌW Ì§?”ÌX Ì§Ì@”Ìi Ì§ÌQ”Ìn Ì§ÌV”Ìr Ì§ÌZ”Ìs Ì§Ì[”Ìu Ì§Ì]‘”% Ì¨””, Ì¦”0 Ì¦”2 Ì¦”6 Ì¦Ü ”, Ì§”2 Ì§”4 Ì§”8 Ì§”9 Ì§”ÌG Ì§+”ÌL Ì§0”ÌP Ì§4”ÌQ Ì§5”ÌS Ì§7”ÌW Ì§;”Ì[ Ì§?”Ì\ Ì§Ì@”Ìm Ì§ÌQ”Ìr Ì§ÌV”Ìv Ì§ÌZ”Ìw Ì§Ì[”Ìy Ì§Ì]’” Ì¤” Ì¤’” Ì£
+”  Ì£”/ Ì¢”4 Ì¢”5 Ì¢”: Ì¢”ÌT Ìµ”ÌU Ìµ”ÌY Ìµ”Ì[ Ìµ(”Ì] Ìµ*”Ì^ Ìµ+”Ìb Ìµ/”Ìc Ìµ0”Ìe Ìµ2’” Ì¢” Ì¢’” Ì¡” Ì¡
+’” Ìš” Ìš
+‘” Ì½‘” Ì¿’” ÌÀ” ÌÀ
+–” ÌÀ” ÌÀ
+” Ìù” Ìù
+” Ìù” Ìù–” ÌÀ” ÌÀ
+” Ìú” Ìú” Ìú”  Ìú–” ÌÀ” ÌÀ
+” Ìû”" Ìû”# Ìû”, Ìû’” ÌÁ” ÌÁ	–” ÌÁ” ÌÁ	” ÌÙ” ÌÙ” ÌÙ” ÌÙÜ ” ÌÁ” ÌÁ	” ÌÚ” ÌÚ” ÌÚ” ÌÚ” ÌÚ”  ÌÚ”" ÌÚ”$ ÌÚ”) ÌÚ ”+ ÌÚ"”- ÌÚ$”/ ÌÚ&”2 ÌÚ)”4 ÌÚ+”6 ÌÚ-”8 ÌÚ/”> ÌÚ5”Ì@ ÌÚ7”ÌB ÌÚ9”ÌD ÌÚ;’” ÌÂ” ÌÂ–” ÌÂ” ÌÂ” ÌÃ” ÌÃ” ÌÃ” ÌÃ’” ÌÂ” ÌÂ”” ÌÄ” ÌÄ” ÌÄ” ÌÄ–” ÌÄ” ÌÄ” ÌÅ” ÌÅ” ÌÅ” ÌÅ˜” ÌÄ” ÌÄ” ÌÆ” ÌÆ” ÌÆ”& ÌÆ ”' ÌÆ!”+ ÌÆ%–” ÌÄ” ÌÄ” ÌÇ” ÌÇ” ÌÇ”$ ÌÇ˜” ÌÄ” ÌÄ” ÌÈ” ÌÈ” ÌÈ”$ ÌÈ”% ÌÈ”+ ÌÈ%–” ÌÄ” ÌÄ” ÌÉ” ÌÉ” ÌÉ” ÌÉ’” ÌÄ” ÌÄ”” ÌÊ” ÌÊ” ÌÊ” ÌÊ–” ÌÊ” ÌÊ” ÌË” ÌË” ÌË” ÌËÜ ” ÌÊ” ÌÊ” ÌÌ” ÌÌ” ÌÌ” ÌÌ”  ÌÌ”+ ÌÌ%”, ÌÌ&”- ÌÌ'”. ÌÌ(”7 ÌÌ1”8 ÌÌ2”9 ÌÌ3”: ÌÌ4”ÌC ÌÌ=˜” ÌÊ” ÌÊ” ÌÍ” ÌÍ” ÌÍ”$ ÌÍ”% ÌÍ”+ ÌÍ%–” ÌÊ” ÌÊ” ÌÎ” ÌÎ” ÌÎ” ÌÎ–” ÌÊ” ÌÊ” ÌÏ” ÌÏ” ÌÏ” ÌÏÜ ” ÌÊ” ÌÊ” ÌĞ”  ÌĞ”! ÌĞ”% ÌĞ”& ÌĞ ”1 ÌĞ+”2 ÌĞ,”3 ÌĞ-”4 ÌĞ.”= ÌĞ7”> ÌĞ8”? ÌĞ9”Ì@ ÌĞ:”ÌE ÌĞ?”ÌF ÌĞÌ@”ÌQ ÌĞÌK–” ÌÊ” ÌÊ” ÌÑ” ÌÑ” ÌÑ”  ÌÑ™” ÌÊ” ÌÊ” ÌÒ” ÌÒ” ÌÒ” ÌÒ”! ÌÒ$”# ÌÒ&”% ÌÒ(—” ÌÓ” ÌÓ” ÌÓ”  ÌÓ”# ÌÓ”* ÌÓ&”+ ÌÓ'’” ÌÔ
+” ÌÔ—” ÌÊ” ÌÊ” ÌÕ” ÌÕ” ÌÕ” ÌÕ” ÌÕ–” ÌÖ” ÌÖ” ÌÖ” ÌÖ” ÌÖ” ÌÖ’” Ì×
+” Ì×’” ÌÊ” ÌÊ’” ÌÁ” ÌÁ	˜” ÌÜ” ÌÜ
+” ÌÜ” ÌÜ” ÌÜ” ÌÜ”& ÌÜ ”( ÌÜ"“”8 Ìİ”ÌD Ìİ”ÌK Ìİ—”$ ÌŞ
+”) ÌŞ”+ ÌŞ”/ ÌŞ”0 ÌŞ”< ÌŞ"”> ÌŞ$–”$ Ìß
+”. Ìß”0 Ìß”4 Ìß”5 Ìß”ÌE Ìß+—”$ Ìà
+”, Ìà”. Ìà”/ Ìà”1 Ìà”3 Ìà!”5 Ìà#˜”( Ìá”, Ìá”- Ìá”ÌA Ìá%”ÌB Ìá&”ÌD Ìá(”ÌE Ìá)”ÌF Ìá*’”$ Ìâ
+”% Ìâ‘”! Ìã	—”( ÌŞ
+”- ÌŞ”/ ÌŞ”3 ÌŞ”4 ÌŞ”Ì@ ÌŞ"”ÌB ÌŞ$–”( Ìß
+”2 Ìß”4 Ìß”8 Ìß”9 Ìß”ÌI Ìß+—”( Ìà
+”0 Ìà”2 Ìà”3 Ìà”5 Ìà”7 Ìà!”9 Ìà#˜”, Ìá”0 Ìá”1 Ìá”ÌE Ìá%”ÌF Ìá&”ÌH Ìá(”ÌI Ìá)”ÌJ Ìá*’”( Ìâ
+”) Ìâ–”$ Ìß
+”. Ìß”0 Ìß”4 Ìß”5 Ìß”ÌE Ìß+’” Ìä” Ìä–” Ìä” Ìä”  Ìå”% Ìå”& Ìå”/ Ìåš” Ìä” Ìä”  Ìæ”& Ìæ”' Ìæ”) Ìæ”, Ìæ”. Ìæ”0 Ìæ”2 Ìæ‘” Ìç‘” Ìç–” Ìé” Ìé” Ìé” Ìé” Ìé”. Ìé!–” Ìé” Ìé” Ìö” Ìö”  Ìö”! Ìö˜” Ìé” Ìé” Ì÷” Ì÷” Ì÷”% Ì÷”& Ì÷”) Ì÷’” Ìê” Ìê–” Ìê” Ìê” Ìó	” Ìó” Ìó” ÌóÜ ” Ìê” Ìê” Ìô	” Ìô” Ìô” Ìô”! Ìô”# Ìô”% Ìô”' Ìô”, Ìô"”. Ìô$”0 Ìô&”2 Ìô(”8 Ìô.”: Ìô0”< Ìô2”> Ìô4˜” Ìë
+” Ìë” Ìë” Ìë” Ìë” Ìë”& Ìë$”( Ìë&Ü ”8 Ìì”ÌB Ìì”ÌI Ìì”ÌK Ìì”ÌP Ìì”ÌR Ìì ”ÌV Ìì$”ÌW Ìì%”Ì\ Ìì*”Ì^ Ìì,”Ìg Ìì5”Ìi Ìì7”Ìq Ìì?”Ìs ÌìÌA”Ì| ÌìÌJ”Ì~ ÌìÌL”Ìˆ ÌìÌV”ÌŠ ÌìÌX–”( Ìì”- Ìì”/ Ìì ”3 Ìì$”4 Ìì%”9 Ìì*””( Ìì,”1 Ìì5”3 Ìì7”; Ìì?””( ÌìÌA”1 ÌìÌJ”3 ÌìÌL”= ÌìÌV‘” Ìí‘” Ìí’” Ìî” Ìî—” Ìï”  Ìï”! Ìï”/ Ìï!”; Ìï"”Ì@ Ìï'”ÌA Ìï(”; Ìî”? Ìî”Ì@ Ìî”ÌM Ìî&”ÌO Ìî(”Ìi Ìğ”Ìj Ìğ”Ìo Ìğ#”Ìq Ìğ-”Ìs Ìğ/”Ìt Ìğ0”Ìy Ìğ5”Ìz Ìğ6”Ì| Ìğ8’” Ìî” Ìî‘” Ìñ’” Ìê” Ìê’” Ìé” Ìé’” ÌÀ” ÌÀ
+‘” ÌüÔrF–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜ‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
  ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ì ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ‘”  Ìµ ‘”  Ì¶ ‘”  Ì· ‘”  Ì¸ ‘”  Ì¹ ‘”  Ìº ‘”  Ì» ‘”  Ì¼ ‘”  Ì½ ‘”  Ì¾ ‘”  Ì¿ ‘”  ÌÀ ‘”  ÌÁ ‘”  ÌÂ ‘”  ÌÃ ‘”  ÌÄ ‘”  ÌÅ ‘”  ÌÆ ‘”  ÌÇ ‘”  ÌÈ ‘”  ÌÉ ‘”  ÌÊ ‘”  ÌË ‘”  ÌÌ ‘”  ÌÍ ‘”  ÌÎ ‘”  ÌÏ ‘”  ÌĞ ‘”  ÌÑ ‘”  ÌÒ ‘”  ÌÓ ‘”  ÌÔ ‘”  ÌÕ ‘”  ÌÖ ‘”  Ì× ‘”  ÌØ ‘”  ÌÙ ‘”  ÌÚ ‘”  ÌÛ ‘”  ÌÜ ‘”  Ìİ ‘”  ÌŞ ‘”  Ìß ‘”  Ìà ‘”  Ìá ‘”  Ìâ ‘”  Ìã ‘”  Ìä ‘”  Ìå ‘”  Ìæ ‘”  Ìç ‘”  Ìè ‘”  Ìé ‘”  Ìê ‘”  Ìë ‘”  Ìì ‘”  Ìí ‘”  Ìî ‘”  Ìï ‘”  Ìğ ‘”  Ìñ ‘”  Ìò ‘”  Ìó ‘”  Ìô ‘”  Ìõ ‘”  Ìö ‘”  Ì÷ ‘”  Ìø ‘”  Ìù ‘”  Ìú ‘”  Ìû ‘”  Ìü ‘”  Ìı ‘”  Ìş ‘”  Ìÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
- ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ‘”  Íx ‘”  Íy ‘”  Íz ‘”  Í{ ‘”  Í| ‘”  Í} ‘”  Í~ ‘”  Í ‘”  Í€ ‘”  Í ‘”  Í‚ ‘”  Íƒ ‘”  Í„ ‘”  Í… ‘”  Í† ‘”  Í‡ ‘”  Íˆ ‘”  Í‰ ‘”  ÍŠ ‘”  Í‹ ‘”  ÍŒ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í‘ ‘”  Í’ ‘”  Í“ ‘”  Í” ‘”  Í• ‘”  Í– ‘”  Í— ‘”  Í˜ ‘”  Í™ ‘”  Íš ‘”  Í› ‘”  Íœ ‘”  Í ‘”  Í ‘”  ÍŸ ‘”  Í  ‘”  Í¡ ‘”  Í¢ ‘”  Í£ ‘”  Í¤ ‘”  Í¥ ‘”  Í¦ ‘”  Í§ ‘”  Í¨ ‘”  Í© ‘”  Íª ‘”  Í« ‘”  Í¬ ÔrG’§missing¦pluginÃ¦genAbcÂÔ  ÔrH”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache›ÔrI•¤type¥start£endªspecifiers¦source±ImportDeclarationÌ€Ì¢‘ÔrJ”¤type¥start£end¥local¶ImportDefaultSpecifierÌ‡ÌÔrK”¤type¥start£end¤nameªIdentifierÌ‡Ì¦routerÔrL•¤type¥start£end¥value£raw§LiteralÌ“Ì¡¬@ohos.router®'@ohos.router'I±ImportDeclarationÌ¤ÌÒ‘J¶ImportDefaultSpecifierÌ«Ì·KªIdentifierÌ«Ì·¬promptActionL§LiteralÌ½ÌÑ²@ohos.promptAction´'@ohos.promptAction'I±ImportDeclarationÌÔÍ‘ÔrM•¤type¥start£end¨imported¥local¯ImportSpecifierÌİÌèKªIdentifierÌİÌè«FeatureCardKªIdentifierÌİÌè«FeatureCardL§LiteralÌğÍ¹../components/FeatureCard»'../components/FeatureCard'I±ImportDeclarationÍÍJ‘M¯ImportSpecifierÍÍ$KªIdentifierÍÍ$­SectionHeaderKªIdentifierÍÍ$­SectionHeaderL§LiteralÍ,ÍI»../components/SectionHeader½'../components/SectionHeader'I±ImportDeclarationÍLÍ‚‘M¯ImportSpecifierÍUÍ_KªIdentifierÍUÍ_ªStatePanelKªIdentifierÍUÍ_ªStatePanelL§LiteralÍgÍ¸../components/StatePanelº'../components/StatePanel'I±ImportDeclarationÍ„Í¶‘M¯ImportSpecifierÍÍ•KªIdentifierÍÍ•¨StatCardKªIdentifierÍÍ•¨StatCardL§LiteralÍÍµ¶../components/StatCard¸'../components/StatCard'I±ImportDeclarationÍ¸Íü‘M¯ImportSpecifierÍÁÍÓKªIdentifierÍÁÍÓ²AuthSessionServiceKªIdentifierÍÁÍÓ²AuthSessionServiceL§LiteralÍÛÍû¾../services/AuthSessionServiceÙ '../services/AuthSessionService'I±ImportDeclarationÍşÍ.‘M¯ImportSpecifierÍÍKªIdentifierÍÍ¨MockDataKªIdentifierÍÍ¨MockDataL§LiteralÍÍ-´../services/MockData¶'../services/MockData'I±ImportDeclarationÍ0Ír‘M¯ImportSpecifierÍ9ÍJKªIdentifierÍ9ÍJ±PortalMockServiceKªIdentifierÍ9ÍJ±PortalMockServiceL§LiteralÍRÍq½../services/PortalMockService¿'../services/PortalMockService'I±ImportDeclarationÍtÍ¹“M¯ImportSpecifierÍ}Í†KªIdentifierÍ}Í†©AppColorsKªIdentifierÍ}Í†©AppColorsM¯ImportSpecifierÍˆÍ‘KªIdentifierÍˆÍ‘©AppLayoutKªIdentifierÍˆÍ‘©AppLayoutM¯ImportSpecifierÍ“ÍœKªIdentifierÍ“Íœ©AppRoutesKªIdentifierÍ“Íœ©AppRoutesL§LiteralÍ¤Í¸²../utils/Constants´'../utils/Constants'I±ImportDeclarationÍ»Íì‘M¯ImportSpecifierÍÄÍÎKªIdentifierÍÄÍÎªFormatUtilKªIdentifierÍÄÍÎªFormatUtilL§LiteralÍÖÍë³../utils/FormatUtilµ'../utils/FormatUtil'
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ‘”  Íx ‘”  Íy ‘”  Íz ‘”  Í{ ‘”  Í| ‘”  Í} ‘”  Í~ ‘”  Í ‘”  Í€ ‘”  Í ‘”  Í‚ ‘”  Íƒ ‘”  Í„ ‘”  Í… ‘”  Í† ‘”  Í‡ ‘”  Íˆ ‘”  Í‰ ‘”  ÍŠ ‘”  Í‹ ‘”  ÍŒ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í‘ ‘”  Í’ ‘”  Í“ ‘”  Í” ‘”  Í• ‘”  Í– ‘”  Í— ‘”  Í˜ ‘”  Í™ ‘”  Íš ‘”  Í› ‘”  Íœ ‘”  Í ‘”  Í ‘”  ÍŸ ‘”  Í  ‘”  Í¡ ‘”  Í¢ ‘”  Í£ ‘”  Í¤ ‘”  Í¥ ‘”  Í¦ ‘”  Í§ ‘”  Í¨ ‘”  Í© ‘”  Íª ‘”  Í« ‘”  Í¬ ‘”  Í­ ‘”  Í® ‘”  Í¯ ‘”  Í° ‘”  Í± ‘”  Í² ‘”  Í³ ‘”  Í´ ‘”  Íµ ‘”  Í¶ ‘”  Í· ‘”  Í¸ ‘”  Í¹ ‘”  Íº ‘”  Í» ‘”  Í¼ ‘”  Í½ ‘”  Í¾ ‘”  Í¿ ‘”  ÍÀ ‘”  ÍÁ ‘”  ÍÂ ‘”  ÍÃ ‘”  ÍÄ ‘”  ÍÅ ‘”  ÍÆ ‘”  ÍÇ ‘”  ÍÈ ‘”  ÍÉ ‘”  ÍÊ ‘”  ÍË ‘”  ÍÌ ‘”  ÍÍ ‘”  ÍÎ ‘”  ÍÏ ‘”  ÍĞ ‘”  ÍÑ ‘”  ÍÒ ‘”  ÍÓ ‘”  ÍÔ ‘”  ÍÕ ‘”  ÍÖ ‘”  Í× ‘”  ÍØ ‘”  ÍÙ ‘”  ÍÚ ‘”  ÍÛ ‘”  ÍÜ ‘”  Íİ ‘”  ÍŞ ‘”  Íß ‘”  Íà ‘”  Íá ‘”  Íâ ‘”  Íã ‘”  Íä ‘”  Íå ‘”  Íæ ‘”  Íç ‘”  Íè ‘”  Íé ‘”  Íê ‘”  Íë ‘”  Íì ‘”  Íí ‘”  Íî ‘”  Íï ‘”  Íğ ‘”  Íñ ‘”  Íò ‘”  Íó ‘”  Íô ‘”  Íõ ‘”  Íö ‘”  Í÷ ‘”  Íø ‘”  Íù ‘”  Íú ‘”  Íû ‘”  Íü ‘”  Íı ‘”  Íş ‘”  Íÿ ‘”  Í  ‘”  Í ÔrG’§missing¦pluginÃ¦genAbcÂÔ  ÔrH”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCachešÔrI•¤type¥start£endªspecifiers¦source±ImportDeclarationÌ€Ì¢‘ÔrJ”¤type¥start£end¥local¶ImportDefaultSpecifierÌ‡ÌÔrK”¤type¥start£end¤nameªIdentifierÌ‡Ì¦routerÔrL•¤type¥start£end¥value£raw§LiteralÌ“Ì¡¬@ohos.router®'@ohos.router'I±ImportDeclarationÌ¤ÌÒ‘J¶ImportDefaultSpecifierÌ«Ì·KªIdentifierÌ«Ì·¬promptActionL§LiteralÌ½ÌÑ²@ohos.promptAction´'@ohos.promptAction'I±ImportDeclarationÌÔÍ‘ÔrM•¤type¥start£end¨imported¥local¯ImportSpecifierÌİÌéKªIdentifierÌİÌé¬CategoryTabsKªIdentifierÌİÌé¬CategoryTabsL§LiteralÌñÍº../components/CategoryTabs¼'../components/CategoryTabs'I±ImportDeclarationÍÍP‘M¯ImportSpecifierÍÍ(KªIdentifierÍÍ(¯ServiceIconItemKªIdentifierÍÍ(¯ServiceIconItemL§LiteralÍ0ÍO½../components/ServiceIconItem¿'../components/ServiceIconItem'I±ImportDeclarationÍRÍˆ‘M¯ImportSpecifierÍ[ÍeKªIdentifierÍ[ÍeªStatePanelKªIdentifierÍ[ÍeªStatePanelL§LiteralÍmÍ‡¸../components/StatePanelº'../components/StatePanel'I±ImportDeclarationÍŠÍÎ‘M¯ImportSpecifierÍ“Í¥KªIdentifierÍ“Í¥²AuthSessionServiceKªIdentifierÍ“Í¥²AuthSessionServiceL§LiteralÍ­ÍÍ¾../services/AuthSessionServiceÙ '../services/AuthSessionService'I±ImportDeclarationÍĞÍ ‘M¯ImportSpecifierÍÙÍáKªIdentifierÍÙÍá¨MockDataKªIdentifierÍÙÍá¨MockDataL§LiteralÍéÍÿ´../services/MockData¶'../services/MockData'I±ImportDeclarationÍÍD‘M¯ImportSpecifierÍÍKªIdentifierÍÍ±PortalMockServiceKªIdentifierÍÍ±PortalMockServiceL§LiteralÍ$ÍC½../services/PortalMockService¿'../services/PortalMockService'I±ImportDeclarationÍFÍu‘M¯ImportSpecifierÍOÍXKªIdentifierÍOÍX©AppRoutesKªIdentifierÍOÍX©AppRoutesL§LiteralÍ`Ít²../utils/Constants´'../utils/Constants'I±ImportDeclarationÍwÍ°‘M¯ImportSpecifierÍ€ÍKªIdentifierÍ€Í®PermissionUtilKªIdentifierÍ€Í®PermissionUtilL§LiteralÍ–Í¯·../utils/PermissionUtil¹'../utils/PermissionUtil'

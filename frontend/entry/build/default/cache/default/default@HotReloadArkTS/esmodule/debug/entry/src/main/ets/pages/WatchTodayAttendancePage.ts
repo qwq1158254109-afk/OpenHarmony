@@ -9,7 +9,8 @@ import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/component
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
 import type { PageLoadState, WatchAttendanceItem } from '../models/CampusPortal';
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
-import { AppColors, AppLayout } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
+import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
 class WatchTodayAttendancePage extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
         super(parent, __localStorage, elmtId, extraInfo);
@@ -56,6 +57,9 @@ class WatchTodayAttendancePage extends ViewPU {
         this.__items.set(newValue);
     }
     aboutToAppear(): void {
+        if (!PermissionUtil.ensurePageAccess(AppRoutes.watchTodayAttendance)) {
+            return;
+        }
         this.items = PortalMockService.watchAttendance();
         this.state = this.items.length === 0 ? 'empty' : 'ready';
     }
@@ -74,7 +78,7 @@ class WatchTodayAttendancePage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '手表端今日考勤', subtitle: '适配手表端的轻量考勤提醒' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchTodayAttendancePage.ets", line: 21, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '手表端今日考勤', subtitle: '适配手表端的轻量考勤提醒' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchTodayAttendancePage.ets", line: 25, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -96,7 +100,7 @@ class WatchTodayAttendancePage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '今日暂无考勤任务', errorText: '手表考勤加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchTodayAttendancePage.ets", line: 23, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '今日暂无考勤任务', errorText: '手表考勤加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/WatchTodayAttendancePage.ets", line: 27, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

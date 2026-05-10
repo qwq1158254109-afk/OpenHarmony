@@ -6,14 +6,17 @@ import { SectionHeader } from '../components/SectionHeader';
 import { StatCard } from '../components/StatCard';
 import { StatusBadge } from '../components/StatusBadge';
 import { AuthRecord } from '../models/Auth';
+import { PortalAction } from '../models/CampusPortal';
 import { CampusDevice } from '../models/Device';
 import { UserProfile } from '../models/User';
 import { AuthService } from '../services/AuthService';
 import { AuthSessionService } from '../services/AuthSessionService';
 import { DeviceService } from '../services/DeviceService';
 import { MockData } from '../services/MockData';
+import { PortalMockService } from '../services/PortalMockService';
 import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { FormatUtil } from '../utils/FormatUtil';
+import { PermissionUtil } from '../utils/PermissionUtil';
 
 @Entry
 @Component
@@ -24,6 +27,8 @@ struct DashboardPage {
   @State latestRisk: string = '低风险';
   @State onlineDeviceCount: number = 0;
   @State trustedDeviceCount: number = 0;
+  @State menuActions: PortalAction[] = [];
+  @State hoverMenuKey: string = '';
 
   aboutToAppear(): void {
     AuthSessionService.initialize();
@@ -35,6 +40,13 @@ struct DashboardPage {
     this.user = currentUser;
     const records = AuthService.recentRecords(this.user.id);
     const devices = DeviceService.listDevices(this.user.id);
+    if (this.user.role === 'student') {
+      this.menuActions = PortalMockService.studentActions();
+    } else if (this.user.role === 'teacher') {
+      this.menuActions = PortalMockService.teacherActions();
+    } else {
+      this.menuActions = PortalMockService.adminActions();
+    }
     this.todayCount = records.length;
     this.onlineDeviceCount = devices.filter((item: CampusDevice) => item.online).length;
     this.trustedDeviceCount = devices.filter((item: CampusDevice) => item.trusted).length;
@@ -45,7 +57,21 @@ struct DashboardPage {
   }
 
   private go(url: string): void {
+    if (!PermissionUtil.canViewFeature(this.user.role, url)) {
+      promptAction.showToast({ message: '当前角色无权访问该功能' });
+      return;
+    }
     router.pushUrl({ url });
+  }
+
+  private handleMenuHover(key: string, isHover: boolean): void {
+    if (isHover) {
+      this.hoverMenuKey = key;
+      return;
+    }
+    if (this.hoverMenuKey === key) {
+      this.hoverMenuKey = '';
+    }
   }
 
   private logout(): void {
@@ -146,26 +172,13 @@ struct DashboardPage {
         .height(264)
 
         Column({ space: 12 }) {
-          SectionHeader({ title: '快捷入口', subtitle: '比赛答辩时可按场景顺序演示' })
+          SectionHeader({ title: '快捷入口', subtitle: `${FormatUtil.roleLabel(this.user.role)}可访问功能` })
           Grid() {
-            GridItem() {
-              this.MenuButton('身份认证', '发起无感认证流程', 'ID', AppRoutes.auth, true)
-            }
-            GridItem() {
-              this.MenuButton('设备绑定', '管理可信协同设备', 'DV', AppRoutes.devices, false)
-            }
-            GridItem() {
-              this.MenuButton('认证记录', '查看认证结果列表', 'RC', AppRoutes.records, false)
-            }
-            GridItem() {
-              this.MenuButton('风险评分', '查看 AI 风险评分', 'RS', AppRoutes.admin, false)
-            }
-            GridItem() {
-              this.MenuButton('风险日志', '查看异常风险日志', 'LG', AppRoutes.admin, false)
-            }
-            GridItem() {
-              this.MenuButton('管理员页', '安全态势数据看板', 'AD', AppRoutes.admin, false)
-            }
+            ForEach(this.menuActions, (item: PortalAction) => {
+              GridItem() {
+                this.MenuButton(item.title, item.subtitle, item.marker, item.route, item.status === 'success')
+              }
+            }, (item: PortalAction): string => item.id)
           }
           .columnsTemplate('1fr 1fr')
           .columnsGap(12)
@@ -213,7 +226,22 @@ struct DashboardPage {
 
   @Builder
   MenuButton(title: string, subtitle: string, marker: string, url: string, active: boolean) {
-    FeatureCard({ title: title, subtitle: subtitle, marker: marker, active: active })
+    Column() {
+      FeatureCard({
+        title: title,
+        subtitle: subtitle,
+        marker: marker,
+        active: active || this.hoverMenuKey === url,
+        hover: this.hoverMenuKey === url
+      })
+    }
+    .width('100%')
+    .height(120)
+    .borderRadius(16)
+    .hoverEffect(HoverEffect.Highlight)
+    .onHover((isHover: boolean) => {
+      this.handleMenuHover(url, isHover);
+    })
       .onClick(() => {
         this.go(url);
       })
