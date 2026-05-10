@@ -150,6 +150,174 @@ struct OverviewPage {
     });
   }
 
+  private teacherFeatureDesc(item: PortalAction): string {
+    if (item.id === 'class-auth-overview') {
+      return '查看班级认证状态';
+    }
+    if (item.id === 'student-alerts') {
+      return '关注异常认证学生';
+    }
+    if (item.id === 'class-checkin-records') {
+      return '查看课堂签到结果';
+    }
+    if (item.id === 'teaching-auth') {
+      return '管理教学认证场景';
+    }
+    return item.subtitle;
+  }
+
+  @Builder
+  TeacherFeatureCard(item: PortalAction, primary: boolean) {
+    Column() {
+      Row() {
+        Text(item.marker)
+          .fontSize(17)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(primary ? '#2D9CDB' : '#2D9CDB')
+          .textAlign(TextAlign.Center)
+          .width(44)
+          .height(44)
+          .backgroundColor(primary ? '#FFFFFF' : '#EAF8FC')
+          .borderRadius(12)
+        Blank()
+      }
+      .width('100%')
+      Text(item.title)
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor(primary ? '#FFFFFF' : '#111827')
+        .lineHeight(24)
+        .maxLines(2)
+        .textOverflow({ overflow: TextOverflow.None })
+        .width('100%')
+        .margin({ top: 16 })
+      Text(this.teacherFeatureDesc(item))
+        .fontSize(13)
+        .fontColor(primary ? '#EAF8FC' : '#64748B')
+        .lineHeight(19)
+        .maxLines(2)
+        .textOverflow({ overflow: TextOverflow.None })
+        .width('100%')
+        .margin({ top: 8 })
+    }
+    .width('100%')
+    .height(136)
+    .alignItems(HorizontalAlign.Start)
+    .padding(18)
+    .backgroundColor(primary ? '#2D9CDB' : '#FFFFFF')
+    .borderRadius(18)
+    .border({ width: primary ? 0 : 1, color: primary ? Color.Transparent : '#E5EAF3' })
+    .shadow({
+      radius: primary ? 16 : 8,
+      color: primary ? '#2A2D9CDB' : '#10000000',
+      offsetX: 0,
+      offsetY: primary ? 6 : 3
+    })
+  }
+
+  @Builder
+  TeacherStatItem(label: string, value: string, color: string) {
+    Column() {
+      Text(value)
+        .fontSize(24)
+        .fontWeight(FontWeight.Bold)
+        .fontColor(color)
+      Text(label)
+        .fontSize(12)
+        .fontColor('#64748B')
+        .margin({ top: 6 })
+    }
+    .layoutWeight(1)
+    .alignItems(HorizontalAlign.Center)
+  }
+
+  @Builder
+  TeacherServiceCenter() {
+    Column() {
+      Row() {
+        Text('服务中心 · 教师端')
+          .fontSize(26)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#111827')
+          .layoutWeight(1)
+        Row() {
+          Text('⎋')
+            .fontSize(16)
+            .fontColor('#EF4444')
+          Text('退出')
+            .fontSize(16)
+            .fontColor('#EF4444')
+            .margin({ left: 4 })
+        }
+        .height(36)
+        .padding({ left: 10, right: 10 })
+        .borderRadius(18)
+        .backgroundColor('#FFF1F2')
+        .onClick(() => {
+          this.logout();
+        })
+      }
+      .width('100%')
+      .padding({ left: 24, right: 24, top: 24, bottom: 16 })
+
+      Scroll() {
+        Column() {
+          if (this.state !== 'ready') {
+            StatePanel({ state: this.state, emptyText: '暂无教师端服务', errorText: '教师端服务加载失败' })
+          } else {
+            Grid() {
+              ForEach(this.teacherActions, (item: PortalAction, index: number) => {
+                GridItem() {
+                  Column() {
+                    this.TeacherFeatureCard(item, index === 0)
+                  }
+                  .width('100%')
+                  .height(136)
+                    .onClick(() => {
+                      this.openService(item);
+                    })
+                }
+              }, (item: PortalAction): string => item.id)
+            }
+            .columnsTemplate('1fr 1fr')
+            .columnsGap(16)
+            .rowsGap(16)
+            .width('100%')
+
+            Column() {
+              Text('今日数据')
+                .fontSize(22)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#111827')
+                .width('100%')
+              Row() {
+                this.TeacherStatItem('今日应到', '42', '#111827')
+                this.TeacherStatItem('今日实到', '39', '#16A34A')
+                this.TeacherStatItem('异常人数', '3', '#EF4444')
+              }
+              .width('100%')
+              .margin({ top: 18 })
+            }
+            .width('100%')
+            .padding(20)
+            .backgroundColor('#FFFFFF')
+            .borderRadius(18)
+            .border({ width: 1, color: '#E5EAF3' })
+            .shadow({ radius: 8, color: '#10000000', offsetX: 0, offsetY: 3 })
+            .margin({ top: 24 })
+          }
+        }
+        .width('100%')
+        .padding({ left: 24, right: 24, bottom: 34 })
+      }
+      .layoutWeight(1)
+      .scrollBar(BarState.Off)
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#EEF6FA')
+  }
+
   @Builder
   ServiceSection(group: ServiceGroup) {
     Column() {
@@ -190,7 +358,10 @@ struct OverviewPage {
   }
 
   build() {
-    Column() {
+    if (this.user.role === 'teacher') {
+      this.TeacherServiceCenter()
+    } else {
+      Column() {
       Row() {
         Blank()
           .width(56)
@@ -250,5 +421,6 @@ struct OverviewPage {
     .width('100%')
     .height('100%')
     .backgroundColor('#FFFFFF')
+    }
   }
 }

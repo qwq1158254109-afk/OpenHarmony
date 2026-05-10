@@ -38,6 +38,7 @@ export class AppRoutes {
     static readonly authPermission: string = 'pages/AuthPermissionPage';
     static readonly passageRecords: string = 'pages/PassageRecordsPage';
     static readonly attendanceStats: string = 'pages/AttendanceStatsPage';
+    static readonly classAuthDetail: string = 'pages/ClassAuthDetailPage';
     static readonly watchTodayAttendance: string = 'pages/WatchTodayAttendancePage';
     static readonly watchPassageRecords: string = 'pages/WatchPassageRecordsPage';
     static readonly terminalFiling: string = 'pages/TerminalFilingPage';

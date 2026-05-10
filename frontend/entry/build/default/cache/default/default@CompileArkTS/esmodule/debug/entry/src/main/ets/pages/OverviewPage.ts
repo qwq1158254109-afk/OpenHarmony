@@ -319,6 +319,260 @@ class OverviewPage extends ViewPU {
             }
         });
     }
+    private teacherFeatureDesc(item: PortalAction): string {
+        if (item.id === 'class-auth-overview') {
+            return '查看班级认证状态';
+        }
+        if (item.id === 'student-alerts') {
+            return '关注异常认证学生';
+        }
+        if (item.id === 'class-checkin-records') {
+            return '查看课堂签到结果';
+        }
+        if (item.id === 'teaching-auth') {
+            return '管理教学认证场景';
+        }
+        return item.subtitle;
+    }
+    TeacherFeatureCard(item: PortalAction, primary: boolean, parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.height(136);
+            Column.alignItems(HorizontalAlign.Start);
+            Column.padding(18);
+            Column.backgroundColor(primary ? '#2D9CDB' : '#FFFFFF');
+            Column.borderRadius(18);
+            Column.border({ width: primary ? 0 : 1, color: primary ? Color.Transparent : '#E5EAF3' });
+            Column.shadow({
+                radius: primary ? 16 : 8,
+                color: primary ? '#2A2D9CDB' : '#10000000',
+                offsetX: 0,
+                offsetY: primary ? 6 : 3
+            });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(item.marker);
+            Text.fontSize(17);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor(primary ? '#2D9CDB' : '#2D9CDB');
+            Text.textAlign(TextAlign.Center);
+            Text.width(44);
+            Text.height(44);
+            Text.backgroundColor(primary ? '#FFFFFF' : '#EAF8FC');
+            Text.borderRadius(12);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Blank.create();
+        }, Blank);
+        Blank.pop();
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(item.title);
+            Text.fontSize(18);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor(primary ? '#FFFFFF' : '#111827');
+            Text.lineHeight(24);
+            Text.maxLines(2);
+            Text.textOverflow({ overflow: TextOverflow.None });
+            Text.width('100%');
+            Text.margin({ top: 16 });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.teacherFeatureDesc(item));
+            Text.fontSize(13);
+            Text.fontColor(primary ? '#EAF8FC' : '#64748B');
+            Text.lineHeight(19);
+            Text.maxLines(2);
+            Text.textOverflow({ overflow: TextOverflow.None });
+            Text.width('100%');
+            Text.margin({ top: 8 });
+        }, Text);
+        Text.pop();
+        Column.pop();
+    }
+    TeacherStatItem(label: string, value: string, color: string, parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.layoutWeight(1);
+            Column.alignItems(HorizontalAlign.Center);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(value);
+            Text.fontSize(24);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor(color);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(label);
+            Text.fontSize(12);
+            Text.fontColor('#64748B');
+            Text.margin({ top: 6 });
+        }, Text);
+        Text.pop();
+        Column.pop();
+    }
+    TeacherServiceCenter(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.height('100%');
+            Column.backgroundColor('#EEF6FA');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+            Row.padding({ left: 24, right: 24, top: 24, bottom: 16 });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('服务中心 · 教师端');
+            Text.fontSize(26);
+            Text.fontWeight(FontWeight.Bold);
+            Text.fontColor('#111827');
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.height(36);
+            Row.padding({ left: 10, right: 10 });
+            Row.borderRadius(18);
+            Row.backgroundColor('#FFF1F2');
+            Row.onClick(() => {
+                this.logout();
+            });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('⎋');
+            Text.fontSize(16);
+            Text.fontColor('#EF4444');
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('退出');
+            Text.fontSize(16);
+            Text.fontColor('#EF4444');
+            Text.margin({ left: 4 });
+        }, Text);
+        Text.pop();
+        Row.pop();
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Scroll.create();
+            Scroll.layoutWeight(1);
+            Scroll.scrollBar(BarState.Off);
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.padding({ left: 24, right: 24, bottom: 34 });
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.state !== 'ready') {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无教师端服务', errorText: '教师端服务加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 266, col: 13 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        state: this.state,
+                                        emptyText: '暂无教师端服务',
+                                        errorText: '教师端服务加载失败'
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
+                            }
+                        }, { name: "StatePanel" });
+                    }
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Grid.create();
+                        Grid.columnsTemplate('1fr 1fr');
+                        Grid.columnsGap(16);
+                        Grid.rowsGap(16);
+                        Grid.width('100%');
+                    }, Grid);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        ForEach.create();
+                        const forEachItemGenFunction = (_item, index: number) => {
+                            const item = _item;
+                            {
+                                const itemCreation2 = (elmtId, isInitialRender) => {
+                                    GridItem.create(() => { }, false);
+                                };
+                                const observedDeepRender = () => {
+                                    this.observeComponentCreation2(itemCreation2, GridItem);
+                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                        Column.create();
+                                        Column.width('100%');
+                                        Column.height(136);
+                                        Column.onClick(() => {
+                                            this.openService(item);
+                                        });
+                                    }, Column);
+                                    this.TeacherFeatureCard.bind(this)(item, index === 0);
+                                    Column.pop();
+                                    GridItem.pop();
+                                };
+                                observedDeepRender();
+                            }
+                        };
+                        this.forEachUpdateFunction(elmtId, this.teacherActions, forEachItemGenFunction, (item: PortalAction): string => item.id, true, false);
+                    }, ForEach);
+                    ForEach.pop();
+                    Grid.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Column.create();
+                        Column.width('100%');
+                        Column.padding(20);
+                        Column.backgroundColor('#FFFFFF');
+                        Column.borderRadius(18);
+                        Column.border({ width: 1, color: '#E5EAF3' });
+                        Column.shadow({ radius: 8, color: '#10000000', offsetX: 0, offsetY: 3 });
+                        Column.margin({ top: 24 });
+                    }, Column);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create('今日数据');
+                        Text.fontSize(22);
+                        Text.fontWeight(FontWeight.Bold);
+                        Text.fontColor('#111827');
+                        Text.width('100%');
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Row.create();
+                        Row.width('100%');
+                        Row.margin({ top: 18 });
+                    }, Row);
+                    this.TeacherStatItem.bind(this)('今日应到', '42', '#111827');
+                    this.TeacherStatItem.bind(this)('今日实到', '39', '#16A34A');
+                    this.TeacherStatItem.bind(this)('异常人数', '3', '#EF4444');
+                    Row.pop();
+                    Column.pop();
+                });
+            }
+        }, If);
+        If.pop();
+        Column.pop();
+        Scroll.pop();
+        Column.pop();
+    }
     ServiceSection(group: ServiceGroup, parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create();
@@ -369,7 +623,7 @@ class OverviewPage extends ViewPU {
                                     let componentCall = new ServiceIconItem(this, {
                                         item: item,
                                         active: this.hoverServiceId === item.id || this.selectedServiceId === item.id
-                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 166, col: 15 });
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 334, col: 15 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
@@ -398,147 +652,160 @@ class OverviewPage extends ViewPU {
     }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create();
-            Column.width('100%');
-            Column.height('100%');
-            Column.backgroundColor('#FFFFFF');
-        }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Row.create();
-            Row.width('100%');
-            Row.padding({ left: 20, right: 20, top: 28, bottom: 22 });
-        }, Row);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Blank.create();
-            Blank.width(56);
-        }, Blank);
-        Blank.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('服务中心');
-            Text.fontSize(28);
-            Text.fontWeight(FontWeight.Bold);
-            Text.fontColor('#111827');
-            Text.textAlign(TextAlign.Center);
-            Text.layoutWeight(1);
-        }, Text);
-        Text.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('退出');
-            Text.fontSize(15);
-            Text.fontColor(this.logoutHover ? '#2D9CDB' : '#6B7280');
-            Text.textAlign(TextAlign.Center);
-            Text.width(56);
-            Text.height(36);
-            Text.backgroundColor(this.logoutHover ? '#EAF8FC' : Color.Transparent);
-            Text.borderRadius(18);
-            Text.onHover((isHover: boolean) => {
-                this.logoutHover = isHover;
-            });
-            Text.onClick(() => {
-                this.logout();
-            });
-        }, Text);
-        Text.pop();
-        Row.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
-            if (this.state === 'ready') {
+            if (this.user.role === 'teacher') {
                 this.ifElseBranchUpdateFunction(0, () => {
-                    {
-                        this.observeComponentCreation2((elmtId, isInitialRender) => {
-                            if (isInitialRender) {
-                                let componentCall = new CategoryTabs(this, {
-                                    items: this.categoryTabs(),
-                                    selectedId: this.selectedCategory,
-                                    onSelect: (id: string) => {
-                                        this.handleCategorySelect(id);
-                                    }
-                                }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 222, col: 9 });
-                                ViewPU.create(componentCall);
-                                let paramsLambda = () => {
-                                    return {
-                                        items: this.categoryTabs(),
-                                        selectedId: this.selectedCategory,
-                                        onSelect: (id: string) => {
-                                            this.handleCategorySelect(id);
+                    this.TeacherServiceCenter.bind(this)();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Column.create();
+                        Column.width('100%');
+                        Column.height('100%');
+                        Column.backgroundColor('#FFFFFF');
+                    }, Column);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Row.create();
+                        Row.width('100%');
+                        Row.padding({ left: 20, right: 20, top: 28, bottom: 22 });
+                    }, Row);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Blank.create();
+                        Blank.width(56);
+                    }, Blank);
+                    Blank.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create('服务中心');
+                        Text.fontSize(28);
+                        Text.fontWeight(FontWeight.Bold);
+                        Text.fontColor('#111827');
+                        Text.textAlign(TextAlign.Center);
+                        Text.layoutWeight(1);
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create('退出');
+                        Text.fontSize(15);
+                        Text.fontColor(this.logoutHover ? '#2D9CDB' : '#6B7280');
+                        Text.textAlign(TextAlign.Center);
+                        Text.width(56);
+                        Text.height(36);
+                        Text.backgroundColor(this.logoutHover ? '#EAF8FC' : Color.Transparent);
+                        Text.borderRadius(18);
+                        Text.onHover((isHover: boolean) => {
+                            this.logoutHover = isHover;
+                        });
+                        Text.onClick(() => {
+                            this.logout();
+                        });
+                    }, Text);
+                    Text.pop();
+                    Row.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        If.create();
+                        if (this.state === 'ready') {
+                            this.ifElseBranchUpdateFunction(0, () => {
+                                {
+                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                        if (isInitialRender) {
+                                            let componentCall = new CategoryTabs(this, {
+                                                items: this.categoryTabs(),
+                                                selectedId: this.selectedCategory,
+                                                onSelect: (id: string) => {
+                                                    this.handleCategorySelect(id);
+                                                }
+                                            }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 393, col: 9 });
+                                            ViewPU.create(componentCall);
+                                            let paramsLambda = () => {
+                                                return {
+                                                    items: this.categoryTabs(),
+                                                    selectedId: this.selectedCategory,
+                                                    onSelect: (id: string) => {
+                                                        this.handleCategorySelect(id);
+                                                    }
+                                                };
+                                            };
+                                            componentCall.paramsGenerator_ = paramsLambda;
                                         }
-                                    };
-                                };
-                                componentCall.paramsGenerator_ = paramsLambda;
-                            }
-                            else {
-                                this.updateStateVarsOfChildByElmtId(elmtId, {
-                                    selectedId: this.selectedCategory
-                                });
-                            }
-                        }, { name: "CategoryTabs" });
-                    }
+                                        else {
+                                            this.updateStateVarsOfChildByElmtId(elmtId, {
+                                                selectedId: this.selectedCategory
+                                            });
+                                        }
+                                    }, { name: "CategoryTabs" });
+                                }
+                                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                    Divider.create();
+                                    Divider.color('#EEEEEE');
+                                    Divider.margin({ top: 20 });
+                                }, Divider);
+                            });
+                        }
+                        else {
+                            this.ifElseBranchUpdateFunction(1, () => {
+                            });
+                        }
+                    }, If);
+                    If.pop();
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        Divider.create();
-                        Divider.color('#EEEEEE');
-                        Divider.margin({ top: 20 });
-                    }, Divider);
-                });
-            }
-            else {
-                this.ifElseBranchUpdateFunction(1, () => {
+                        Scroll.create(this.serviceScroller);
+                        Scroll.layoutWeight(1);
+                        Scroll.scrollBar(BarState.Off);
+                    }, Scroll);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Column.create();
+                        Column.width('100%');
+                        Column.padding({ left: 24, right: 24, bottom: 34 });
+                    }, Column);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        If.create();
+                        if (this.state !== 'ready') {
+                            this.ifElseBranchUpdateFunction(0, () => {
+                                {
+                                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                        if (isInitialRender) {
+                                            let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无可用服务', errorText: '服务数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 408, col: 13 });
+                                            ViewPU.create(componentCall);
+                                            let paramsLambda = () => {
+                                                return {
+                                                    state: this.state,
+                                                    emptyText: '暂无可用服务',
+                                                    errorText: '服务数据加载失败'
+                                                };
+                                            };
+                                            componentCall.paramsGenerator_ = paramsLambda;
+                                        }
+                                        else {
+                                            this.updateStateVarsOfChildByElmtId(elmtId, {});
+                                        }
+                                    }, { name: "StatePanel" });
+                                }
+                            });
+                        }
+                        else {
+                            this.ifElseBranchUpdateFunction(1, () => {
+                                this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                    ForEach.create();
+                                    const forEachItemGenFunction = _item => {
+                                        const group = _item;
+                                        this.ServiceSection.bind(this)(group);
+                                    };
+                                    this.forEachUpdateFunction(elmtId, this.orderedGroups(), forEachItemGenFunction, (group: ServiceGroup): string => group.id, false, false);
+                                }, ForEach);
+                                ForEach.pop();
+                            });
+                        }
+                    }, If);
+                    If.pop();
+                    Column.pop();
+                    Scroll.pop();
+                    Column.pop();
                 });
             }
         }, If);
         If.pop();
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Scroll.create(this.serviceScroller);
-            Scroll.layoutWeight(1);
-            Scroll.scrollBar(BarState.Off);
-        }, Scroll);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Column.create();
-            Column.width('100%');
-            Column.padding({ left: 24, right: 24, bottom: 34 });
-        }, Column);
-        this.observeComponentCreation2((elmtId, isInitialRender) => {
-            If.create();
-            if (this.state !== 'ready') {
-                this.ifElseBranchUpdateFunction(0, () => {
-                    {
-                        this.observeComponentCreation2((elmtId, isInitialRender) => {
-                            if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无可用服务', errorText: '服务数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/OverviewPage.ets", line: 237, col: 13 });
-                                ViewPU.create(componentCall);
-                                let paramsLambda = () => {
-                                    return {
-                                        state: this.state,
-                                        emptyText: '暂无可用服务',
-                                        errorText: '服务数据加载失败'
-                                    };
-                                };
-                                componentCall.paramsGenerator_ = paramsLambda;
-                            }
-                            else {
-                                this.updateStateVarsOfChildByElmtId(elmtId, {});
-                            }
-                        }, { name: "StatePanel" });
-                    }
-                });
-            }
-            else {
-                this.ifElseBranchUpdateFunction(1, () => {
-                    this.observeComponentCreation2((elmtId, isInitialRender) => {
-                        ForEach.create();
-                        const forEachItemGenFunction = _item => {
-                            const group = _item;
-                            this.ServiceSection.bind(this)(group);
-                        };
-                        this.forEachUpdateFunction(elmtId, this.orderedGroups(), forEachItemGenFunction, (group: ServiceGroup): string => group.id, false, false);
-                    }, ForEach);
-                    ForEach.pop();
-                });
-            }
-        }, If);
-        If.pop();
-        Column.pop();
-        Scroll.pop();
-        Column.pop();
     }
     rerender() {
         this.updateDirtyElements();

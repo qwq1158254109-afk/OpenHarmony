@@ -65,6 +65,31 @@ export interface AttendanceMetric {
   latestTime: string;
 }
 
+export type StudentAuthStatus = '已认证' | '未认证' | '异常';
+export type StudentRiskText = '低风险' | '中风险' | '高风险' | '待确认';
+
+export interface StudentAuthRecord {
+  id: string;
+  name: string;
+  studentNo: string;
+  status: StudentAuthStatus;
+  authTime: string;
+  device: string;
+  riskLevel: StudentRiskText;
+}
+
+export interface ClassAuthDetail {
+  id: string;
+  className: string;
+  totalCount: number;
+  signedCount: number;
+  unsignedCount: number;
+  abnormalCount: number;
+  rate: number;
+  latestTime: string;
+  students: StudentAuthRecord[];
+}
+
 export interface WatchAttendanceItem {
   id: string;
   title: string;

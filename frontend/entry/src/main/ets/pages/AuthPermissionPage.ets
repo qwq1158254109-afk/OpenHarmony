@@ -4,6 +4,7 @@ import { StatePanel } from '../components/StatePanel';
 import { AuthPermissionOption } from '../models/CampusPortal';
 import { UserProfile } from '../models/User';
 import { AuthSessionService } from '../services/AuthSessionService';
+import { PermissionStorage } from '../services/PermissionStorage';
 import { PortalMockService } from '../services/PortalMockService';
 import { AppColors, AppLayout, AppRoutes } from '../utils/Constants';
 import { PermissionUtil } from '../utils/PermissionUtil';
@@ -13,13 +14,40 @@ import { PermissionUtil } from '../utils/PermissionUtil';
 struct AuthPermissionPage {
   @State permissionList: AuthPermissionOption[] = [];
   @State refreshVersion: number = 0;
+  @State loading: boolean = true;
 
   aboutToAppear(): void {
     if (!PermissionUtil.ensurePageAccess(AppRoutes.authPermission)) {
       return;
     }
+    this.loadPermissions();
+  }
+
+  private userStorageKey(): string {
     const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
-    this.permissionList = PortalMockService.authPermissions(currentUser);
+    if (currentUser) {
+      return currentUser.account || currentUser.userCode || currentUser.id;
+    }
+    return 'default_student';
+  }
+
+  private loadPermissions(): void {
+    this.loading = true;
+    const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+    const username = this.userStorageKey();
+    try {
+      const saved = PermissionStorage.getPermissionList(username);
+      if (saved && saved.length > 0) {
+        this.permissionList = saved;
+      } else {
+        this.permissionList = PortalMockService.authPermissions(currentUser);
+        PermissionStorage.savePermissionList(username, this.permissionList);
+      }
+    } catch (error) {
+      console.error(`load permissions failed: ${JSON.stringify(error)}`);
+      this.permissionList = PortalMockService.authPermissions(currentUser);
+    }
+    this.loading = false;
   }
 
   private togglePermission(id: string | number): void {
@@ -43,8 +71,21 @@ struct AuthPermissionPage {
 
     this.refreshVersion++;
 
+    if (changed) {
+      try {
+        PermissionStorage.savePermissionList(this.userStorageKey(), this.permissionList);
+      } catch (error) {
+        console.error(`save permissions failed: ${JSON.stringify(error)}`);
+        promptAction.showToast({
+          message: '权限设置已更新，但保存失败',
+          duration: 1500
+        });
+        return;
+      }
+    }
+
     promptAction.showToast({
-      message: changed ? '权限设置已更新' : '未找到对应权限项',
+      message: changed ? '权限设置已保存' : '未找到对应权限项',
       duration: 1500
     });
 
@@ -58,7 +99,9 @@ struct AuthPermissionPage {
           .height(0)
           .opacity(0)
         PageTitleBar({ title: '我的授权设置', subtitle: '管理本人校园身份认证授权场景' })
-        if (this.permissionList.length === 0) {
+        if (this.loading) {
+          StatePanel({ state: 'loading', emptyText: '正在加载授权设置', errorText: '授权设置加载失败' })
+        } else if (this.permissionList.length === 0) {
           StatePanel({ state: 'empty', emptyText: '暂无本人授权设置', errorText: '授权设置加载失败' })
         } else {
           ForEach(this.permissionList, (item: AuthPermissionOption) => {

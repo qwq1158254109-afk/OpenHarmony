@@ -56,6 +56,9 @@ export class PermissionUtil {
       featureKey === AppRoutes.watchPassageRecords) {
       return ['student'];
     }
+    if (featureKey === AppRoutes.classAuthDetail) {
+      return ['teacher'];
+    }
     if (featureKey === AppRoutes.auth ||
       featureKey === AppRoutes.records ||
       featureKey === AppRoutes.passageRecords ||

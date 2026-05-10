@@ -4,6 +4,7 @@ if (!("finalizeConstruction" in ViewPU.prototype)) {
 interface AuthPermissionPage_Params {
     permissionList?: AuthPermissionOption[];
     refreshVersion?: number;
+    loading?: boolean;
 }
 import promptAction from "@ohos:promptAction";
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
@@ -11,6 +12,7 @@ import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/
 import type { AuthPermissionOption } from '../models/CampusPortal';
 import type { UserProfile } from '../models/User';
 import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
+import { PermissionStorage } from "@bundle:com.example.campusauth/entry/ets/services/PermissionStorage";
 import { PortalMockService } from "@bundle:com.example.campusauth/entry/ets/services/PortalMockService";
 import { AppColors, AppLayout, AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
@@ -22,6 +24,7 @@ class AuthPermissionPage extends ViewPU {
         }
         this.__permissionList = new ObservedPropertyObjectPU([], this, "permissionList");
         this.__refreshVersion = new ObservedPropertySimplePU(0, this, "refreshVersion");
+        this.__loading = new ObservedPropertySimplePU(true, this, "loading");
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
     }
@@ -32,16 +35,21 @@ class AuthPermissionPage extends ViewPU {
         if (params.refreshVersion !== undefined) {
             this.refreshVersion = params.refreshVersion;
         }
+        if (params.loading !== undefined) {
+            this.loading = params.loading;
+        }
     }
     updateStateVars(params: AuthPermissionPage_Params) {
     }
     purgeVariableDependenciesOnElmtId(rmElmtId) {
         this.__permissionList.purgeDependencyOnElmtId(rmElmtId);
         this.__refreshVersion.purgeDependencyOnElmtId(rmElmtId);
+        this.__loading.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__permissionList.aboutToBeDeleted();
         this.__refreshVersion.aboutToBeDeleted();
+        this.__loading.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -59,12 +67,45 @@ class AuthPermissionPage extends ViewPU {
     set refreshVersion(newValue: number) {
         this.__refreshVersion.set(newValue);
     }
+    private __loading: ObservedPropertySimplePU<boolean>;
+    get loading() {
+        return this.__loading.get();
+    }
+    set loading(newValue: boolean) {
+        this.__loading.set(newValue);
+    }
     aboutToAppear(): void {
         if (!PermissionUtil.ensurePageAccess(AppRoutes.authPermission)) {
             return;
         }
+        this.loadPermissions();
+    }
+    private userStorageKey(): string {
         const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
-        this.permissionList = PortalMockService.authPermissions(currentUser);
+        if (currentUser) {
+            return currentUser.account || currentUser.userCode || currentUser.id;
+        }
+        return 'default_student';
+    }
+    private loadPermissions(): void {
+        this.loading = true;
+        const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        const username = this.userStorageKey();
+        try {
+            const saved = PermissionStorage.getPermissionList(username);
+            if (saved && saved.length > 0) {
+                this.permissionList = saved;
+            }
+            else {
+                this.permissionList = PortalMockService.authPermissions(currentUser);
+                PermissionStorage.savePermissionList(username, this.permissionList);
+            }
+        }
+        catch (error) {
+            console.error(`load permissions failed: ${JSON.stringify(error)}`);
+            this.permissionList = PortalMockService.authPermissions(currentUser);
+        }
+        this.loading = false;
     }
     private togglePermission(id: string | number): void {
         let changed: boolean = false;
@@ -83,8 +124,21 @@ class AuthPermissionPage extends ViewPU {
             return item;
         });
         this.refreshVersion++;
+        if (changed) {
+            try {
+                PermissionStorage.savePermissionList(this.userStorageKey(), this.permissionList);
+            }
+            catch (error) {
+                console.error(`save permissions failed: ${JSON.stringify(error)}`);
+                promptAction.showToast({
+                    message: '权限设置已更新，但保存失败',
+                    duration: 1500
+                });
+                return;
+            }
+        }
         promptAction.showToast({
-            message: changed ? '权限设置已更新' : '未找到对应权限项',
+            message: changed ? '权限设置已保存' : '未找到对应权限项',
             duration: 1500
         });
         console.info(`permission toggled, id=${id}, changed=${changed}`);
@@ -110,7 +164,7 @@ class AuthPermissionPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '我的授权设置', subtitle: '管理本人校园身份认证授权场景' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 60, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '我的授权设置', subtitle: '管理本人校园身份认证授权场景' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 101, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -127,12 +181,35 @@ class AuthPermissionPage extends ViewPU {
         }
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
-            if (this.permissionList.length === 0) {
+            if (this.loading) {
                 this.ifElseBranchUpdateFunction(0, () => {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: '暂无本人授权设置', errorText: '授权设置加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 62, col: 11 });
+                                let componentCall = new StatePanel(this, { state: 'loading', emptyText: '正在加载授权设置', errorText: '授权设置加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 103, col: 11 });
+                                ViewPU.create(componentCall);
+                                let paramsLambda = () => {
+                                    return {
+                                        state: 'loading',
+                                        emptyText: '正在加载授权设置',
+                                        errorText: '授权设置加载失败'
+                                    };
+                                };
+                                componentCall.paramsGenerator_ = paramsLambda;
+                            }
+                            else {
+                                this.updateStateVarsOfChildByElmtId(elmtId, {});
+                            }
+                        }, { name: "StatePanel" });
+                    }
+                });
+            }
+            else if (this.permissionList.length === 0) {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    {
+                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                            if (isInitialRender) {
+                                let componentCall = new StatePanel(this, { state: 'empty', emptyText: '暂无本人授权设置', errorText: '授权设置加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPermissionPage.ets", line: 105, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -151,7 +228,7 @@ class AuthPermissionPage extends ViewPU {
                 });
             }
             else {
-                this.ifElseBranchUpdateFunction(1, () => {
+                this.ifElseBranchUpdateFunction(2, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         ForEach.create();
                         const forEachItemGenFunction = _item => {

@@ -1,4 +1,4 @@
-import type { AccessRuleItem, AdminPermissionItem, AttendanceMetric, AuthPermissionOption, BlacklistItem, BoundDeviceInfo, DefenseDemoResult, DefenseDemoScenario, DemoScenarioType, PassageRecordItem, PortalAction, PortalStat, RealNameProfile, RealtimeAuthEvent, TerminalDeviceRecord, WatchAttendanceItem } from '../models/CampusPortal';
+import type { AccessRuleItem, AdminPermissionItem, AttendanceMetric, AuthPermissionOption, BlacklistItem, BoundDeviceInfo, ClassAuthDetail, DefenseDemoResult, DefenseDemoScenario, DemoScenarioType, PassageRecordItem, PortalAction, PortalStat, RealNameProfile, RealtimeAuthEvent, StudentAuthRecord, TerminalDeviceRecord, WatchAttendanceItem } from '../models/CampusPortal';
 import type { UserProfile } from '../models/User';
 import { AppRoutes } from "@bundle:com.example.campusauth/entry/ets/utils/Constants";
 import { PermissionUtil } from "@bundle:com.example.campusauth/entry/ets/utils/PermissionUtil";
@@ -237,6 +237,52 @@ export class PortalMockService {
             { id: 'c1', course: '移动应用开发', attended: 15, total: 16, latestTime: '今天 08:10' },
             { id: 'c2', course: '操作系统', attended: 13, total: 16, latestTime: '昨天 10:00' },
             { id: 'c3', course: '人工智能导论', attended: 16, total: 16, latestTime: '今天 14:00' }
+        ];
+    }
+    static classAuthDetail(classId: string): ClassAuthDetail {
+        const metrics: AttendanceMetric[] = [
+            { id: 'tc1', course: '移动应用开发 2301 班', attended: 45, total: 48, latestTime: '今天 08:10' },
+            { id: 'tc2', course: '软件工程实践 2302 班', attended: 43, total: 46, latestTime: '昨天 14:00' },
+            { id: 'tc3', course: '实验室安全认证', attended: 28, total: 30, latestTime: '今天 16:00' }
+        ];
+        const metric = metrics.find((item: AttendanceMetric) => item.id === classId) || metrics[0];
+        const abnormalCount = classId === 'tc1' ? 1 : classId === 'tc2' ? 2 : 1;
+        const signedCount = metric.attended;
+        const totalCount = metric.total;
+        return {
+            id: metric.id,
+            className: metric.course,
+            totalCount: totalCount,
+            signedCount: signedCount,
+            unsignedCount: Math.max(0, totalCount - signedCount),
+            abnormalCount: abnormalCount,
+            rate: totalCount === 0 ? 0 : Math.round(signedCount * 100 / totalCount),
+            latestTime: metric.latestTime,
+            students: PortalMockService.classStudentAuthRecords(metric.id)
+        };
+    }
+    static classStudentAuthRecords(classId: string): StudentAuthRecord[] {
+        if (classId === 'tc2') {
+            return [
+                { id: 'tc2-s1', name: '陈悦', studentNo: '20230201', status: '已认证', authTime: '昨天 13:50', device: '手机', riskLevel: '低风险' } as StudentAuthRecord,
+                { id: 'tc2-s2', name: '刘洋', studentNo: '20230202', status: '已认证', authTime: '昨天 13:55', device: '平板', riskLevel: '低风险' } as StudentAuthRecord,
+                { id: 'tc2-s3', name: '马宁', studentNo: '20230203', status: '异常', authTime: '昨天 14:00', device: '未知设备', riskLevel: '高风险' } as StudentAuthRecord,
+                { id: 'tc2-s4', name: '何雨', studentNo: '20230204', status: '未认证', authTime: '--', device: '--', riskLevel: '待确认' } as StudentAuthRecord
+            ];
+        }
+        if (classId === 'tc3') {
+            return [
+                { id: 'tc3-s1', name: '孙哲', studentNo: '20230301', status: '已认证', authTime: '今天 15:51', device: '手机', riskLevel: '低风险' } as StudentAuthRecord,
+                { id: 'tc3-s2', name: '周琪', studentNo: '20230302', status: '已认证', authTime: '今天 15:56', device: '手表', riskLevel: '低风险' } as StudentAuthRecord,
+                { id: 'tc3-s3', name: '吴昊', studentNo: '20230303', status: '异常', authTime: '今天 16:00', device: '未知设备', riskLevel: '高风险' } as StudentAuthRecord,
+                { id: 'tc3-s4', name: '郑楠', studentNo: '20230304', status: '未认证', authTime: '--', device: '--', riskLevel: '待确认' } as StudentAuthRecord
+            ];
+        }
+        return [
+            { id: 'tc1-s1', name: '李明', studentNo: '20230101', status: '已认证', authTime: '今天 08:01', device: '手机', riskLevel: '低风险' } as StudentAuthRecord,
+            { id: 'tc1-s2', name: '王芳', studentNo: '20230102', status: '已认证', authTime: '今天 08:03', device: '平板', riskLevel: '低风险' } as StudentAuthRecord,
+            { id: 'tc1-s3', name: '张强', studentNo: '20230103', status: '未认证', authTime: '--', device: '--', riskLevel: '待确认' } as StudentAuthRecord,
+            { id: 'tc1-s4', name: '赵敏', studentNo: '20230104', status: '异常', authTime: '今天 08:10', device: '未知设备', riskLevel: '高风险' } as StudentAuthRecord
         ];
     }
     static watchAttendance(): WatchAttendanceItem[] {

@@ -6,9 +6,11 @@ interface AttendanceStatsPage_Params {
     metrics?: AttendanceMetric[];
     pageTitle?: string;
     pageSubtitle?: string;
+    isTeacherView?: boolean;
 }
 import { PageTitleBar } from "@bundle:com.example.campusauth/entry/ets/components/PageTitleBar";
 import { StatePanel } from "@bundle:com.example.campusauth/entry/ets/components/StatePanel";
+import router from "@ohos:router";
 import type { AttendanceMetric, PageLoadState } from '../models/CampusPortal';
 import type { UserProfile } from '../models/User';
 import { AuthSessionService } from "@bundle:com.example.campusauth/entry/ets/services/AuthSessionService";
@@ -25,6 +27,7 @@ class AttendanceStatsPage extends ViewPU {
         this.__metrics = new ObservedPropertyObjectPU([], this, "metrics");
         this.__pageTitle = new ObservedPropertySimplePU('我的课堂考勤', this, "pageTitle");
         this.__pageSubtitle = new ObservedPropertySimplePU('按课程展示本人到课率和最近签到时间', this, "pageSubtitle");
+        this.__isTeacherView = new ObservedPropertySimplePU(false, this, "isTeacherView");
         this.setInitiallyProvidedValue(params);
         this.finalizeConstruction();
     }
@@ -41,6 +44,9 @@ class AttendanceStatsPage extends ViewPU {
         if (params.pageSubtitle !== undefined) {
             this.pageSubtitle = params.pageSubtitle;
         }
+        if (params.isTeacherView !== undefined) {
+            this.isTeacherView = params.isTeacherView;
+        }
     }
     updateStateVars(params: AttendanceStatsPage_Params) {
     }
@@ -49,12 +55,14 @@ class AttendanceStatsPage extends ViewPU {
         this.__metrics.purgeDependencyOnElmtId(rmElmtId);
         this.__pageTitle.purgeDependencyOnElmtId(rmElmtId);
         this.__pageSubtitle.purgeDependencyOnElmtId(rmElmtId);
+        this.__isTeacherView.purgeDependencyOnElmtId(rmElmtId);
     }
     aboutToBeDeleted() {
         this.__state.aboutToBeDeleted();
         this.__metrics.aboutToBeDeleted();
         this.__pageTitle.aboutToBeDeleted();
         this.__pageSubtitle.aboutToBeDeleted();
+        this.__isTeacherView.aboutToBeDeleted();
         SubscriberManager.Get().delete(this.id__());
         this.aboutToBeDeletedInternal();
     }
@@ -86,11 +94,19 @@ class AttendanceStatsPage extends ViewPU {
     set pageSubtitle(newValue: string) {
         this.__pageSubtitle.set(newValue);
     }
+    private __isTeacherView: ObservedPropertySimplePU<boolean>;
+    get isTeacherView() {
+        return this.__isTeacherView.get();
+    }
+    set isTeacherView(newValue: boolean) {
+        this.__isTeacherView.set(newValue);
+    }
     aboutToAppear(): void {
         if (!PermissionUtil.ensurePageAccess(AppRoutes.attendanceStats)) {
             return;
         }
         const currentUser: UserProfile | undefined = AuthSessionService.currentUser();
+        this.isTeacherView = currentUser?.role === 'teacher';
         if (currentUser?.role === 'teacher') {
             this.pageTitle = '班级认证概况';
             this.pageSubtitle = '按课程展示任课班级认证完成率和最近签到时间';
@@ -108,6 +124,17 @@ class AttendanceStatsPage extends ViewPU {
         }
         return Math.round(item.attended * 100 / item.total);
     }
+    private openClassDetail(item: AttendanceMetric): void {
+        if (!this.isTeacherView) {
+            return;
+        }
+        router.pushUrl({
+            url: AppRoutes.classAuthDetail,
+            params: {
+                classId: item.id
+            }
+        });
+    }
     initialRender() {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Scroll.create();
@@ -123,7 +150,7 @@ class AttendanceStatsPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: this.pageTitle, subtitle: this.pageSubtitle }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 44, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: this.pageTitle, subtitle: this.pageSubtitle }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 59, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -145,7 +172,7 @@ class AttendanceStatsPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无考勤数据', errorText: '考勤数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 46, col: 11 });
+                                let componentCall = new StatePanel(this, { state: this.state, emptyText: '暂无考勤数据', errorText: '考勤数据加载失败' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AttendanceStatsPage.ets", line: 61, col: 11 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -176,6 +203,9 @@ class AttendanceStatsPage extends ViewPU {
                                 Column.backgroundColor(AppColors.surface);
                                 Column.borderRadius(8);
                                 Column.border({ width: 1, color: AppColors.border });
+                                Column.onClick(() => {
+                                    this.openClassDetail(item);
+                                });
                             }, Column);
                             this.observeComponentCreation2((elmtId, isInitialRender) => {
                                 Row.create();
@@ -207,6 +237,34 @@ class AttendanceStatsPage extends ViewPU {
                                 Text.fontColor(AppColors.muted);
                             }, Text);
                             Text.pop();
+                            this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                If.create();
+                                if (this.isTeacherView) {
+                                    this.ifElseBranchUpdateFunction(0, () => {
+                                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                            Row.create();
+                                            Row.width('100%');
+                                        }, Row);
+                                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                            Blank.create();
+                                        }, Blank);
+                                        Blank.pop();
+                                        this.observeComponentCreation2((elmtId, isInitialRender) => {
+                                            Text.create('查看详情 >');
+                                            Text.fontSize(13);
+                                            Text.fontWeight(FontWeight.Medium);
+                                            Text.fontColor(AppColors.primary);
+                                        }, Text);
+                                        Text.pop();
+                                        Row.pop();
+                                    });
+                                }
+                                else {
+                                    this.ifElseBranchUpdateFunction(1, () => {
+                                    });
+                                }
+                            }, If);
+                            If.pop();
                             Column.pop();
                         };
                         this.forEachUpdateFunction(elmtId, this.metrics, forEachItemGenFunction, (item: AttendanceMetric): string => item.id, false, false);

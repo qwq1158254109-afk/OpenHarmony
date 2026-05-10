@@ -14,6 +14,7 @@
     "pages/AuthPermissionPage",
     "pages/PassageRecordsPage",
     "pages/AttendanceStatsPage",
+    "pages/ClassAuthDetailPage",
     "pages/WatchTodayAttendancePage",
     "pages/WatchPassageRecordsPage",
     "pages/TerminalFilingPage",
