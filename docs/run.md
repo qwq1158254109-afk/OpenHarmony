@@ -26,8 +26,11 @@ cargo run
 启动成功后会看到：
 
 ```text
-Campus auth backend listening on http://127.0.0.1:8080
+Campus auth backend listening on http://0.0.0.0:8080
 ```
+
+前端在本机预览时会访问 `http://127.0.0.1:8080`；在模拟器中会自动尝试 `http://10.0.2.2:8080` 访问宿主机后端。
+如果运行到真机，请确保电脑和设备在同一局域网，并将 `frontend/entry/src/main/ets/services/ApiClient.ets` 中的后端地址调整为电脑局域网 IP，例如 `http://192.168.1.23:8080`。
 
 ## 接口验证
 

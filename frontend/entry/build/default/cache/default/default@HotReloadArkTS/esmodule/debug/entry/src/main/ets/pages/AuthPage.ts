@@ -5,6 +5,8 @@ interface AuthPage_Params {
     user?: UserProfile;
     method?: AuthMethod;
     scene?: CampusScene;
+    hasSelectedMethod?: boolean;
+    hasSelectedScene?: boolean;
     status?: AuthStatus;
     resultText?: string;
     progress?: number;
@@ -43,6 +45,8 @@ class AuthPage extends ViewPU {
         this.__user = new ObservedPropertyObjectPU(MockData.users[0], this, "user");
         this.__method = new ObservedPropertySimplePU('trusted_device', this, "method");
         this.__scene = new ObservedPropertySimplePU('classroom_checkin', this, "scene");
+        this.__hasSelectedMethod = new ObservedPropertySimplePU(false, this, "hasSelectedMethod");
+        this.__hasSelectedScene = new ObservedPropertySimplePU(false, this, "hasSelectedScene");
         this.__status = new ObservedPropertySimplePU('unauthenticated', this, "status");
         this.__resultText = new ObservedPropertySimplePU('等待发起认证', this, "resultText");
         this.__progress = new ObservedPropertySimplePU(0, this, "progress");
@@ -65,6 +69,12 @@ class AuthPage extends ViewPU {
         }
         if (params.scene !== undefined) {
             this.scene = params.scene;
+        }
+        if (params.hasSelectedMethod !== undefined) {
+            this.hasSelectedMethod = params.hasSelectedMethod;
+        }
+        if (params.hasSelectedScene !== undefined) {
+            this.hasSelectedScene = params.hasSelectedScene;
         }
         if (params.status !== undefined) {
             this.status = params.status;
@@ -103,6 +113,8 @@ class AuthPage extends ViewPU {
         this.__user.purgeDependencyOnElmtId(rmElmtId);
         this.__method.purgeDependencyOnElmtId(rmElmtId);
         this.__scene.purgeDependencyOnElmtId(rmElmtId);
+        this.__hasSelectedMethod.purgeDependencyOnElmtId(rmElmtId);
+        this.__hasSelectedScene.purgeDependencyOnElmtId(rmElmtId);
         this.__status.purgeDependencyOnElmtId(rmElmtId);
         this.__resultText.purgeDependencyOnElmtId(rmElmtId);
         this.__progress.purgeDependencyOnElmtId(rmElmtId);
@@ -116,6 +128,8 @@ class AuthPage extends ViewPU {
         this.__user.aboutToBeDeleted();
         this.__method.aboutToBeDeleted();
         this.__scene.aboutToBeDeleted();
+        this.__hasSelectedMethod.aboutToBeDeleted();
+        this.__hasSelectedScene.aboutToBeDeleted();
         this.__status.aboutToBeDeleted();
         this.__resultText.aboutToBeDeleted();
         this.__progress.aboutToBeDeleted();
@@ -147,6 +161,20 @@ class AuthPage extends ViewPU {
     }
     set scene(newValue: CampusScene) {
         this.__scene.set(newValue);
+    }
+    private __hasSelectedMethod: ObservedPropertySimplePU<boolean>;
+    get hasSelectedMethod() {
+        return this.__hasSelectedMethod.get();
+    }
+    set hasSelectedMethod(newValue: boolean) {
+        this.__hasSelectedMethod.set(newValue);
+    }
+    private __hasSelectedScene: ObservedPropertySimplePU<boolean>;
+    get hasSelectedScene() {
+        return this.__hasSelectedScene.get();
+    }
+    set hasSelectedScene(newValue: boolean) {
+        this.__hasSelectedScene.set(newValue);
     }
     private __status: ObservedPropertySimplePU<AuthStatus>;
     get status() {
@@ -250,6 +278,15 @@ class AuthPage extends ViewPU {
         }
         return 'CL';
     }
+    private methodActive(method: AuthMethod): boolean {
+        return this.hasSelectedMethod && this.method === method;
+    }
+    private sceneActive(scene: CampusScene): boolean {
+        return this.hasSelectedScene && this.scene === scene;
+    }
+    private sceneSubtitle(): string {
+        return this.hasSelectedScene ? this.locationForScene(this.scene) : '请选择校园认证场景';
+    }
     private startAuthentication(): void {
         this.status = 'authenticating';
         this.progress = 42;
@@ -299,7 +336,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new PageTitleBar(this, { title: '无感认证', subtitle: '设备靠近、身份核验、风险评估、跨端同步' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 124, col: 9 });
+                    let componentCall = new PageTitleBar(this, { title: '无感认证', subtitle: '设备靠近、身份核验、风险评估、跨端同步' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 138, col: 9 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -348,7 +385,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new StatusBadge(this, { text: this.status === 'unauthenticated' ? '未认证' : this.status === 'authenticating' ? '认证中' : this.status === 'success' ? '成功' : '失败', status: this.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 141, col: 13 });
+                    let componentCall = new StatusBadge(this, { text: this.status === 'unauthenticated' ? '未认证' : this.status === 'authenticating' ? '认证中' : this.status === 'success' ? '成功' : '失败', status: this.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 155, col: 13 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -411,7 +448,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new StatusBadge(this, { text: this.collaboration.channel, status: this.collaboration.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 173, col: 11 });
+                    let componentCall = new StatusBadge(this, { text: this.collaboration.channel, status: this.collaboration.status }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 187, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -449,7 +486,7 @@ class AuthPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new SectionHeader(this, { title: '认证方式', subtitle: '选择本次无感认证能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 184, col: 15 });
+                            let componentCall = new SectionHeader(this, { title: '认证方式', subtitle: '选择本次无感认证能力' }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 198, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -472,6 +509,7 @@ class AuthPage extends ViewPU {
                             __Common__.create();
                             __Common__.onClick(() => {
                                 this.method = item;
+                                this.hasSelectedMethod = true;
                             });
                         }, __Common__);
                         {
@@ -481,15 +519,15 @@ class AuthPage extends ViewPU {
                                         title: FormatUtil.methodLabel(item),
                                         subtitle: item === 'trusted_device' ? '可信设备自动通过' : item === 'qrcode' ? '扫码完成身份核验' : '蓝牙/近场模拟识别',
                                         marker: this.methodMarker(item),
-                                        active: this.method === item
-                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 186, col: 17 });
+                                        active: this.methodActive(item)
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 200, col: 17 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
                                             title: FormatUtil.methodLabel(item),
                                             subtitle: item === 'trusted_device' ? '可信设备自动通过' : item === 'qrcode' ? '扫码完成身份核验' : '蓝牙/近场模拟识别',
                                             marker: this.methodMarker(item),
-                                            active: this.method === item
+                                            active: this.methodActive(item)
                                         };
                                     };
                                     componentCall.paramsGenerator_ = paramsLambda;
@@ -525,12 +563,12 @@ class AuthPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new SectionHeader(this, { title: '校园场景', subtitle: this.locationForScene(this.scene) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 204, col: 15 });
+                            let componentCall = new SectionHeader(this, { title: '校园场景', subtitle: this.sceneSubtitle() }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 219, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
                                     title: '校园场景',
-                                    subtitle: this.locationForScene(this.scene)
+                                    subtitle: this.sceneSubtitle()
                                 };
                             };
                             componentCall.paramsGenerator_ = paramsLambda;
@@ -548,6 +586,7 @@ class AuthPage extends ViewPU {
                             __Common__.create();
                             __Common__.onClick(() => {
                                 this.scene = item;
+                                this.hasSelectedScene = true;
                             });
                         }, __Common__);
                         {
@@ -557,15 +596,15 @@ class AuthPage extends ViewPU {
                                         title: FormatUtil.sceneLabel(item),
                                         subtitle: this.locationForScene(item),
                                         marker: this.sceneMarker(item),
-                                        active: this.scene === item
-                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 206, col: 17 });
+                                        active: this.sceneActive(item)
+                                    }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 221, col: 17 });
                                     ViewPU.create(componentCall);
                                     let paramsLambda = () => {
                                         return {
                                             title: FormatUtil.sceneLabel(item),
                                             subtitle: this.locationForScene(item),
                                             marker: this.sceneMarker(item),
-                                            active: this.scene === item
+                                            active: this.sceneActive(item)
                                         };
                                     };
                                     componentCall.paramsGenerator_ = paramsLambda;
@@ -596,7 +635,7 @@ class AuthPage extends ViewPU {
         {
             this.observeComponentCreation2((elmtId, isInitialRender) => {
                 if (isInitialRender) {
-                    let componentCall = new SectionHeader(this, { title: '协同设备', subtitle: this.collaboration.message }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 228, col: 11 });
+                    let componentCall = new SectionHeader(this, { title: '协同设备', subtitle: this.collaboration.message }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 244, col: 11 });
                     ViewPU.create(componentCall);
                     let paramsLambda = () => {
                         return {
@@ -665,7 +704,7 @@ class AuthPage extends ViewPU {
                 {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         if (isInitialRender) {
-                            let componentCall = new StatusBadge(this, { text: DeviceTrustManager.label(item.trust.level), status: DeviceTrustManager.badgeStatus(item.trust.level) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 257, col: 15 });
+                            let componentCall = new StatusBadge(this, { text: DeviceTrustManager.label(item.trust.level), status: DeviceTrustManager.badgeStatus(item.trust.level) }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 273, col: 15 });
                             ViewPU.create(componentCall);
                             let paramsLambda = () => {
                                 return {
@@ -701,7 +740,7 @@ class AuthPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new SectionHeader(this, { title: '认证结果', subtitle: `${this.latestRecord.location} · ${FormatUtil.sceneLabel(this.latestRecord.scene)}` }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 272, col: 13 });
+                                let componentCall = new SectionHeader(this, { title: '认证结果', subtitle: `${this.latestRecord.location} · ${FormatUtil.sceneLabel(this.latestRecord.scene)}` }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 288, col: 13 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {
@@ -730,7 +769,7 @@ class AuthPage extends ViewPU {
                     {
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
                             if (isInitialRender) {
-                                let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(this.latestRecord.risk.riskLevel), status: this.latestRecord.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 279, col: 15 });
+                                let componentCall = new StatusBadge(this, { text: FormatUtil.riskLabel(this.latestRecord.risk.riskLevel), status: this.latestRecord.risk.riskLevel }, undefined, elmtId, () => { }, { page: "entry/src/main/ets/pages/AuthPage.ets", line: 295, col: 15 });
                                 ViewPU.create(componentCall);
                                 let paramsLambda = () => {
                                     return {

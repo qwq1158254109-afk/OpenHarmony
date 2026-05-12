@@ -22,6 +22,8 @@ struct AuthPage {
   @State user: UserProfile = MockData.users[0];
   @State method: AuthMethod = 'trusted_device';
   @State scene: CampusScene = 'classroom_checkin';
+  @State hasSelectedMethod: boolean = false;
+  @State hasSelectedScene: boolean = false;
   @State status: AuthStatus = 'unauthenticated';
   @State resultText: string = '等待发起认证';
   @State progress: number = 0;
@@ -79,6 +81,18 @@ struct AuthPage {
       return 'LI';
     }
     return 'CL';
+  }
+
+  private methodActive(method: AuthMethod): boolean {
+    return this.hasSelectedMethod && this.method === method;
+  }
+
+  private sceneActive(scene: CampusScene): boolean {
+    return this.hasSelectedScene && this.scene === scene;
+  }
+
+  private sceneSubtitle(): string {
+    return this.hasSelectedScene ? this.locationForScene(this.scene) : '请选择校园认证场景';
   }
 
   private startAuthentication(): void {
@@ -187,10 +201,11 @@ struct AuthPage {
                   title: FormatUtil.methodLabel(item),
                   subtitle: item === 'trusted_device' ? '可信设备自动通过' : item === 'qrcode' ? '扫码完成身份核验' : '蓝牙/近场模拟识别',
                   marker: this.methodMarker(item),
-                  active: this.method === item
+                  active: this.methodActive(item)
                 })
                   .onClick(() => {
                     this.method = item;
+                    this.hasSelectedMethod = true;
                   })
               }, (item: AuthMethod) => item)
             }
@@ -201,16 +216,17 @@ struct AuthPage {
           }
           GridItem() {
             Column({ space: 12 }) {
-              SectionHeader({ title: '校园场景', subtitle: this.locationForScene(this.scene) })
+              SectionHeader({ title: '校园场景', subtitle: this.sceneSubtitle() })
               ForEach(this.scenes, (item: CampusScene) => {
                 FeatureCard({
                   title: FormatUtil.sceneLabel(item),
                   subtitle: this.locationForScene(item),
                   marker: this.sceneMarker(item),
-                  active: this.scene === item
+                  active: this.sceneActive(item)
                 })
                   .onClick(() => {
                     this.scene = item;
+                    this.hasSelectedScene = true;
                   })
               }, (item: CampusScene) => item)
             }
